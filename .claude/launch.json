@@ -35,6 +35,18 @@
         "storybook"
       ],
       "port": 6016
+    },
+    {
+      "name": "setup-guide",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "9123",
+        "--directory",
+        "docs"
+      ],
+      "port": 9123
     }
   ]
 }

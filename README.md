@@ -18,6 +18,8 @@ Both apps are built from **one set of design tokens**, so one change can show up
 
 ## 1. Before the workshop: install these
 
+> **Step-by-step guide in Hebrew, for participants:** https://danielboaron23.github.io/guardio-workshop/
+
 You need a **Mac**. The iOS Simulator only runs on macOS.
 
 | # | What | How | Check it worked |
