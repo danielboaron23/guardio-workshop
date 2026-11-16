@@ -1,0 +1,46 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Platforms/Mobile vs Desktop" />
+
+# Mobile vs Desktop
+
+Guardio is **one design system with two sets of components**.
+
+## Shared
+
+Both apps import the same package, `@guardio/tokens`:
+
+| Foundation | Desktop (web) | Mobile (React Native) |
+|---|---|---|
+| Colours | Tailwind classes, e.g. `bg-primary` | `theme.color.primary` |
+| Typography | `text-title-lg` | `textStyle('title-lg')` |
+| Spacing | `p-4` (16px) | `theme.spacing[4]` |
+| Radius | `rounded-md` | `theme.radius.md` |
+| Icons and logos | `@guardio/assets` | `@guardio/assets` |
+| Mock data and user states | `@guardio/data` | `@guardio/data` |
+
+## Different
+
+The components are written twice, because a browser and a phone are different materials.
+
+| | Desktop | Mobile |
+|---|---|---|
+| Code | React + Tailwind, `apps/web/src/components` | React Native + StyleSheet, `apps/mobile/src/components` |
+| Navigation | Header with links | Floating bottom tab bar |
+| Home | White page, tables, three-column cards | Coloured hero that changes with the user state, stacked cards |
+| Collapsible card | Chevron opens the card | Chevron plus a footer row ("Edit account details") |
+| Settings tabs | All five | Protection Settings is hidden |
+| User states | One layout | Four: Onboarding, Activated, Nothing installed, At risk |
+
+## Where to see the mobile components
+
+This Storybook renders the **web** components. Mobile components are checked in the iOS Simulator
+(`pnpm mobile`), because a phone screen in a browser does not look the same as on a device.
+
+| Mobile component | File |
+|---|---|
+| Card, SectionTitle, PrimaryButton, Badge | `apps/mobile/src/components/ui.tsx` |
+| Icon | `apps/mobile/src/components/icon.tsx` |
+| Tab bar | `apps/mobile/src/components/app-tabs.tsx` |
+| Hero, Setup card, Pending to-dos card | `apps/mobile/src/components/home/` |
+| Collapsible card, Profile forms | `apps/mobile/src/components/settings/` |

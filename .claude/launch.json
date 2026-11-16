@@ -1,0 +1,40 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "web",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "web",
+        "dev"
+      ],
+      "port": 5180
+    },
+    {
+      "name": "mobile",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "mobile",
+        "exec",
+        "expo",
+        "start",
+        "--ios",
+        "--port",
+        "8081"
+      ],
+      "port": 8081
+    },
+    {
+      "name": "storybook",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "web",
+        "storybook"
+      ],
+      "port": 6016
+    }
+  ]
+}

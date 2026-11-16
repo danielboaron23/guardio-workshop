@@ -1,0 +1,10 @@
+node_modules
+/apps/*/dist
+.expo
+*.log
+.DS_Store
+!packages/tokens/dist
+storybook-static
+
+# Internal planning notes (pricing, facilitator plan) — not shared with participants
+docs/BRIEF.md

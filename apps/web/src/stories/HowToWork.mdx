@@ -1,0 +1,43 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="How to work with the system" />
+
+# How to work with the system
+
+Use this page when you ask Claude Code for a change. Naming the right layer gets you a better result.
+
+## 1. Changing a look that repeats everywhere → change a token
+
+Example: "make the primary button colour darker".
+
+- Edit `packages/tokens/src/index.ts`.
+- Run `pnpm tokens` (this regenerates the CSS the web app uses).
+- Both apps and this Storybook update. Check **Foundations → Colors**.
+
+## 2. Changing how one building block behaves → change a component
+
+Example: "the Switch should be bigger".
+
+- Edit the component in `apps/web/src/components`.
+- Look at its page under **Components** and check every state.
+- Every screen that uses it changes too. That is the point.
+
+## 3. Adding something new to a page → compose existing components
+
+Example: "add a 'Protection at risk' banner to the desktop Home".
+
+- First look here for parts that already exist (Card, Badge, Button, TextLink…).
+- Only build a new component when nothing fits, and add a story for it.
+
+## Rules
+
+1. **Tokens only.** No raw hex colours, no font sizes that are not in **Foundations → Typography**.
+2. **Reuse before you build.** Search this Storybook first.
+3. **Every new component gets a story** with all of its states.
+4. **One product, two platforms.** A feature is done when it works on desktop and on mobile.
+
+## Good prompts
+
+- "Add a `warning` variant to `InfoBadge` using the `warning` token, and add a story for it."
+- "Build the banner from `Card`, `Button` and the `destructive` token. Do not add new colours."
+- "Show me which components the Subscription page uses."

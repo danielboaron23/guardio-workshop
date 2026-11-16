@@ -1,0 +1,14 @@
+{
+  "name": "guardio-workshop",
+  "private": true,
+  "scripts": {
+    "web": "pnpm --filter web dev",
+    "mobile": "pnpm --filter mobile start",
+    "tokens": "pnpm --filter @guardio/tokens build",
+    "storybook": "pnpm --filter web storybook"
+  },
+  "packageManager": "pnpm@10.30.3",
+  "engines": {
+    "node": ">=22.18"
+  }
+}

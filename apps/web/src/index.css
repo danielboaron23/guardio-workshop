@@ -1,0 +1,11 @@
+@import 'tailwindcss';
+/* Design tokens — generated from packages/tokens (run `pnpm tokens` after editing them). */
+@import '@guardio/tokens/tokens.css';
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-text-primary);
+  background: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+}

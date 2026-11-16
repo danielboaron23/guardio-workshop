@@ -1,0 +1,41 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Introduction" />
+
+# Guardio Design System
+
+This is the design system behind the Guardio workshop repo: one product, two platforms
+(a desktop web app and a native mobile app), built from **one set of design tokens**.
+
+Everything you see here is rendered from the real code in the repo. If a designer changes a token
+or a component, this Storybook changes with it.
+
+## What is inside
+
+| Section | What you find there | Where it lives in the repo |
+|---|---|---|
+| **Foundations** | Colours, typography, spacing, radius, icons and logos | `packages/tokens`, `packages/assets` |
+| **Components** | The small building blocks: Button, Card, Badge, Switch, Tabs… | `apps/web/src/components` |
+| **Patterns** | Bigger pieces made of components: a stat card, the to-dos table… | `apps/web/src/screens` |
+| **Screens** | The full pages, built only from the parts above | `apps/web/src/screens` |
+| **Platforms** | What is shared with the mobile app and what is different | `apps/mobile` |
+
+## The three layers
+
+```
+tokens      →   components   →   screens
+(values)        (building        (pages)
+                 blocks)
+```
+
+- A **token** is a named value, like `primary` or `radius/md`. It comes from the Figma variables.
+- A **component** uses tokens only. It never contains a raw colour or a made-up size.
+- A **screen** uses components. It adds layout, not new styling.
+
+## Run it
+
+```bash
+pnpm storybook
+```
+
+The web app (`pnpm web`) and the mobile app (`pnpm mobile`) read the same tokens.
