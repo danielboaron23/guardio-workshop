@@ -179,7 +179,6 @@
           <li>פתחו אותה והתחברו לחשבון שלכם.</li>
           <li>ודאו שאתם רואים למעלה את הטאב <span class="ui">Code</span> ושאפשר להיכנס אליו.</li>
         </ol>
-        <div class="tip"><b>שימו לב:</b> הטאב Code דורש מנוי Claude בתשלום. אם הוא לא זמין אצלכם, כתבו לדניאל לפני הסדנה.</div>
         <div class="check"><span>✅</span><div><b>איך יודעים שזה עבד?</b>האפליקציה פתוחה, אתם מחוברים, והטאב Code נפתח.</div></div>
         <label class="mark"><input type="checkbox" data-step="2" /><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>סיימתי את הצעד</label>
       </div>
@@ -197,7 +196,7 @@
         </ol>
         <div class="cmd"><code>node -v</code><button class="copy" type="button">העתקה</button></div>
         <div class="check"><span>✅</span><div><b>איך יודעים שזה עבד?</b>מופיע מספר גרסה, למשל <span dir="ltr">v24.14.0</span>. המספר הראשון צריך להיות 22 ומעלה.</div></div>
-        <div class="tip">השאירו את חלון ה-Terminal פתוח. נשתמש בו גם בצעדים הבאים.</div>
+        <div class="tip">השאירו את חלון ה-Terminal פתוח. נשתמש בו גם בצעד הבא.</div>
         <label class="mark"><input type="checkbox" data-step="3" /><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>סיימתי את הצעד</label>
       </div>
     </article>
@@ -234,17 +233,21 @@
     </article>
 
     <article class="step" id="step-6">
-      <div class="step-head"><span class="num">6</span><div><h2>מורידים את הפרויקט</h2><span class="time">5 דקות</span></div></div>
+      <div class="step-head"><span class="num">6</span><div><h2>מורידים את הפרויקט, בעזרת Claude</h2><span class="time">5 דקות</span></div></div>
       <div class="body">
-        <p>עכשיו נוריד את הפרויקט של הסדנה למחשב. <b>ודאו קודם ש-Xcode סיים להתקין ושפתחתם אותו פעם אחת</b> (צעד 1).</p>
+        <p>את הפרויקט של הסדנה נוריד כבר דרך Claude, בדיוק כמו שנעבוד בסדנה: מבקשים במילים, והוא עושה. <b>ודאו קודם ש-Xcode סיים להתקין ושפתחתם אותו פעם אחת</b> (צעד 1).</p>
         <ol class="do">
-          <li>ב-Terminal, הדביקו את השורות הבאות אחת אחרי השנייה. אחרי כל אחת לחצו <kbd>Enter</kbd> וחכו שתסתיים.</li>
+          <li>פתחו את <span class="ui">Finder</span>, היכנסו לתיקיית <span class="ui">Documents</span> וצרו בה תיקייה חדשה וריקה בשם <span dir="ltr"><b>guardio-workshop</b></span>.</li>
+          <li>פתחו את אפליקציית Claude והיכנסו לטאב <span class="ui">Code</span>.</li>
+          <li>בחרו את התיקייה <span dir="ltr">guardio-workshop</span> שיצרתם.</li>
+          <li>העתיקו את המשפט הבא, הדביקו בתיבת ההודעה ושלחו:</li>
         </ol>
-        <div class="cmd"><code>cd ~/Documents</code><button class="copy" type="button">העתקה</button></div>
-        <div class="cmd"><code>git clone https://github.com/danielboaron23/guardio-workshop.git</code><button class="copy" type="button">העתקה</button></div>
-        <div class="cmd"><code>cd guardio-workshop</code><button class="copy" type="button">העתקה</button></div>
-        <div class="cmd"><code>pnpm install</code><button class="copy" type="button">העתקה</button></div>
-        <div class="check"><span>✅</span><div><b>איך יודעים שזה עבד?</b>השורה האחרונה מסתיימת ב-<span dir="ltr">Done</span>, ובתיקיית <span class="ui">Documents</span> יש תיקייה חדשה בשם <span dir="ltr">guardio-workshop</span>.</div></div>
+        <div class="cmd"><code>Clone https://github.com/danielboaron23/guardio-workshop.git into this folder and run pnpm install.</code><button class="copy" type="button">העתקה</button></div>
+        <ol class="do" start="5">
+          <li>לפני ש-Claude מריץ משהו על המחשב, הוא מציג מה הוא עומד לעשות ומבקש את האישור שלכם. קראו את הבקשה. כאן היא אמורה להיות הורדה של הפרויקט והתקנה שלו.</li>
+        </ol>
+        <div class="tip"><b>חשוב שהתיקייה תהיה ריקה ושתבחרו בדיוק אותה</b>, ולא את Documents כולה. כך Claude ימצא את הפרויקט גם בצעד הבא.</div>
+        <div class="check"><span>✅</span><div><b>איך יודעים שזה עבד?</b>Claude כותב שההורדה וההתקנה הסתיימו, ובתיקייה <span dir="ltr">guardio-workshop</span> מופיעים קבצים ותיקיות, למשל <span dir="ltr">apps</span> ו-<span dir="ltr">packages</span>.</div></div>
         <label class="mark"><input type="checkbox" data-step="6" /><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>סיימתי את הצעד</label>
       </div>
     </article>
@@ -254,13 +257,12 @@
       <div class="body">
         <p>זה הרגע שבו רואים שהכול עובד, בדיוק כמו שנעבוד בסדנה.</p>
         <ol class="do">
-          <li>פתחו את אפליקציית Claude והיכנסו לטאב <span class="ui">Code</span>.</li>
-          <li>בחרו את התיקייה <span dir="ltr">guardio-workshop</span> שנמצאת ב-<span class="ui">Documents</span>.</li>
+          <li>הישארו באותה שיחה עם Claude מהצעד הקודם. אם סגרתם אותה, פתחו את הטאב <span class="ui">Code</span> ובחרו שוב את התיקייה <span dir="ltr">guardio-workshop</span>.</li>
           <li>העתיקו את המשפט הבא, הדביקו בתיבת ההודעה ושלחו:</li>
         </ol>
         <div class="cmd"><code>Run the web app, the mobile app and Storybook.</code><button class="copy" type="button">העתקה</button></div>
-        <ol class="do" start="4">
-          <li>לפני ש-Claude מריץ משהו על המחשב, הוא מציג מה הוא עומד לעשות ומבקש את האישור שלכם. קראו את הבקשה. כאן היא אמורה להיות הרצה של הפרויקט שהורדתם.</li>
+        <ol class="do" start="3">
+          <li>גם כאן Claude יבקש אישור לפני שהוא מריץ. הבקשה אמורה להיות הרצה של הפרויקט שהורדתם.</li>
         </ol>
         <div class="tip">בפעם הראשונה זה לוקח כמה דקות, כי הסימולטור מתקין לעצמו אפליקציה בשם Expo Go. לא צריך לעשות כלום, רק לחכות.</div>
         <div class="check"><span>✅</span><div><b>איך יודעים שזה עבד?</b>רואים שלושה דברים: האתר של Guardio בדפדפן שבתוך האפליקציה, iPhone עם האפליקציה של Guardio (מסך כחול עם "Protection is active"), ואת ה-Storybook.</div></div>
@@ -287,7 +289,7 @@
     <details><summary>אין לי מספיק מקום במחשב ל-Xcode</summary><p>צריך בערך 25GB פנויים. בדקו ב-<span class="ui" dir="ltr">System Settings → General → Storage</span> מה תופס מקום, ומחקו קבצים גדולים או רוקנו את האשפה.</p></details>
     <details><summary>ב-Terminal כתוב "command not found"</summary><p>בדרך כלל זה אומר שההתקנה של הצעד הקודם לא הסתיימה. סגרו את ה-Terminal, פתחו אותו מחדש ונסו שוב. אם זה חוזר, חזרו על הצעד של Node.js (צעד 3).</p></details>
     <details><summary>ההתקנה של pnpm נכשלה (EACCES או permission denied)</summary><p>ודאו שהעתקתם את השורה כולה, כולל המילה <span dir="ltr">sudo</span> בהתחלה, ושהקלדתם את הסיסמה של ה-Mac. אם במחשב העבודה שלכם אין לכם הרשאת מנהל, בקשו עזרה מה-IT של החברה או שלחו לדניאל צילום מסך.</p></details>
-    <details><summary>הפקודה git clone מבקשת להתקין כלים או לאשר רישיון</summary><p>זה קורה כש-Xcode עוד לא נפתח אחרי ההתקנה. פתחו את Xcode, אשרו את תנאי השימוש, חכו שיסיים להתקין רכיבים, ואז הריצו את הפקודה שוב.</p></details>
+    <details><summary>ההורדה של הפרויקט נכשלת, או מבקשת להתקין כלים</summary><p>זה קורה כש-Xcode עוד לא נפתח אחרי ההתקנה. פתחו את Xcode, אשרו את תנאי השימוש, חכו שיסיים להתקין רכיבים, ואז בקשו מ-Claude לנסות שוב.</p><p>אם Claude כותב שהתיקייה לא ריקה, ודאו שבחרתם את התיקייה החדשה שיצרתם ולא תיקייה אחרת.</p></details>
     <details><summary>בסימולטור כתוב "Project is incompatible with this version of Expo Go"</summary><p>מותקנת גרסה ישנה של Expo Go. בסימולטור, לחצו לחיצה ארוכה על האייקון של Expo Go, בחרו <span dir="ltr">Remove App</span>, ואז בקשו מ-Claude להריץ שוב את אפליקציית המובייל.</p></details>
     <details><summary>Claude כותב שפורט תפוס (Port is in use)</summary><p>תוכנה אחרת במחשב משתמשת באותו ערוץ. סגרו פרויקטים אחרים שרצים אצלכם ונסו שוב, או שלחו לדניאל צילום מסך.</p></details>
     <details><summary>משהו אחר לא עובד</summary><p>צלמו את המסך עם ההודעה שקיבלתם ושלחו לדניאל, עם מספר הצעד שבו נתקעתם. עדיף לפני יום הסדנה, כדי שנספיק לפתור.</p></details>
