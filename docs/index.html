@@ -127,7 +127,7 @@
     <img src="assets/logo.svg" alt="Guardio" />
     <span class="tag">סדנת Claude Code למעצבים</span>
     <div class="meter" aria-live="polite">
-      <span id="count">0 מתוך 7</span>
+      <span id="count">0 מתוך 8</span>
       <div class="track"><div class="fill" id="fill"></div></div>
     </div>
   </div>
@@ -136,7 +136,7 @@
 <section class="hero">
   <div class="wrap">
     <span class="pill"><span class="dot"></span> הכנה לסדנה · עם דניאל בוארון</span>
-    <h1>7 צעדים, ואתם<br />מוכנים לסדנה</h1>
+    <h1>8 צעדים, ואתם<br />מוכנים לסדנה</h1>
     <p class="lead">בסדנה נעבוד על אתר ועל אפליקציית מובייל אמיתית. כדי שנתחיל ישר לעבוד, צריך להתקין כמה דברים מראש. הכול מוסבר כאן, צעד אחר צעד.</p>
     <a class="btn" href="#step-1">בואו נתחיל ←</a>
     <div class="facts">
@@ -150,7 +150,7 @@
 <main class="wrap">
   <div class="notice">
     <span class="ico">⏰</span>
-    <p><b>התחילו עם צעד 1 כבר היום.</b> ההורדה של Xcode גדולה ויכולה לקחת יותר משעה. בזמן שהיא רצה אפשר להמשיך לצעדים 2 עד 5.</p>
+    <p><b>התחילו עם צעד 1 כבר היום.</b> ההורדה של Xcode גדולה ויכולה לקחת יותר משעה. בזמן שהיא רצה אפשר להמשיך לצעדים 2 עד 6.</p>
   </div>
 
   <section class="steps">
@@ -225,7 +225,7 @@
         <p>GitHub הוא המקום שבו הקוד של הפרויקט שמור, ואליו נשלח את השינויים שנעשה בסדנה.</p>
         <ol class="do">
           <li>אם אין לכם חשבון, פתחו אחד ב-<a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a>.</li>
-          <li>שלחו לדניאל את <b>שם המשתמש</b> שלכם ב-GitHub, כדי שיוכל לצרף אתכם לפרויקט.</li>
+          <li>שלחו לדניאל את <b>שם המשתמש</b> שלכם ב-GitHub, כדי שיוכל לצרף אתכם לפרויקט. אם כבר שלחתם, אפשר להמשיך.</li>
         </ol>
         <div class="check"><span>✅</span><div><b>איך יודעים שזה עבד?</b>אתם מחוברים ל-GitHub ושלחתם את שם המשתמש.</div></div>
         <label class="mark"><input type="checkbox" data-step="5" /><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>סיימתי את הצעד</label>
@@ -233,7 +233,33 @@
     </article>
 
     <article class="step" id="step-6">
-      <div class="step-head"><span class="num">6</span><div><h2>מורידים את הפרויקט, בעזרת Claude</h2><span class="time">5 דקות</span></div></div>
+      <div class="step-head"><span class="num">6</span><div><h2>מחברים את המחשב ל-GitHub</h2><span class="time">10 דקות</span></div></div>
+      <div class="body">
+        <p>בסדנה תשלחו את העבודה שלכם מהמחשב ל-GitHub. בשביל זה צריך שני דברים: לאשר את ההזמנה לפרויקט, ולחבר את המחשב לחשבון שלכם.</p>
+        <ol class="do">
+          <li><b>מאשרים את ההזמנה.</b> דניאל שלח לכם הזמנה לפרויקט. פתחו את <a href="https://github.com/danielboaron23/guardio-workshop/invitations" target="_blank" rel="noopener">עמוד ההזמנה</a> ולחצו <span class="ui">Accept invitation</span>. ההזמנה נמצאת גם במייל שקיבלתם מ-GitHub.</li>
+          <li><b>מתקינים את GitHub CLI</b>, כלי קטן של GitHub שמחבר את המחשב לחשבון. <a href="https://github.com/cli/cli/releases/download/v2.105.0/gh_2.105.0_macOS_universal.pkg">הורידו את קובץ ההתקנה</a>, פתחו אותו ולחצו <span class="ui">Continue</span> עד הסוף. ההתקנה תבקש את הסיסמה של ה-Mac.</li>
+          <li>ב-Terminal, הדביקו את השורה הבאה ולחצו <kbd>Enter</kbd>:</li>
+        </ol>
+        <div class="cmd"><code>gh auth login --web --git-protocol https --hostname github.com</code><button class="copy" type="button">העתקה</button></div>
+        <ol class="do" start="4">
+          <li>ב-Terminal יופיע <b>קוד חד-פעמי</b> של 8 תווים, למשל <span dir="ltr" style="white-space: nowrap">ABCD&#8209;1234</span>. העתיקו אותו ולחצו <kbd>Enter</kbd>. ייפתח דפדפן.</li>
+          <li>בדפדפן: התחברו ל-GitHub אם תתבקשו, הדביקו את הקוד, לחצו <span class="ui">Continue</span> ואז <span class="ui">Authorize github</span>.</li>
+          <li>חזרו ל-Terminal והדביקו את השורה הבאה:</li>
+        </ol>
+        <div class="cmd"><code>gh auth setup-git</code><button class="copy" type="button">העתקה</button></div>
+        <ol class="do" start="7">
+          <li>בדקו שזה עבד:</li>
+        </ol>
+        <div class="cmd"><code>gh auth status</code><button class="copy" type="button">העתקה</button></div>
+        <div class="check"><span>✅</span><div><b>איך יודעים שזה עבד?</b>מופיעה שורה שמתחילה ב-<span dir="ltr">Logged in to github.com account</span> ואחריה שם המשתמש שלכם.</div></div>
+        <div class="tip">הקוד החד-פעמי תקף לכמה דקות. אם הוא פג, הריצו שוב את השורה הראשונה ותקבלו קוד חדש.</div>
+        <label class="mark"><input type="checkbox" data-step="6" /><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>סיימתי את הצעד</label>
+      </div>
+    </article>
+
+    <article class="step" id="step-7">
+      <div class="step-head"><span class="num">7</span><div><h2>מורידים את הפרויקט, בעזרת Claude</h2><span class="time">5 דקות</span></div></div>
       <div class="body">
         <p>את הפרויקט של הסדנה נוריד כבר דרך Claude, בדיוק כמו שנעבוד בסדנה: מבקשים במילים, והוא עושה. <b>ודאו קודם ש-Xcode סיים להתקין ושפתחתם אותו פעם אחת</b> (צעד 1).</p>
         <ol class="do">
@@ -248,12 +274,12 @@
         </ol>
         <div class="tip"><b>חשוב שהתיקייה תהיה ריקה ושתבחרו בדיוק אותה</b>, ולא את Documents כולה. כך Claude ימצא את הפרויקט גם בצעד הבא.</div>
         <div class="check"><span>✅</span><div><b>איך יודעים שזה עבד?</b>Claude כותב שההורדה וההתקנה הסתיימו, ובתיקייה <span dir="ltr">guardio-workshop</span> מופיעים קבצים ותיקיות, למשל <span dir="ltr">apps</span> ו-<span dir="ltr">packages</span>.</div></div>
-        <label class="mark"><input type="checkbox" data-step="6" /><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>סיימתי את הצעד</label>
+        <label class="mark"><input type="checkbox" data-step="7" /><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>סיימתי את הצעד</label>
       </div>
     </article>
 
-    <article class="step" id="step-7">
-      <div class="step-head"><span class="num">7</span><div><h2>בדיקה אחרונה: מריצים הכול</h2><span class="time">10 דקות</span></div></div>
+    <article class="step" id="step-8">
+      <div class="step-head"><span class="num">8</span><div><h2>בדיקה אחרונה: מריצים הכול</h2><span class="time">10 דקות</span></div></div>
       <div class="body">
         <p>זה הרגע שבו רואים שהכול עובד, בדיוק כמו שנעבוד בסדנה.</p>
         <ol class="do">
@@ -266,7 +292,7 @@
         </ol>
         <div class="tip">בפעם הראשונה זה לוקח כמה דקות, כי הסימולטור מתקין לעצמו אפליקציה בשם Expo Go. לא צריך לעשות כלום, רק לחכות.</div>
         <div class="check"><span>✅</span><div><b>איך יודעים שזה עבד?</b>רואים שלושה דברים: האתר של Guardio בדפדפן שבתוך האפליקציה, iPhone עם האפליקציה של Guardio (מסך כחול עם "Protection is active"), ואת ה-Storybook.</div></div>
-        <label class="mark"><input type="checkbox" data-step="7" /><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>סיימתי את הצעד</label>
+        <label class="mark"><input type="checkbox" data-step="8" /><span class="box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5l3.5 3.5L11 1.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>סיימתי את הצעד</label>
       </div>
     </article>
 
@@ -275,7 +301,7 @@
   <section class="finish" id="finish">
     <div class="pending">
       <h2>עוד קצת</h2>
-      <p>סמנו כל צעד שסיימתם. כשכל השבעה מסומנים, אתם מוכנים.</p>
+      <p>סמנו כל צעד שסיימתם. כשכל השמונה מסומנים, אתם מוכנים.</p>
     </div>
     <div class="state">
       <h2>🎉 אתם מוכנים לסדנה</h2>
@@ -292,6 +318,8 @@
     <details><summary>ההורדה של הפרויקט נכשלת, או מבקשת להתקין כלים</summary><p>זה קורה כש-Xcode עוד לא נפתח אחרי ההתקנה. פתחו את Xcode, אשרו את תנאי השימוש, חכו שיסיים להתקין רכיבים, ואז בקשו מ-Claude לנסות שוב.</p><p>אם Claude כותב שהתיקייה לא ריקה, ודאו שבחרתם את התיקייה החדשה שיצרתם ולא תיקייה אחרת.</p></details>
     <details><summary>בסימולטור כתוב "Project is incompatible with this version of Expo Go"</summary><p>מותקנת גרסה ישנה של Expo Go. בסימולטור, לחצו לחיצה ארוכה על האייקון של Expo Go, בחרו <span dir="ltr">Remove App</span>, ואז בקשו מ-Claude להריץ שוב את אפליקציית המובייל.</p></details>
     <details><summary>Claude כותב שפורט תפוס (Port is in use)</summary><p>תוכנה אחרת במחשב משתמשת באותו ערוץ. סגרו פרויקטים אחרים שרצים אצלכם ונסו שוב, או שלחו לדניאל צילום מסך.</p></details>
+    <details><summary>ב-Terminal כתוב "gh: command not found"</summary><p>ה-Terminal היה פתוח לפני ההתקנה של GitHub CLI ועוד לא מכיר אותו. סגרו את ה-Terminal, פתחו אותו מחדש והריצו שוב את השורה מצעד 6.</p></details>
+    <details><summary>אין לי הזמנה לפרויקט ב-GitHub</summary><p>ודאו שאתם מחוברים ל-GitHub עם שם המשתמש ששלחתם לדניאל. אם עדיין אין הזמנה, שלחו לו שוב את שם המשתמש המדויק. ההזמנה תקפה לשבוע.</p></details>
     <details><summary>משהו אחר לא עובד</summary><p>צלמו את המסך עם ההודעה שקיבלתם ושלחו לדניאל, עם מספר הצעד שבו נתקעתם. עדיף לפני יום הסדנה, כדי שנספיק לפתור.</p></details>
   </section>
 </main>
@@ -302,9 +330,17 @@
 
 <script>
   const boxes = [...document.querySelectorAll('input[data-step]')];
-  const KEY = 'workshop-setup-steps';
+  const KEY = 'workshop-setup-steps-v2';
   let saved = {};
-  try { saved = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) {}
+  try {
+    const current = localStorage.getItem(KEY);
+    if (current) saved = JSON.parse(current);
+    else {
+      // The GitHub sign-in step was added as step 6: move earlier ticks for the old steps 6 and 7 up by one.
+      const old = JSON.parse(localStorage.getItem('workshop-setup-steps') || '{}');
+      for (const [step, done] of Object.entries(old)) saved[Number(step) >= 6 ? Number(step) + 1 : step] = done;
+    }
+  } catch (e) {}
 
   function render() {
     const done = boxes.filter((b) => b.checked).length;
