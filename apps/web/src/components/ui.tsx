@@ -3,9 +3,18 @@ import type { IconKey } from '@guardio/data'
 import type { ReactNode } from 'react'
 import { ICONS } from './icons'
 
-export function Card({ className = '', children }: { className?: string; children: ReactNode }) {
+export function Card({
+  className = '',
+  borderClassName = 'border-border',
+  children,
+}: {
+  className?: string
+  /** Border colour token class, e.g. `border-info`. */
+  borderClassName?: string
+  children: ReactNode
+}) {
   return (
-    <div className={`rounded-lg border border-border bg-background ${className}`}>{children}</div>
+    <div className={`rounded-lg border ${borderClassName} bg-background ${className}`}>{children}</div>
   )
 }
 

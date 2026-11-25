@@ -127,7 +127,7 @@ export function SetupProgress() {
 
 export function StatCard({ label, value, note }: { label: string; value: string; note: string }) {
   return (
-    <Card className="flex flex-1 items-center justify-between p-6">
+    <Card className="flex flex-1 items-center justify-between p-6" borderClassName="border-info">
       <div className="flex flex-col gap-2">
         <p className="text-title-md font-semibold text-text-strong">{label}</p>
         <p className="text-headline-md font-semibold text-text-strong">{value}</p>
