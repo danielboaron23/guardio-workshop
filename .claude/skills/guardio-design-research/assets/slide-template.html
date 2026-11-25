@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{Feature}} — Design research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Guardio tokens — packages/tokens/src/index.ts */
+  :root {
+    --background: #ffffff;
+    --surface: #fafafa;
+    --accent: #f4f4f5;
+    --text-strong: #09090b;
+    --text-primary: #27272a;
+    --text-secondary: #71717a;
+    --text-link: #2563eb;
+    --border: #e4e4e7;
+    --success: #16a34a;
+    --success-subtle: #dcfce7;
+    --warning: #f59e0b;
+    --destructive: #dc2626;
+    --info-subtle: #dbeafe;
+    --info-strong: #1e40af;
+    --hero-active: #0269d8;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-2xl: 24px;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; background: var(--surface); color: var(--text-primary);
+    font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  .deck { height: 100%; display: grid; place-items: center; }
+  .slide { display: none; width: min(100vw, 177.78vh); aspect-ratio: 16 / 9;
+    background: var(--background); padding: 4.5% 5.5%; flex-direction: column; gap: 2.2vh;
+    border: 1px solid var(--border); overflow: hidden; position: relative; }
+  .slide.active { display: flex; }
+  .eyebrow { font-size: 1.6vh; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--text-secondary); }
+  h1 { font-size: 6vh; line-height: 1.12; font-weight: 700; color: var(--text-strong); letter-spacing: -.02em; }
+  h2 { font-size: 4.2vh; line-height: 1.2; font-weight: 600; color: var(--text-strong); letter-spacing: -.01em; }
+  h3 { font-size: 2.4vh; font-weight: 600; color: var(--text-strong); }
+  p, li, td, th { font-size: 2.1vh; line-height: 1.5; }
+  .muted { color: var(--text-secondary); }
+  ul { padding-left: 1.2em; display: grid; gap: .8vh; }
+  a { color: var(--text-link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .grow { flex: 1; min-height: 0; }
+  .row { display: flex; gap: 2vw; min-height: 0; }
+  .cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6vw; min-height: 0; }
+  .cols-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2vw; min-height: 0; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 2.2vh 1.4vw; display: flex; flex-direction: column; gap: 1vh; min-height: 0; }
+  .pill { display: inline-block; padding: .4vh .8vw; border-radius: 999px; font-size: 1.5vh; font-weight: 500;
+    background: var(--accent); color: var(--text-primary); }
+  .pill.direct { background: var(--info-subtle); color: var(--info-strong); }
+  .pill.good { background: var(--success-subtle); color: var(--success); }
+
+  /* A reference: image + app name + Mobbin link */
+  .ref { display: flex; flex-direction: column; gap: .8vh; min-height: 0; }
+  .ref img { width: 100%; flex: 1; min-height: 0; object-fit: contain; object-position: top;
+    background: var(--accent); border: 1px solid var(--border); border-radius: var(--radius-md); }
+  .ref .cap { display: flex; justify-content: space-between; gap: 1vw; font-size: 1.6vh; }
+  .ref .cap b { color: var(--text-strong); font-weight: 600; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-weight: 600; color: var(--text-secondary); font-size: 1.7vh;
+    border-bottom: 1px solid var(--border); padding: 1vh .6vw; }
+  td { border-bottom: 1px solid var(--border); padding: 1vh .6vw; font-size: 1.8vh; vertical-align: top; }
+
+  .verdict { font-size: 3.4vh; font-weight: 600; color: var(--text-strong); }
+  .verdict .tag { font-size: 1.8vh; vertical-align: middle; margin-left: .6vw; }
+
+  .footer { position: absolute; left: 5.5%; right: 5.5%; bottom: 2.6%; display: flex;
+    justify-content: space-between; font-size: 1.4vh; color: var(--text-secondary); }
+  aside.notes { display: none; }
+  body.show-notes aside.notes { display: block; position: fixed; left: 0; right: 0; bottom: 0;
+    max-height: 30vh; overflow: auto; background: var(--text-strong); color: #fff; padding: 2vh 3vw;
+    font-size: 1.8vh; line-height: 1.5; }
+</style>
+</head>
+<body>
+<main class="deck">
+
+  <!-- 1. Title -->
+  <section class="slide">
+    <span class="eyebrow">Guardio · Design research</span>
+    <div class="grow" style="display:flex;flex-direction:column;justify-content:center;gap:2vh">
+      <h1>{{Feature}}</h1>
+      <p class="muted" style="font-size:2.6vh;max-width:70%">{{The research question in one sentence}}</p>
+    </div>
+    <p class="muted">{{YYYY-MM-DD}} · References: Mobbin</p>
+    <aside class="notes">{{Speaker notes}}</aside>
+  </section>
+
+  <!-- 2. What we set out to learn -->
+  <section class="slide">
+    <span class="eyebrow">The questions</span>
+    <h2>{{Headline: what we needed to find out}}</h2>
+    <ul>
+      <li>{{Research question 1}}</li>
+      <li>{{Research question 2}}</li>
+      <li>{{Research question 3}}</li>
+    </ul>
+  </section>
+
+  <!-- 3. Who we looked at -->
+  <section class="slide">
+    <span class="eyebrow">Who we looked at</span>
+    <h2>{{Headline}}</h2>
+    <div class="cols-3 grow">
+      <div class="card"><span class="pill direct">Direct</span><p>{{Apps}}</p><p class="muted">Same problem, same audience</p></div>
+      <div class="card"><span class="pill">Indirect</span><p>{{Apps}}</p><p class="muted">Same problem, other audience</p></div>
+      <div class="card"><span class="pill good">Aspirational</span><p>{{Apps}}</p><p class="muted">Best-in-class from another domain</p></div>
+    </div>
+  </section>
+
+  <!-- 4. Comparison matrix -->
+  <section class="slide">
+    <span class="eyebrow">Comparison</span>
+    <h2>{{Headline: the main difference between them}}</h2>
+    <table>
+      <tr><th>Product</th><th>{{Task 1}}</th><th>{{Task 2}}</th><th>{{Task 3}}</th><th>Unique</th></tr>
+      <tr><td><b>{{App}}</b></td><td>{{…}}</td><td>{{…}}</td><td>{{…}}</td><td>{{…}}</td></tr>
+    </table>
+  </section>
+
+  <!-- 5. A pattern (duplicate per pattern) -->
+  <section class="slide">
+    <span class="eyebrow">Pattern · {{Pattern name}}</span>
+    <h2>{{Headline: the finding}}</h2>
+    <div class="row grow">
+      <div class="ref" style="flex:1">
+        <img src="refs/{{file}}.jpg" alt="{{App}} — {{what it shows}}">
+        <div class="cap"><b>{{App}}</b><a href="{{mobbin_url}}" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="ref" style="flex:1">
+        <img src="refs/{{file}}.jpg" alt="{{App}} — {{what it shows}}">
+        <div class="cap"><b>{{App}}</b><a href="{{mobbin_url}}" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="card" style="flex:.8">
+        <h3>What to notice</h3>
+        <ul><li>{{…}}</li><li>{{…}}</li></ul>
+        <h3>Fit with Guardio</h3>
+        <p>{{Reuse as-is / extend / does not fit — and which component}}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Conventions and table stakes -->
+  <section class="slide">
+    <span class="eyebrow">Must-haves</span>
+    <h2>{{Headline}}</h2>
+    <div class="cols-2 grow">
+      <div class="card"><h3>Table stakes</h3><ul><li>{{…}}</li></ul></div>
+      <div class="card"><h3>Differentiators</h3><ul><li>{{…}}</li></ul></div>
+    </div>
+  </section>
+
+  <!-- Opportunity map -->
+  <section class="slide">
+    <span class="eyebrow">Opportunities</span>
+    <h2>{{Headline: where we can win}}</h2>
+    <div class="cols-2 grow">
+      <div class="card"><h3>Quick wins</h3><ul><li>{{…}}</li></ul></div>
+      <div class="card"><h3>Strategic bets</h3><ul><li>{{…}}</li></ul></div>
+    </div>
+  </section>
+
+  <!-- Verdict -->
+  <section class="slide">
+    <span class="eyebrow">Verdict on the PM's hypothesis</span>
+    <p class="muted" style="font-size:2.4vh">“{{The hypothesis}}”</p>
+    <p class="verdict">{{Holds / Holds with changes / Should change}}<span class="pill tag">{{one-word tag}}</span></p>
+    <ul><li>{{Deciding evidence 1, with reference}}</li><li>{{Deciding evidence 2}}</li></ul>
+  </section>
+
+  <!-- Three directions -->
+  <section class="slide">
+    <span class="eyebrow">Three directions · they differ in {{the dimension}}</span>
+    <h2>{{Headline}}</h2>
+    <div class="cols-3 grow">
+      <div class="card"><h3>A · {{Name}}</h3><p>{{The idea in one line}}</p><p class="muted">The user {{does what}}</p><p class="muted">Inspired by {{apps}}</p><p><b>Risk:</b> {{…}}</p></div>
+      <div class="card"><h3>B · {{Name}}</h3><p>{{…}}</p><p class="muted">{{…}}</p><p class="muted">{{…}}</p><p><b>Risk:</b> {{…}}</p></div>
+      <div class="card"><h3>C · {{Name}}</h3><p>{{…}}</p><p class="muted">{{…}}</p><p class="muted">{{…}}</p><p><b>Risk:</b> {{…}}</p></div>
+    </div>
+  </section>
+
+  <!-- On mobile -->
+  <section class="slide">
+    <span class="eyebrow">On mobile</span>
+    <h2>{{Headline}}</h2>
+    <div class="row grow">
+      <div class="ref" style="flex:1">
+        <img src="refs/{{file}}.jpg" alt="{{App}} on iOS — {{what it shows}}">
+        <div class="cap"><b>{{App}}</b><a href="{{mobbin_url}}" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="card" style="flex:1.4"><h3>What changes at 390</h3><ul><li>{{…}}</li></ul></div>
+    </div>
+  </section>
+
+  <!-- Sources -->
+  <section class="slide">
+    <span class="eyebrow">Sources</span>
+    <h2>All references</h2>
+    <ul style="columns:2;column-gap:3vw;display:block">
+      <li><a href="{{mobbin_url}}" target="_blank" rel="noopener">{{App — what}}</a></li>
+    </ul>
+    <p>Mobbin collection: <a href="{{collection_url}}" target="_blank" rel="noopener">{{Collection name}}</a>
+      <span class="muted">(private to the Mobbin team)</span></p>
+  </section>
+
+</main>
+<div class="footer"><span>{{Feature}} · Design research</span><span id="count"></span></div>
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  let i = Math.max(0, Math.min(slides.length - 1, parseInt(location.hash.slice(1) || '1', 10) - 1));
+  const count = document.getElementById('count');
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    count.textContent = (i + 1) + ' / ' + slides.length;
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+  document.addEventListener('keydown', (e) => {
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    if (e.key === 'n') document.body.classList.toggle('show-notes');
+  });
+  document.addEventListener('click', (e) => { if (!e.target.closest('a')) show(i + (e.clientX > innerWidth / 2 ? 1 : -1)); });
+  show(i);
+</script>
+</body>
+</html>
