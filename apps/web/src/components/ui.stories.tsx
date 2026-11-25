@@ -35,13 +35,16 @@ export const Badges: Story = {
       <InfoBadge>2 open issues</InfoBadge>
       <StatusBadge on />
       <StatusBadge on={false} />
+      <StatusBadge status="fixed" />
+      <StatusBadge status="checking" />
+      <StatusBadge status="later" />
     </div>
   ),
   parameters: {
     docs: {
       description: {
         story:
-          '`CountBadge`: a number next to a title. `InfoBadge`: something needs attention. `StatusBadge`: a feature is on or off.',
+          '`CountBadge`: a number next to a title. `InfoBadge`: something needs attention. `StatusBadge`: a feature is on or off (`on`), or the state of a to-do (`status`: fixed, checking, later). No red: red belongs to the At risk state.',
       },
     },
   },

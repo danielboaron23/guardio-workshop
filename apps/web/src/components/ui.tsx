@@ -54,9 +54,31 @@ export function IconTile({ icon }: { icon: IconKey }) {
   )
 }
 
-export function TextLink({ children }: { children: ReactNode }) {
+/**
+ * Blue text action. With `onClick` it renders a button (an action on the page);
+ * otherwise a link (`href`, default "#"). `size="md"` for dense rows.
+ */
+export function TextLink({
+  children,
+  href = '#',
+  onClick,
+  size = 'lg',
+}: {
+  children: ReactNode
+  href?: string
+  onClick?: () => void
+  size?: 'lg' | 'md'
+}) {
+  const className = `${size === 'lg' ? 'text-body-lg' : 'text-body-md'} cursor-pointer text-text-link hover:underline focus-visible:underline focus-visible:outline-none`
+  if (onClick) {
+    return (
+      <button type="button" onClick={onClick} className={className}>
+        {children}
+      </button>
+    )
+  }
   return (
-    <a href="#" className="text-body-lg text-text-link hover:underline">
+    <a href={href} className={className}>
       {children}
     </a>
   )
@@ -94,16 +116,26 @@ export function Avatar({
   )
 }
 
-/** ON / OFF pill with a status dot. */
-export function StatusBadge({ on }: { on: boolean }) {
+type BadgeStatus = 'on' | 'off' | 'fixed' | 'checking' | 'later'
+
+const BADGE: Record<BadgeStatus, { label: string; pill: string; dot: string }> = {
+  on: { label: 'ON', pill: 'bg-success-subtle text-success-subtle-foreground', dot: 'bg-success' },
+  off: { label: 'OFF', pill: 'bg-accent text-text-secondary', dot: 'bg-text-secondary' },
+  fixed: { label: 'Fixed', pill: 'bg-success-subtle text-success-subtle-foreground', dot: 'bg-success' },
+  checking: { label: 'Checking', pill: 'bg-info-subtle text-info-strong', dot: 'bg-info animate-pulse motion-reduce:animate-none' },
+  later: { label: 'Later', pill: 'bg-accent text-text-secondary', dot: 'bg-warning' },
+}
+
+/**
+ * Pill with a status dot. `on` keeps the original ON/OFF use (Settings);
+ * `status` adds the To-dos states (Fixed / Checking / Later).
+ */
+export function StatusBadge({ on, status }: { on?: boolean; status?: BadgeStatus }) {
+  const s = BADGE[status ?? (on ? 'on' : 'off')]
   return (
-    <span
-      className={`flex items-center gap-1 rounded-full px-3 py-2 text-label-sm font-medium ${
-        on ? 'bg-success-subtle text-success-subtle-foreground' : 'bg-accent text-text-secondary'
-      }`}
-    >
-      <span className={`size-2 rounded-full ${on ? 'bg-success' : 'bg-text-secondary'}`} />
-      {on ? 'ON' : 'OFF'}
+    <span className={`flex w-fit items-center gap-1 rounded-full px-3 py-2 text-label-sm font-medium whitespace-nowrap ${s.pill}`}>
+      <span className={`size-2 rounded-full ${s.dot}`} />
+      {s.label}
     </span>
   )
 }

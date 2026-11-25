@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>To-dos page — Design research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Guardio tokens — packages/tokens/src/index.ts */
+  :root {
+    --background: #ffffff;
+    --surface: #fafafa;
+    --accent: #f4f4f5;
+    --text-strong: #09090b;
+    --text-primary: #27272a;
+    --text-secondary: #71717a;
+    --text-link: #2563eb;
+    --border: #e4e4e7;
+    --success: #16a34a;
+    --success-subtle: #dcfce7;
+    --warning: #f59e0b;
+    --destructive: #dc2626;
+    --info-subtle: #dbeafe;
+    --info-strong: #1e40af;
+    --hero-active: #0269d8;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-2xl: 24px;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; background: var(--surface); color: var(--text-primary);
+    font-family: Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  .deck { height: 100%; display: grid; place-items: center; }
+  .slide { display: none; width: min(100vw, 177.78vh); aspect-ratio: 16 / 9;
+    background: var(--background); padding: 4.5% 5.5% 5.5%; flex-direction: column; gap: 2.2vh;
+    border: 1px solid var(--border); overflow: hidden; position: relative; }
+  .slide.active { display: flex; }
+  .eyebrow { font-size: 1.6vh; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--text-secondary); }
+  h1 { font-size: 6vh; line-height: 1.12; font-weight: 700; color: var(--text-strong); letter-spacing: -.02em; }
+  h2 { font-size: 4vh; line-height: 1.2; font-weight: 600; color: var(--text-strong); letter-spacing: -.01em; }
+  h3 { font-size: 2.3vh; font-weight: 600; color: var(--text-strong); }
+  p, li, td, th { font-size: 2vh; line-height: 1.45; }
+  .small, .small li, .small p { font-size: 1.75vh; }
+  .muted { color: var(--text-secondary); }
+  ul, ol { padding-left: 1.2em; display: grid; gap: .7vh; }
+  a { color: var(--text-link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .grow { flex: 1; min-height: 0; }
+  .row { display: flex; gap: 1.6vw; min-height: 0; }
+  .cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4vw; min-height: 0; }
+  .cols-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.8vw; min-height: 0; }
+  .cols-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2vw; min-height: 0; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 2vh 1.3vw; display: flex; flex-direction: column; gap: .9vh; min-height: 0; }
+  .card.strong { background: var(--background); border-color: var(--text-strong); }
+  .pill { display: inline-block; width: fit-content; padding: .4vh .8vw; border-radius: 999px; font-size: 1.5vh; font-weight: 500;
+    background: var(--accent); color: var(--text-primary); }
+  .pill.direct, .pill.info { background: var(--info-subtle); color: var(--info-strong); }
+  .pill.good { background: var(--success-subtle); color: var(--success); }
+  .pill.avoid { background: #fee2e2; color: var(--destructive); }
+
+  .ref { display: flex; flex-direction: column; gap: .8vh; min-height: 0; }
+  .ref img { width: 100%; height: auto; flex: 0 1 auto; min-height: 0; object-fit: contain; object-position: top;
+    background: var(--accent); border: 1px solid var(--border); border-radius: var(--radius-md); }
+  .ref .cap { display: flex; justify-content: space-between; gap: 1vw; font-size: 1.5vh; }
+  .ref .cap b { color: var(--text-strong); font-weight: 600; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; font-weight: 600; color: var(--text-secondary); font-size: 1.55vh;
+    border-bottom: 1px solid var(--border); padding: .8vh .5vw; }
+  td { border-bottom: 1px solid var(--border); padding: .8vh .5vw; font-size: 1.6vh; vertical-align: top; }
+  td b { color: var(--text-strong); }
+  .score { display: inline-block; min-width: 1.6em; text-align: center; font-weight: 600; border-radius: 6px;
+    padding: 0 .3em; margin-right: .3em; background: var(--accent); }
+  .s5, .s4 { background: var(--success-subtle); color: var(--success); }
+  .s1, .s2 { background: #fee2e2; color: var(--destructive); }
+
+  .verdict { font-size: 4vh; font-weight: 700; color: var(--text-strong); }
+  .quote { font-size: 2.3vh; color: var(--text-secondary); border-left: 3px solid var(--border); padding-left: 1vw; }
+
+  .footer { position: fixed; left: 0; right: 0; bottom: 1.2vh; display: flex; justify-content: center; gap: 3vw;
+    font-size: 1.4vh; color: var(--text-secondary); pointer-events: none; }
+  aside.notes { display: none; }
+  body.show-notes aside.notes { display: block; position: fixed; left: 0; right: 0; bottom: 0;
+    max-height: 30vh; overflow: auto; background: var(--text-strong); color: #fff; padding: 2vh 3vw;
+    font-size: 1.8vh; line-height: 1.5; z-index: 2; }
+</style>
+</head>
+<body>
+<main class="deck">
+
+  <!-- 1. Title -->
+  <section class="slide">
+    <span class="eyebrow">Guardio · Design research</span>
+    <div class="grow" style="display:flex;flex-direction:column;justify-content:center;gap:2vh">
+      <h1>To-dos page</h1>
+      <p class="muted" style="font-size:2.6vh;max-width:72%">How do products with a long list of security issues help people pick the first one, fix it, and feel done?</p>
+    </div>
+    <p class="muted">2026-11-25 · 15 references from Mobbin (11 web, 4 iOS) · Analysis: competitive-analyst agent</p>
+    <aside class="notes">Input: the research direction in docs/specs/todos-page.md, written by guardio-pm. The references were gathered on Mobbin; the analysis was done by a separate agent that saw only the questions and the screenshots, and the PM's hypothesis last.</aside>
+  </section>
+
+  <!-- 2. Questions -->
+  <section class="slide">
+    <span class="eyebrow">What we set out to learn</span>
+    <h2>Four questions from the PM</h2>
+    <ol>
+      <li><b>Picking the first.</b> How do products with a long list of issues help the user pick the first one?</li>
+      <li><b>Fixes that happen elsewhere.</b> How do they guide a fix outside the product, and how do they know it's done?</li>
+      <li><b>Grouping.</b> By severity, by asset, or by kind of fix?</li>
+      <li><b>Progress and "nothing left".</b> Without alarming people, and without false reassurance?</li>
+    </ol>
+    <p class="quote">PM hypothesis: people act when the product decides the order and explains each issue in one plain line; a full list sorted by date leads to none being fixed.</p>
+  </section>
+
+  <!-- 3. Who we looked at -->
+  <section class="slide">
+    <span class="eyebrow">Who we looked at</span>
+    <h2>Security brands, account checkups, and task tools</h2>
+    <div class="cols-3 grow">
+      <div class="card"><span class="pill direct">Direct</span><h3>Consumer security &amp; privacy</h3><p>Surfshark · NordVPN (web, iOS) · Proton Pass</p><p class="muted small">Same problem, same audience</p></div>
+      <div class="card"><span class="pill">Indirect</span><h3>Account security in other products</h3><p>Vanta · Google Ads · Uber · Coinbase (web, iOS) · Base44 · Chime · Amazon</p><p class="muted small">Same problem, other audience. Vanta and Base44 are B2B tools</p></div>
+      <div class="card"><span class="pill good">Aspirational</span><h3>Task tools</h3><p>Docusign · Gusto · Unify</p><p class="muted small">Best at making a list feel finished</p></div>
+    </div>
+    <p class="muted small">Gap: Mobbin has no consumer security suites (antivirus, identity-theft protection such as Aura or Norton). The direct set is VPN and privacy brands.</p>
+  </section>
+
+  <!-- 4. Matrix -->
+  <section class="slide">
+    <span class="eyebrow">Comparison · UX quality 1–5, from the screenshots</span>
+    <h2>Nobody covers the whole loop. Vanta comes closest on fixing.</h2>
+    <table>
+      <tr><th>Product</th><th>Pick the first</th><th>Fix it (outside the product)</th><th>Know it's done / progress</th><th>Nothing left</th></tr>
+      <tr><td><b>Surfshark</b></td><td><span class="score s1">1</span>Severity pills, unsorted</td><td><span class="score s1">1</span>"Contact your local anti identity theft organization"</td><td>—</td><td>—</td></tr>
+      <tr><td><b>Vanta</b></td><td><span class="score s4">4</span>"Remediate by… due in 2 days"</td><td><span class="score s5">5</span>Numbered steps, link, exact menu path</td><td><span class="score s4">4</span>"Last refreshed about 2 hours ago"</td><td>—</td></tr>
+      <tr><td><b>Google Ads</b></td><td><span class="score">3</span>Open task on top, no reason</td><td><span class="score s4">4</span>"Go to setting" + lag note</td><td><span class="score s4">4</span>"Started", done card keeps a check</td><td>—</td></tr>
+      <tr><td><b>Uber</b></td><td><span class="score s4">4</span>First item already open</td><td><span class="score s4">4</span>"Add", in the product</td><td><span class="score">3</span>Check in place, no count</td><td>—</td></tr>
+      <tr><td><b>Proton Pass</b></td><td><span class="score">3</span>Only the non-zero tile has a chevron</td><td>—</td><td><span class="score s4">4</span>Zero tiles turn to a check</td><td><span class="score s5">5</span>"Excluded — remain at risk"</td></tr>
+      <tr><td><b>NordVPN</b></td><td><span class="score s1">1</span>Three equal cards</td><td>—</td><td>—</td><td><span class="score s2">2</span>"0 accounts" in warning colours</td></tr>
+      <tr><td><b>Base44</b></td><td><span class="score s2">2</span>Filter only</td><td><span class="score">3</span>"Fix all issues"</td><td><span class="score s4">4</span>"Scanning…", "Up to date"</td><td><span class="score s2">2</span>"No data available"</td></tr>
+      <tr><td><b>Docusign · Gusto</b></td><td>—</td><td>—</td><td><span class="score s5">5</span>"All done! 5/5 actions"</td><td><span class="score s5">5</span>"We'll let you know if something comes up"</td></tr>
+    </table>
+    <aside class="notes">Scores are the analyst's reading of what each screenshot shows. A dash means the images don't show that task. Coinbase, Unify and the iOS references are in the full analysis.</aside>
+  </section>
+
+  <!-- 5. Pattern: ordered checklist, first item open -->
+  <section class="slide">
+    <span class="eyebrow">Pattern · Ordered checklist, first item open</span>
+    <h2>The products that make the first fix obvious set the order themselves, and open the first item</h2>
+    <div class="row grow">
+      <div class="ref" style="flex:1">
+        <img src="refs/uber-account-checkup-2.jpg" alt="Uber — account checkup with the first item expanded">
+        <div class="cap"><b>Uber · Account checkup</b><a href="https://mobbin.com/flows/fa5db98b-73b0-42ed-9596-477448452daa" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="ref" style="flex:1">
+        <img src="refs/google-ads-security-tasks.jpg" alt="Google Ads — security tasks with a progress gauge and a done task">
+        <div class="cap"><b>Google Ads · Security tasks</b><a href="https://mobbin.com/screens/849f39bc-0968-4f24-82e8-493e9a74905a" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="card" style="flex:.55">
+        <h3>What to notice</h3>
+        <ul class="small"><li>Uber opens "Phone number" with its "Add" button; the rest wait collapsed.</li><li>Google Ads keeps the done task, with a check, at the bottom.</li><li>Every example has <b>2–5 items</b>. None shows this at 56.</li><li>No one says <i>why</i> an item is first.</li></ul>
+        <h3>Fit with Guardio</h3>
+        <p class="small">Reuse <code>CollapsibleCard</code> (<code>defaultOpen</code>) in a compact variant; extend the row with a done state.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Pattern: grouped by kind of fix -->
+  <section class="slide">
+    <span class="eyebrow">Pattern · Grouped by kind of fix</span>
+    <h2>Security products with many issues group them by what you have to do, not by priority</h2>
+    <div class="row grow">
+      <div class="ref" style="flex:1">
+        <img src="refs/nordvpn-password-health.jpg" alt="NordVPN — Password Health: exposed, weak and reused passwords">
+        <div class="cap"><b>NordVPN · Password Health</b><a href="https://mobbin.com/screens/8483f135-df5a-4481-ad2d-30892858953b" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="ref" style="flex:1">
+        <img src="refs/proton-pass-monitor.jpg" alt="Proton Pass — Pass Monitor with password health tiles">
+        <div class="cap"><b>Proton Pass · Pass Monitor</b><a href="https://mobbin.com/screens/e844790b-c837-493d-b9e3-1789e52316b6" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="card" style="flex:.55">
+        <h3>What to notice</h3>
+        <ul class="small"><li>Exposed / Weak / Reused (NordVPN); Weak / Reused / Inactive 2FA / Excluded (Proton).</li><li>One set of instructions serves many items. It scales.</li><li>But it doesn't pick a first item, and zero groups still take space.</li><li>Priority grouping appears only as a user setting in a task tool (Unify).</li></ul>
+        <h3>Fit with Guardio</h3>
+        <p class="small">Reuse <code>Card</code> + <code>CardHeader</code> + <code>CountBadge</code>, with <code>IconTile</code> rows inside.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Pattern: playbook + re-check -->
+  <section class="slide">
+    <span class="eyebrow">Pattern · How-to-fix playbook and automatic re-check</span>
+    <h2>When the fix happens elsewhere, the best product gives the exact path and checks for itself</h2>
+    <div class="row grow">
+      <div class="ref" style="flex:1.3">
+        <img src="refs/vanta-items-to-remediate.jpg" alt="Vanta — items to remediate, how to fix, last refreshed">
+        <div class="cap"><b>Vanta · Items to remediate</b><a href="https://mobbin.com/screens/95c147bd-a8a2-426c-be80-59b865c9cb51" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="ref" style="flex:.55">
+        <img src="refs/ios-amazon-secure-your-account.jpg" alt="Amazon iOS — numbered steps to secure your account">
+        <div class="cap"><b>Amazon iOS</b><a href="https://mobbin.com/screens/eafa557c-6acb-40ec-a5b9-1040e4d58304" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="card" style="flex:.8">
+        <h3>What to notice</h3>
+        <ul class="small"><li>Vanta: numbered steps, a link to the exact console, the bold menu path, "Last refreshed about 2 hours ago", snooze.</li><li>Amazon: steps with no link and no way to say "done", so the user leaves and nothing comes back.</li><li>Google Ads warns that a fix takes 1–2 days to show.</li></ul>
+        <h3>Fit with Guardio</h3>
+        <p class="small">New: a numbered-steps block (propose to the system). <code>Button</code> primary for the outbound link, outline for "Check again".</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Pattern to avoid -->
+  <section class="slide">
+    <span class="eyebrow">Pattern to avoid · Severity on an unsorted list, red alarm</span>
+    <h2>The one long list in the set is also the closest to Guardio's Home today, and it gives no place to start</h2>
+    <div class="row grow">
+      <div class="ref" style="flex:1.3">
+        <img src="refs/surfshark-scan-results.jpg" alt="Surfshark — scan results with unsorted severity pills and a red banner">
+        <div class="cap"><b>Surfshark · Scan results</b><a href="https://mobbin.com/screens/5ec81876-a4f9-4e1b-aa96-12cd466fb1e9" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="ref" style="flex:.55">
+        <img src="refs/ios-nordvpn-dark-web-monitor.jpg" alt="NordVPN iOS — You are at risk, 1 leak detected">
+        <div class="cap"><b>NordVPN iOS</b><a href="https://mobbin.com/screens/5a98517f-cbb6-4c8f-bdd4-9d6105dc3cd3" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="card" style="flex:.8">
+        <h3>What to notice</h3>
+        <ul class="small"><li>Surfshark: High, Low, High, High… The order mixes severities, the issue is just "Breach", and the advice is to "contact your local anti identity theft organization".</li><li>NordVPN: "You are at risk" for a single leak. The single "Review and resolve" button is good; the alarm is not.</li></ul>
+        <h3>Fit with Guardio</h3>
+        <p class="small">Doesn't fit. Guardio's red hero belongs to <b>At risk</b> (payment failed). Red to-dos would blur the two.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. Pattern: calm all caught up -->
+  <section class="slide">
+    <span class="eyebrow">Pattern · A calm "all caught up"</span>
+    <h2>The best zero states promise to keep watching and say what they cover</h2>
+    <div class="row grow">
+      <div class="ref" style="flex:1">
+        <img src="refs/gusto-all-caught-up.jpg" alt="Gusto — All caught up, we'll let you know if something comes up">
+        <div class="cap"><b>Gusto</b><a href="https://mobbin.com/screens/164700e6-85d8-4614-96bc-104108294abb" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="ref" style="flex:1">
+        <img src="refs/docusign-all-caught-up.jpg" alt="Docusign — All done 5/5 and You're all caught up">
+        <div class="cap"><b>Docusign</b><a href="https://mobbin.com/screens/2f0768ab-80bf-4cca-b7d5-ffbfd64af1e9" target="_blank" rel="noopener">Mobbin ↗</a></div>
+      </div>
+      <div class="card" style="flex:.55">
+        <h3>What to notice</h3>
+        <ul class="small"><li>Gusto: "We'll let you know if something comes up." That's the right promise for a monitoring product.</li><li>Docusign names the scope it covers ("tasks assigned to you… adjust the filter") and shows 5/5.</li><li>Counterexamples: NordVPN's "0 accounts" in warning colours, Base44's "No data available".</li><li>The trap: Chime's "100%, High security" claims too much.</li></ul>
+        <h3>Fit with Guardio</h3>
+        <p class="small">Reuse <code>Card</code> with text; add "last checked" and what is covered.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Conventions and table stakes -->
+  <section class="slide">
+    <span class="eyebrow">Must-haves</span>
+    <h2>What users will expect, and the three places we would break from it on purpose</h2>
+    <div class="cols-3 grow">
+      <div class="card"><h3>Table stakes</h3><ul class="small"><li>A count of what is open</li><li>A plain one-liner per item</li><li>One verb action per item</li><li>Open first; done items keep a check</li><li>Details expand in place</li><li>A calm zero state</li><li>A Done / Later view</li></ul></div>
+      <div class="card"><h3>Differentiators worth taking</h3><ul class="small"><li>Vanta's playbook: steps, link, menu path, re-check</li><li>Google Ads: "takes 1–2 days to show"</li><li>Proton: "Excluded — these items remain at risk"</li><li>Gusto: "We'll let you know"</li><li>Coinbase: credit first, then ask ("SMS is better than no 2FA, but…")</li></ul></div>
+      <div class="card strong"><h3>Departures, on purpose</h3><ul class="small"><li><b>A "why this is first" line.</b> No reference does it. Worth it, untested.</li><li><b>A short set cut from a long backlog.</b> No reference does it at 56.</li><li><b>No red for to-dos.</b> Red stays with At risk.</li></ul></div>
+    </div>
+  </section>
+
+  <!-- 11. Opportunity map -->
+  <section class="slide">
+    <span class="eyebrow">Opportunities · gaps no one fills well</span>
+    <h2>The cheapest wins are words: why it's first, where the fix happens, what "done" covers</h2>
+    <div class="cols-2 grow">
+      <div class="card"><h3>Quick wins · high value, low effort</h3><ul class="small"><li>A "why this is first" line on the top item</li><li>Say where the fix happens and when Guardio will see it ("On dropbox.com · we'll confirm within a day")</li><li>An honest zero state: last checked, what's covered, skipped items still at risk; a different one for Nothing installed</li></ul></div>
+      <div class="card"><h3>Strategic bets · high value, more effort</h3><ul class="small"><li>Close the loop: re-check what Guardio can verify (app version, biometrics on a protected device); "I changed it" for what it can't; a visible "checking" state</li><li>Bundle same-kind issues across assets ("6 exposed passwords", sites inside)</li></ul><h3 style="margin-top:1vh">Fill-in · Skip</h3><p class="small muted">Fill-in: snooze into a named bucket; user-set grouping. Skip: a security score or percentage; "Fix all".</p></div>
+    </div>
+    <aside class="notes">Data note: today's Todo type (id, asset, icon, issue, date, action, urgent) can't support the rank reason, kind of fix, status (open / checking / fixed / snoozed), verification method, steps, or the outbound link. The spec already lists most of these fields.</aside>
+  </section>
+
+  <!-- 12. Verdict -->
+  <section class="slide">
+    <span class="eyebrow">Verdict on the PM's hypothesis</span>
+    <p class="quote">"People act on security issues when the product decides the order for them and explains each one in one plain line."</p>
+    <p class="verdict">Holds, with changes</p>
+    <div class="cols-2 grow">
+      <div class="card"><h3>The evidence</h3><ul class="small"><li><b>For:</b> every reference where the first fix is obvious uses an order the product chose (Uber, Coinbase iOS, Chime, Amazon). The one unordered long list (Surfshark) gives no starting point.</li><li><b>Against assumption 2:</b> security products group by kind of fix (NordVPN, Proton, Vanta), not by priority.</li><li><b>Unproven:</b> no one cuts a short set out of a backlog of 56, and no one explains the order.</li></ul></div>
+      <div class="card strong"><h3>The changes</h3><ul class="small"><li>Rank, but make the unit a <b>kind of fix</b> ("Change 6 exposed passwords"), with the assets inside.</li><li>Every item says <b>how "done" will be known</b>: Guardio re-checks, or the user confirms.</li><li>"The rest waits" = a <b>visible, named place</b> that still says the risk. Not a hidden list.</li><li><b>No red for to-dos.</b> In At risk, the payment fix outranks everything.</li><li>The zero state depends on the user state.</li></ul></div>
+    </div>
+  </section>
+
+  <!-- 13. Three directions -->
+  <section class="slide">
+    <span class="eyebrow">Three directions · they differ in the unit of interaction: one item, a short set, a batch</span>
+    <h2>Three ways to design the page, each one we would ship</h2>
+    <div class="cols-3 grow">
+      <div class="card"><h3>A · Next up</h3><p class="small">One fix at a time, chosen by Guardio, with why it's first.</p><p class="small muted">The user reads 2–3 steps, opens the site, taps "I changed it" (or sees "Checking…"), and the next card arrives. "Skip for now" · "See all 56".</p><p class="small muted">Inspired by Uber, NordVPN iOS, Coinbase, Amazon</p><p class="small"><b>Best for:</b> first-timers; Onboarding; At risk.</p><p class="small"><b>Risk:</b> hides the scale; "See all" becomes the real page.</p></div>
+      <div class="card"><h3>B · Top three, the rest can wait</h3><p class="small">Three ranked cards with reasons, the first open. Everything else below, bundled by kind and collapsed, plus a "Later" place.</p><p class="small muted">The user fixes any of the three; done cards keep a check and a fourth rises. "Everything else (53)".</p><p class="small muted">Inspired by Google Ads, Uber, Coinbase iOS, Proton, Vanta</p><p class="small"><b>Best for:</b> Activated, coming back weekly.</p><p class="small"><b>Risk:</b> the cut at three needs a rule people trust.</p></div>
+      <div class="card"><h3>C · Fix by kind</h3><p class="small">The unit is a kind of fix: "Change 6 exposed passwords", "Update Guardio on 2 phones". Guardio orders the batches.</p><p class="small muted">The user reads the instructions once, works through a checklist of sites, each with its link, and sees "2 of 6".</p><p class="small muted">Inspired by Vanta, Proton, NordVPN</p><p class="small"><b>Best for:</b> big backlogs of one type (Home lists 112 accounts).</p><p class="small"><b>Risk:</b> a critical single item gets buried in a batch.</p></div>
+    </div>
+    <aside class="notes">Rejected seed: an asset-first page ("open Dropbox, see its issues"). It is the weakest in the evidence (Surfshark only), and Home already covers it with the Protected assets cards and the "open issues" badges.</aside>
+  </section>
+
+  <!-- 14. On mobile -->
+  <section class="slide">
+    <span class="eyebrow">On mobile · 390, under the To do's tab</span>
+    <h2>Two-line rows, the fix as a full screen, and the action low enough to reach</h2>
+    <div class="row grow">
+      <div class="ref" style="flex:1">
+        <img src="refs/ios-coinbase-recommended-actions.jpg" alt="Coinbase iOS — recommended actions checklist">
+        <div class="cap"><b>Coinbase</b><a href="https://mobbin.com/screens/5dc8f411-e4c2-4886-b78d-8549536c01c3" target="_blank" rel="noopener">↗</a></div>
+      </div>
+      <div class="ref" style="flex:1">
+        <img src="refs/ios-chime-security-center.jpg" alt="Chime iOS — security center gauge and steps">
+        <div class="cap"><b>Chime</b><a href="https://mobbin.com/screens/11d18401-3658-454a-8275-b1352bc0d139" target="_blank" rel="noopener">↗</a></div>
+      </div>
+      <div class="card" style="flex:2.2">
+        <h3>What changes at 390</h3>
+        <ul class="small"><li>The table becomes two-line rows: issue as title, asset as subtitle with an <code>IconTile</code>, a chevron. Date and action move into the detail.</li><li>The fix is a full screen or sheet (Coinbase). Steps must be short (Amazon fills the screen fast). Primary action at the bottom, clear of the tab bar.</li><li>A gauge costs the fold (Chime spends the top third). Use a one-line count.</li><li>To do / Later / Done become a segmented control.</li><li>The tab gets a count. Use a red dot only for the urgent case.</li><li>Direction fit: A = one card per screen; C = a batch as a pushed checklist; B needs a scroll past the three.</li><li>Open questions: deep links into iOS settings are limited; fixing a Samsung from an iPhone.</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. Gaps -->
+  <section class="slide">
+    <span class="eyebrow">Gaps · what these references could not answer</span>
+    <h2>The riskiest parts of the hypothesis are the ones no reference shows</h2>
+    <div class="cols-2 grow">
+      <div class="card"><ul class="small"><li><b>Cutting a short set from a long backlog</b>: every ranked list was 5 items or fewer.</li><li><b>Explaining why an item is first</b>: not seen, apart from Vanta's due date.</li><li><b>The moment after an outside fix</b> ("I did this", "Checking…"): no flow shows it.</li><li><b>Family plans, Nothing installed, At risk, fixing across devices</b>: not seen.</li></ul></div>
+      <div class="card"><h3>What would answer them</h3><ul class="small"><li>Mobbin: 1Password Watchtower, Dashlane / Bitwarden password health with a full list, Google Security Checkup, Norton / Aura action centers (not on Mobbin today).</li><li>Flows: "mark as resolved", "I've changed my password".</li><li>Behaviour: Guardio's data or a test, e.g. Home's table by date vs. ranked with a "why first" line.</li></ul></div>
+    </div>
+  </section>
+
+  <!-- 16. Sources -->
+  <section class="slide">
+    <span class="eyebrow">Sources</span>
+    <h2>All references</h2>
+    <ul class="small" style="columns:2;column-gap:3vw;display:block">
+      <li><a href="https://mobbin.com/screens/5ec81876-a4f9-4e1b-aa96-12cd466fb1e9" target="_blank" rel="noopener">Surfshark — Scan results</a></li>
+      <li><a href="https://mobbin.com/screens/95c147bd-a8a2-426c-be80-59b865c9cb51" target="_blank" rel="noopener">Vanta — Items to remediate</a></li>
+      <li><a href="https://mobbin.com/screens/849f39bc-0968-4f24-82e8-493e9a74905a" target="_blank" rel="noopener">Google Ads — Security tasks</a></li>
+      <li><a href="https://mobbin.com/flows/fa5db98b-73b0-42ed-9596-477448452daa" target="_blank" rel="noopener">Uber — View account checkup (flow)</a></li>
+      <li><a href="https://mobbin.com/screens/8483f135-df5a-4481-ad2d-30892858953b" target="_blank" rel="noopener">NordVPN — Password Health</a></li>
+      <li><a href="https://mobbin.com/screens/e844790b-c837-493d-b9e3-1789e52316b6" target="_blank" rel="noopener">Proton Pass — Pass Monitor</a></li>
+      <li><a href="https://mobbin.com/screens/7fa8f944-702b-4488-8de9-e0423e91c7a7" target="_blank" rel="noopener">Coinbase — Security (web)</a></li>
+      <li><a href="https://mobbin.com/flows/dbeec765-2ca9-48fa-8d1e-4df4b604d151" target="_blank" rel="noopener">Base44 — Checking app security (flow)</a></li>
+      <li><a href="https://mobbin.com/screens/2f0768ab-80bf-4cca-b7d5-ffbfd64af1e9" target="_blank" rel="noopener">Docusign — All caught up</a></li>
+      <li><a href="https://mobbin.com/screens/164700e6-85d8-4614-96bc-104108294abb" target="_blank" rel="noopener">Gusto — All caught up</a></li>
+      <li><a href="https://mobbin.com/screens/88067276-8de6-4435-bcba-91a909d74b6f" target="_blank" rel="noopener">Unify — Tasks by priority</a></li>
+      <li><a href="https://mobbin.com/screens/5dc8f411-e4c2-4886-b78d-8549536c01c3" target="_blank" rel="noopener">Coinbase iOS — Recommended actions</a></li>
+      <li><a href="https://mobbin.com/screens/11d18401-3658-454a-8275-b1352bc0d139" target="_blank" rel="noopener">Chime iOS — Security Center</a></li>
+      <li><a href="https://mobbin.com/screens/5a98517f-cbb6-4c8f-bdd4-9d6105dc3cd3" target="_blank" rel="noopener">NordVPN iOS — Dark Web Monitor</a></li>
+      <li><a href="https://mobbin.com/screens/eafa557c-6acb-40ec-a5b9-1040e4d58304" target="_blank" rel="noopener">Amazon iOS — Secure your account</a></li>
+    </ul>
+    <p>Mobbin collection: <a href="https://mobbin.com/collections/34a306fb-7e5f-416b-9e4f-2204f193b01c/mobile/screens" target="_blank" rel="noopener">Guardio · To-dos page research</a>
+      <span class="muted">(private to the Mobbin team)</span></p>
+  </section>
+
+</main>
+<div class="footer"><span>To-dos page · Design research</span><span id="count"></span></div>
+<script>
+  const slides = [...document.querySelectorAll('.slide')];
+  let i = Math.max(0, Math.min(slides.length - 1, parseInt(location.hash.slice(1) || '1', 10) - 1));
+  const count = document.getElementById('count');
+  function show(n) {
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((s, k) => s.classList.toggle('active', k === i));
+    count.textContent = (i + 1) + ' / ' + slides.length;
+    history.replaceState(null, '', '#' + (i + 1));
+  }
+  document.addEventListener('keydown', (e) => {
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    if (e.key === 'n') document.body.classList.toggle('show-notes');
+  });
+  document.addEventListener('click', (e) => { if (!e.target.closest('a')) show(i + (e.clientX > innerWidth / 2 ? 1 : -1)); });
+  show(i);
+</script>
+</body>
+</html>

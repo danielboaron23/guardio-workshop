@@ -10,6 +10,7 @@ import tickerShield from '@guardio/assets/home/d-ticker-shield.svg'
 import { desktopHome as data, type AssetGroup } from '@guardio/data'
 
 import { Avatar, Card, CardHeader, IconTile, InfoBadge, SectionTitle, TextLink } from '../components/ui'
+import { href } from '../router'
 
 export function Home() {
   return (
@@ -174,7 +175,7 @@ export function Todos() {
         </div>
       ))}
       <div className="p-6">
-        <TextLink>View To-dos</TextLink>
+        <TextLink href={href.todos()}>View To-dos</TextLink>
       </div>
     </Card>
   )

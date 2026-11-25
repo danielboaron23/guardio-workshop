@@ -4,6 +4,7 @@ import type { UserStateId } from './states';
 
 export type IconKey =
   | 'dropbox' | 'tripadvisor' | 'mcdonalds' | 'wolt'
+  | 'gmail' | 'google' | 'facebook' | 'instagram' | 'spotify' | 'tiktok' | 'apple'
   | 'scanFace' | 'smartphone' | 'laptop' | 'mail';
 
 // ───────── Desktop ─────────

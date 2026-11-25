@@ -1,0 +1,219 @@
+// Mock data for the To-dos page — shared by the desktop and mobile apps.
+// Spec: docs/specs/todos-page.md. 56 open to-dos are represented by a ranked set,
+// bundles by kind of fix (with a few sample items each), a Later list and a Fixed list.
+import type { IconKey } from './home';
+
+/** The kind of fix — the unit the list is bundled by (research verdict). */
+export type TodoKind = 'exposedPassword' | 'twoStepOff' | 'appOutdated' | 'biometricsOff' | 'emailUnconfirmed';
+export type TodoCategory = 'account' | 'device' | 'email';
+export type TodoStatus = 'open' | 'checking' | 'fixed' | 'later' | 'dismissed';
+/** `auto`: Guardio can see the change itself. `manual`: the user tells Guardio it's done. */
+export type TodoVerify = 'auto' | 'manual';
+
+export type TodoItem = {
+  id: string;
+  kind: TodoKind;
+  category: TodoCategory;
+  asset: string;
+  icon: IconKey;
+  /** What is wrong, in plain words. */
+  issue: string;
+  /** The fix, verb first. */
+  title: string;
+  /** Why this item is ranked where it is (ranked items only). */
+  why?: string;
+  /** When Guardio found it — not the breach date. */
+  detected: string;
+  breachDate?: string;
+  action: string;
+  /** Where the fix happens (shown, not followed, in this demo). */
+  where?: string;
+  verify: TodoVerify;
+  steps?: string[];
+};
+
+export type TodoKindInfo = {
+  kind: TodoKind;
+  /** Bundle title, e.g. "Exposed passwords". */
+  label: string;
+  /** What the user does for the whole bundle. */
+  fix: string;
+  verify: TodoVerify;
+  /** One line on why this kind matters. */
+  why: string;
+  steps: string[];
+};
+
+export const TODO_KINDS: Record<TodoKind, TodoKindInfo> = {
+  exposedPassword: {
+    kind: 'exposedPassword',
+    label: 'Exposed passwords',
+    fix: 'Change each password',
+    verify: 'manual',
+    why: 'These passwords appeared in data breaches. Anyone with the leaked list can try them.',
+    steps: [
+      'Sign in to the site and open its security settings.',
+      'Change the password to one you don’t use anywhere else.',
+      'Come back and tell us it’s done.',
+    ],
+  },
+  twoStepOff: {
+    kind: 'twoStepOff',
+    label: 'Two-step verification is off',
+    fix: 'Turn on two-step verification',
+    verify: 'manual',
+    why: 'A second step stops someone who has your password from signing in.',
+    steps: [
+      'Open the account’s security settings.',
+      'Turn on two-step verification (an app or text message).',
+      'Come back and tell us it’s done.',
+    ],
+  },
+  appOutdated: {
+    kind: 'appOutdated',
+    label: 'Guardio app is out of date',
+    fix: 'Update the Guardio app',
+    verify: 'auto',
+    why: 'Older versions miss the latest scam and phishing protection.',
+    steps: ['Open the App Store or Google Play on the phone.', 'Update Guardio.'],
+  },
+  biometricsOff: {
+    kind: 'biometricsOff',
+    label: 'Biometrics is off',
+    fix: 'Turn on Face ID or fingerprint',
+    verify: 'auto',
+    why: 'A lost phone without a lock opens straight into your accounts.',
+    steps: ['On the phone, open Settings → Security.', 'Turn on face or fingerprint unlock.'],
+  },
+  emailUnconfirmed: {
+    kind: 'emailUnconfirmed',
+    label: 'Monitoring not confirmed',
+    fix: 'Confirm the email address',
+    verify: 'auto',
+    why: 'We can’t watch this address for breaches until you confirm it’s yours.',
+    steps: ['Open the email we sent to this address.', 'Click “Confirm”.'],
+  },
+};
+
+/** All open to-dos, in priority order. The page shows the first three; the rest rise as items are done. */
+export const rankedTodos: TodoItem[] = [
+  {
+    id: 'r1', kind: 'exposedPassword', category: 'account', asset: 'Gmail', icon: 'gmail',
+    title: 'Change your Gmail password',
+    issue: 'Password exposed in a data breach',
+    why: 'Found 3 days ago, and your email can reset the passwords of your other accounts.',
+    detected: 'Found 3 days ago', breachDate: 'Nov 2026',
+    action: 'Change password', where: 'myaccount.google.com', verify: 'manual',
+    steps: [
+      'Open myaccount.google.com and sign in.',
+      'Go to Security → Password and choose a new one you don’t use anywhere else.',
+      'Come back and tell us it’s done.',
+    ],
+  },
+  {
+    id: 'r2', kind: 'exposedPassword', category: 'account', asset: 'Dropbox', icon: 'dropbox',
+    title: 'Change your Dropbox password',
+    issue: 'Password exposed in a data breach',
+    why: 'Dropbox holds your files, and this password is on a public breach list.',
+    detected: 'Found 2 weeks ago', breachDate: 'Oct 2015',
+    action: 'Change password', where: 'dropbox.com', verify: 'manual',
+    steps: [
+      'Open dropbox.com and sign in.',
+      'Go to Settings → Security → Change password.',
+      'Come back and tell us it’s done.',
+    ],
+  },
+  {
+    id: 'r3', kind: 'appOutdated', category: 'device', asset: 'iPhone 13 mini', icon: 'smartphone',
+    title: 'Update Guardio on your iPhone 13 mini',
+    issue: 'Guardio app is not up to date',
+    why: 'This phone is missing the latest scam protection. It takes a minute.',
+    detected: 'Found yesterday',
+    action: 'Update app', where: 'App Store', verify: 'auto',
+    steps: ['On the iPhone, open the App Store.', 'Find Guardio and tap Update.'],
+  },
+  {
+    id: 'r4', kind: 'exposedPassword', category: 'account', asset: 'Trip advisor', icon: 'tripadvisor',
+    title: 'Change your Tripadvisor password',
+    issue: 'Password exposed in two data breaches',
+    why: 'This password appears in two breaches, and Tripadvisor stores your card.',
+    detected: 'Found 2 weeks ago', breachDate: 'Mar 2024',
+    action: 'Change password', where: 'tripadvisor.com', verify: 'manual',
+    steps: [
+      'Open tripadvisor.com and sign in.',
+      'Go to Account info → Change password.',
+      'Come back and tell us it’s done.',
+    ],
+  },
+  {
+    id: 'r5', kind: 'twoStepOff', category: 'account', asset: 'Google', icon: 'google',
+    title: 'Turn on two-step verification for Google',
+    issue: 'Two-step verification is off',
+    why: 'Your Google account signs you in to 14 other sites.',
+    detected: 'Found last month',
+    action: 'Turn on', where: 'myaccount.google.com', verify: 'manual',
+    steps: [
+      'Open myaccount.google.com → Security.',
+      'Turn on 2-Step Verification.',
+      'Come back and tell us it’s done.',
+    ],
+  },
+  {
+    id: 'r6', kind: 'biometricsOff', category: 'device', asset: 'Samsung Galaxy A35', icon: 'scanFace',
+    title: 'Turn on biometrics on your Samsung Galaxy A35',
+    issue: 'Biometrics is disabled',
+    why: 'A lost phone without a lock opens straight into your accounts.',
+    detected: 'Found last month',
+    action: 'Learn how', where: 'the phone’s Settings', verify: 'auto',
+    steps: ['On the Samsung, open Settings → Security and privacy → Biometrics.', 'Turn on face or fingerprint unlock.'],
+  },
+];
+
+/** Every open to-do, bundled by kind. `total` counts the whole kind, ranked items included. */
+export const todoBundles: { kind: TodoKind; total: number; more: TodoItem[] }[] = [
+  {
+    kind: 'exposedPassword', total: 33,
+    more: [
+      { id: 'e1', kind: 'exposedPassword', category: 'account', asset: 'Macdonalds', icon: 'mcdonalds', title: 'Change your Macdonalds password', issue: 'Password exposed in a data breach', detected: 'Found last month', breachDate: 'Jan 2025', action: 'Change password', verify: 'manual' },
+      { id: 'e2', kind: 'exposedPassword', category: 'account', asset: 'Spotify', icon: 'spotify', title: 'Change your Spotify password', issue: 'Password exposed in a data breach', detected: 'Found last month', breachDate: 'Jun 2024', action: 'Change password', verify: 'manual' },
+      { id: 'e3', kind: 'exposedPassword', category: 'account', asset: 'TikTok', icon: 'tiktok', title: 'Change your TikTok password', issue: 'Password exposed in a data breach', detected: 'Found 2 months ago', breachDate: 'Sep 2022', action: 'Change password', verify: 'manual' },
+    ],
+  },
+  {
+    kind: 'twoStepOff', total: 19,
+    more: [
+      { id: 't1', kind: 'twoStepOff', category: 'account', asset: 'Facebook', icon: 'facebook', title: 'Turn on two-step verification for Facebook', issue: 'Two-step verification is off', detected: 'Found last month', action: 'Turn on', verify: 'manual' },
+      { id: 't2', kind: 'twoStepOff', category: 'account', asset: 'Instagram', icon: 'instagram', title: 'Turn on two-step verification for Instagram', issue: 'Two-step verification is off', detected: 'Found last month', action: 'Turn on', verify: 'manual' },
+      { id: 't3', kind: 'twoStepOff', category: 'account', asset: 'Apple ID', icon: 'apple', title: 'Turn on two-step verification for Apple ID', issue: 'Two-step verification is off', detected: 'Found 2 months ago', action: 'Turn on', verify: 'manual' },
+    ],
+  },
+  {
+    kind: 'appOutdated', total: 2,
+    more: [
+      { id: 'a1', kind: 'appOutdated', category: 'device', asset: 'Samsung Galaxy A35', icon: 'smartphone', title: 'Update Guardio on your Samsung Galaxy A35', issue: 'Guardio app is not up to date', detected: 'Found last week', action: 'Update app', verify: 'auto' },
+    ],
+  },
+  { kind: 'biometricsOff', total: 1, more: [] },
+  {
+    kind: 'emailUnconfirmed', total: 1,
+    more: [
+      { id: 'm1', kind: 'emailUnconfirmed', category: 'email', asset: 'juliya1980@hotmail.com', icon: 'mail', title: 'Confirm juliya1980@hotmail.com', issue: 'Monitoring not confirmed', detected: 'Found last week', action: 'Resend email', verify: 'auto' },
+    ],
+  },
+];
+
+export const todosPage = {
+  lastChecked: '2 hours ago',
+  /** Must match Home (desktop todosCount, mobile pendingTodos). */
+  openCount: 56,
+  later: [
+    { id: 'l1', kind: 'twoStepOff', category: 'account', asset: 'Wolt', icon: 'wolt', title: 'Turn on two-step verification for Wolt', issue: 'Two-step verification is off', detected: 'Found last month', action: 'Turn on', verify: 'manual' },
+    { id: 'l2', kind: 'exposedPassword', category: 'account', asset: 'Old Hotmail account', icon: 'mail', title: 'Change your old Hotmail password', issue: 'Password exposed in a data breach', detected: 'Found 3 months ago', breachDate: 'Dec 2018', action: 'Change password', verify: 'manual' },
+  ] as TodoItem[],
+  fixed: [
+    { id: 'f1', asset: 'Facebook', icon: 'facebook', title: 'Changed your Facebook password', fixedOn: 'Nov 21' },
+    { id: 'f2', asset: 'Guardio for Chrome', icon: 'laptop', title: 'Updated Guardio for Chrome', fixedOn: 'Nov 18' },
+    { id: 'f3', asset: 'juliya@gmail.com', icon: 'mail', title: 'Confirmed juliya@gmail.com', fixedOn: 'Nov 12' },
+    { id: 'f4', asset: 'Apple ID', icon: 'apple', title: 'Changed your Apple ID password', fixedOn: 'Nov 3' },
+  ] as { id: string; asset: string; icon: IconKey; title: string; fixedOn: string }[],
+};

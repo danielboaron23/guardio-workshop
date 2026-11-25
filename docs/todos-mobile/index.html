@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f8f8f8">
+<title>Guardio · To-dos · שלושה קונספטים למובייל</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<style>
+  /* The page the QR code opens: pick a concept on your own phone. Fits any width. */
+  * { box-sizing: border-box; margin: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: 'Heebo', 'Inter', system-ui, sans-serif; color: var(--color-text-primary); background: var(--color-canvas);
+    -webkit-font-smoothing: antialiased; min-height: 100vh; min-height: 100dvh;
+    padding: max(28px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+  }
+  main { max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+  .kicker { font-size: 13px; font-weight: 600; color: var(--color-text-muted); }
+  h1 { font-size: clamp(28px, 8vw, 36px); line-height: 1.12; font-weight: 800; color: var(--color-text-strong); }
+  p.lead { font-size: 16px; line-height: 1.6; color: var(--color-text-secondary); }
+  .ltr { direction: ltr; unicode-bidi: isolate; font-family: 'Inter', 'Heebo', sans-serif; }
+  a.card {
+    display: flex; gap: 14px; align-items: center; text-decoration: none; color: inherit; background: var(--color-background);
+    border: 1px solid var(--color-border); border-radius: 18px; padding: 18px 16px; min-height: 88px;
+  }
+  a.card:active { background: var(--color-surface); }
+  a.card:focus-visible { outline: 2px solid var(--color-border-selected); outline-offset: 2px; }
+  .no { flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    font-family: 'Inter', sans-serif; font-weight: 700; font-size: 14px; color: #fff; }
+  .txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+  .nm { font-family: 'Inter', sans-serif; font-size: 17px; font-weight: 700; color: var(--color-text-strong); direction: ltr; text-align: right; }
+  .tl { font-size: 14.5px; line-height: 1.5; color: var(--color-text-secondary); }
+  .go { flex-shrink: 0; font-size: 22px; color: var(--color-text-muted); }
+  .note { font-size: 13px; line-height: 1.6; color: var(--color-text-muted); text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <span class="kicker">Guardio · עמוד ה-To-dos · מובייל</span>
+  <h1>שלושה כיוונים לאותו עמוד.</h1>
+  <p class="lead">56 בעיות אבטחה פתוחות, ואין דרך לדעת מה חשוב. בחרו קונספט כדי לפתוח אותו במסך מלא. אפשר ללחוץ על הכול: לפתוח בעיה, לתקן, ולראות מה קורה אחר כך. למעלה יש מתג למעבר בין הקונספטים.</p>
+
+  <a class="card" href="b.html">
+    <span class="no" style="background:var(--color-text-strong)">01</span>
+    <span class="txt"><span class="nm">B · Top three</span><span class="tl">שלושה עכשיו, השאר מחכה. כל בעיה אומרת למה היא ראשונה.</span></span>
+    <span class="go" aria-hidden="true">‹</span>
+  </a>
+  <a class="card" href="a.html">
+    <span class="no" style="background:var(--color-info)">02</span>
+    <span class="txt"><span class="nm">A · Next up</span><span class="tl">תיקון אחד בכל פעם. Guardio בוחר, אתם מתקנים, והבא מגיע.</span></span>
+    <span class="go" aria-hidden="true">‹</span>
+  </a>
+  <a class="card" href="c.html">
+    <span class="no" style="background:var(--color-warning)">03</span>
+    <span class="txt"><span class="nm">C · Fix by kind</span><span class="tl">עובדים לפי סוג: הוראות פעם אחת, ורשימה לסמן.</span></span>
+    <span class="go" aria-hidden="true">‹</span>
+  </a>
+
+  <p class="note">הכי טוב בטלפון · <span class="ltr">Guardio workshop · 2026</span></p>
+</main>
+</body>
+</html>
