@@ -97,6 +97,14 @@ Three questions (in Hebrew):
 - **Desktop comparison:** the "one by one" preview is a 1440-wide app scaled to 0.43 that scrolls and responds to clicks.
 - **Mobile pages:** 4 pages × 6 widths (320, 360, 375, 390, 414, 430) on a real-phone layout. No sideways overflow, the fake status bar hidden, the tab bar inside the screen (296 px at 320, 406 px at 430), the controls one 33 px row, the sheet full width, A's buttons stacked at 320.
 - **Comparison pages:** no sideways overflow at 390.
+- **Live on GitHub Pages:**
+  - Every page returns 200: the hub, both decks, both comparisons, the QR, the phone landing, the three mobile pages, the app and the research deck.
+  - In the live hub, the desktop comparison's 6 embedded app previews render.
+  - The mobile comparison's 6 phones render; the last loads only when scrolled to.
+  - The QR image loads, and no image is broken.
+  - Addresses:
+    - The hub: https://danielboaron23.github.io/guardio-workshop/presentation/
+    - What the QR opens: https://danielboaron23.github.io/guardio-workshop/todos-mobile/
 
 ## 8. What did not work
 
@@ -106,4 +114,5 @@ Three questions (in Hebrew):
 - **The tabs were cut off at 1196 px.** The hint text took their space; it now hides below 1360 px.
 - **A shared browser tab.** Deck 2's agent and Claude used the same browser tab, and the agent's tab jumped to the hub mid-check. It finished in its own tab.
 - **Q&A wording in the decks.** The clarifying questions are logged as English summaries of questions asked in Hebrew, so both decks show Hebrew renderings, not quotes. Only Daniel's prompts and his two recorded Hebrew lines are quoted word for word.
+- **The first push was rejected.** `main` on GitHub had a newer merged pull request (blue stat card borders on Home). The three local commits were rebased on top of it, with no conflicts. `docs/app` was rebuilt so the published app includes that change, then pushed without force.
 - **Mobbin screenshots on a public page.** The research images (`docs/research/todos-page/refs/`) are now on a public page through GitHub Pages.
