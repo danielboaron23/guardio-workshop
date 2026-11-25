@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>עמוד ה-To-dos · Guardio</title>
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+<main class="deck">
+
+<!-- ═══════════════ Opening ═══════════════ -->
+
+<section class="slide" style="justify-content:center; gap:3vh">
+  <div class="eyebrow">Guardio · Claude Code למעצבים · חלק 2: תהליך העבודה</div>
+  <h1 class="h1">עמוד ה-To-dos: מאפיון לשלושה קונספטים</h1>
+  <p class="lead">היום <span class="ltr">"To do"</span> בכותרת של Guardio לא מוביל לשום מקום, ו-Home מראה 3 מתוך 56 בעיות אבטחה. כך זה הפך לעמוד: spec, מחקר מתחרים, ושלושה קונספטים שעובדים, בדסקטופ ובמובייל.</p>
+  <div class="flow" style="margin-top:1vh">
+    <div class="step card white">
+      <span class="pill">פרק 1 · PM</span>
+      <code style="width:fit-content">/guardio-pm</code>
+      <p class="small muted">שאלות הבהרה, נקודת מבט, spec וכרטיס ב-Notion</p>
+    </div>
+    <div class="arrow">←</div>
+    <div class="step card white">
+      <span class="pill">פרק 2 · מחקר</span>
+      <code style="width:fit-content">/guardio-design-research</code>
+      <p class="small muted">15 רפרנסים מ-Mobbin, agent שמנתח אותם, פסיקה ושלושה כיוונים</p>
+    </div>
+    <div class="arrow">←</div>
+    <div class="step card white">
+      <span class="pill">פרק 3 · עיצוב</span>
+      <code style="width:fit-content">/senior-product-designer</code>
+      <p class="small muted">שלושה קונספטים באפליקציה, ואז במובייל כ-HTML</p>
+    </div>
+  </div>
+  <p class="small muted">25.11.2026 · המקשים 1, 2, 3 קופצים לפרק · N מציג הערות דובר</p>
+  <aside class="notes">
+    זה החלק השני של המצגת: התהליך עצמו. בחלק הראשון בנינו את ה-skills, וכאן מריצים אותם על פיצ'ר אמיתי אחד, עמוד ה-To-dos באפליקציית הדסקטופ.
+    שני skills נבנו לפרויקט: guardio-pm ו-guardio-design-research (עם ה-agent שנקרא competitive-analyst). בשלב העיצוב לא נבנה skill חדש: השתמשנו ב-senior-product-designer הקיים של דניאל, שכבר עושה את מה שהשלב הזה צריך.
+    כל מה שמופיע כאן לקוח מהתיעוד בתיקייה process/: הפרומפטים, השאלות, התשובות, ההחלטות, וגם מה שלא עבד.
+  </aside>
+</section>
+
+<!-- ═══════════════ Chapter 1 · PM ═══════════════ -->
+
+<section class="slide chapter" data-chapter="1" style="justify-content:center">
+  <div class="bignum">01</div>
+  <div class="eyebrow">פרק 1 · <span class="ltr">guardio-pm</span></div>
+  <h1 class="h1">PM: מה בונים, ולמה</h1>
+  <p class="lead">ה-skill קורא את הקוד ואת הלוח לפני שהוא שואל, שואל לפני שהוא כותב, לוקח עמדה, וכותב spec שאפשר להחליט עליו.</p>
+  <div class="row" style="gap:.6vw; flex-wrap:wrap; margin-top:1vh">
+    <span class="pill">הבעיה</span><span class="pill">הפרומפט</span><span class="pill">ארבע שאלות</span><span class="pill">נקודת המבט</span><span class="pill">ה-spec</span><span class="pill">Notion</span>
+  </div>
+  <aside class="notes">
+    פרק ראשון: ה-PM. לפני פיקסל אחד, מגדירים מה הבעיה, למי, מה ההנחה המסוכנת, ומה בפנים ומה בחוץ. התוצר הוא spec מאושר וכרטיס ב-Notion.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 1 · הבעיה · מה ה-PM מצא לפני ששאל משהו</div>
+  <h2 class="h2">‏Home מראה 3 מתוך 56 בעיות, ו-<span class="ltr">"To do"</span> מוביל חזרה ל-Home.</h2>
+  <div class="cols-2 grow" style="grid-template-columns: 1fr 1.05fr; align-items:start">
+    <ul style="gap:1.6vh; margin-top:1vh">
+      <li>‏Home מציג 3 שורות מתוך 56, בלי סדר שרואים.</li>
+      <li><span class="ltr">"View To-dos"</span> ו-<span class="ltr">"To do"</span> בכותרת מובילים חזרה ל-Home. העמוד שהמוצר מפנה אליו לא קיים.</li>
+      <li>שלוש בעיות משלושה סוגים: סיסמה שדלפה (חשבון), ביומטריה כבויה ואפליקציה לא מעודכנת (מכשירים). אותו משקל, ונקודה אדומה אחת.</li>
+      <li><span class="ltr">"Oct 16, 2015"</span> בשורה של Dropbox הוא תאריך הדליפה, לא התאריך שבו Guardio מצא אותה.</li>
+      <li>במובייל כרטיס <span class="ltr">"Pending To-Dos"</span> אומר 2. בדסקטופ: 56.</li>
+    </ul>
+    <div class="shot">
+      <img src="../figma-ref/home_desktop.png" alt="מסך ה-Home של Guardio בדסקטופ מתוך Figma, עם כרטיס To-dos של שלוש שורות ו-56" style="aspect-ratio:1057/745; object-fit:cover; object-position:top">
+      <div class="cap"><span>‏Home היום, מתוך Figma: כרטיס ה-To-dos עם 3 שורות והמספר 56</span></div>
+    </div>
+  </div>
+  <aside class="notes">
+    זה הגראונדינג של ה-skill. לפני שאלה אחת הוא קרא את Home.tsx, את הנתונים ב-packages/data/src/home.ts, את כרטיסי ה-Home במובייל ואת צילום ה-Figma.
+    מה שמצא: 3 מתוך 56, שני קישורים שמובילים חזרה ל-Home, ושלוש בעיות משלושה סוגים באותו משקל. רוב התיקונים קורים מחוץ ל-Guardio.
+    התאריך מבלבל: Oct 16, 2015 הוא תאריך הדליפה של Dropbox. ייתכן שהמשתמש כבר החליף את הסיסמה, ואין לו איך להגיד את זה.
+    עוד דברים שמצא: התקדמות ה-setup (1/6) היא רשימה נפרדת מה-to-dos. בכרטיס Accounts כתוב "2 open issues" על Tripadvisor, ואין איפה לראות אותן. ובמובייל יש לשונית To do's עם נקודה, שמובילה למסך placeholder.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 1 · הפרומפט</div>
+  <h2 class="h2">דניאל כתב שורה אחת. ה-skill קרא את הקוד לפני ששאל.</h2>
+  <div class="prompt" style="font-size:2.6vh"><span class="who">דניאל כתב:</span><span class="cmd">/guardio-pm</span> i want to buld the "to do" page and i need youre help with this and to understand  how the cometitors are doing that and what will be the best way to do it all the context you will bring it after i will see to bring it the research</div>
+  <div class="h3" style="margin-top:1vh">לפני השאלות, ה-skill בדק:</div>
+  <div class="cols-4">
+    <div class="card" style="padding:2.4vh 1.4vw"><div class="h3">לוח ה-Notion</div><p class="muted">חיפש <span class="ltr">"to-dos page"</span>. אין עדיין כרטיס.</p></div>
+    <div class="card" style="padding:2.4vh 1.4vw"><div class="h3">הקוד של Home</div><p class="muted"><code>Home.tsx</code><br><code>packages/data/src/home.ts</code></p></div>
+    <div class="card" style="padding:2.4vh 1.4vw"><div class="h3">Home במובייל</div><p class="muted">כרטיסי ה-Home באפליקציית המובייל</p></div>
+    <div class="card" style="padding:2.4vh 1.4vw"><div class="h3">Figma</div><p class="muted">הצילום <code>home_desktop.png</code></p></div>
+  </div>
+  <p class="muted">מה שמצא שם קבע את השאלות.</p>
+  <aside class="notes">
+    דניאל הריץ קודם /reload-skills, ואז כתב את השורה הזאת, כולל שגיאות ההקלדה. אין פה תבנית ואין פרומפט מהונדס: ה-skill יודע מה לבדוק בעצמו.
+    החיפוש ב-Notion הראה שאין עדיין כרטיס לעמוד. כל השאר הוא קריאה של הקוד ושל צילום ה-Figma, והממצאים מהשקף הקודם הם בדיוק מה שהוביל לשאלות בשקף הבא.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 1 · ארבע שאלות הבהרה, יחד, בעברית</div>
+  <h2 class="h2">ה-PM שאל ארבע שאלות לפני שכתב מילה. דניאל בחר בהמלצה בכולן.</h2>
+  <div class="cols-2 grow" style="row-gap:4vh; align-content:start; margin-top:2vh; font-size:2.4vh; line-height:1.5">
+    <div class="qa-item qa">
+      <div class="q">1 · ‏Home מראה 3 מתוך 56, ו-<span class="ltr">"To do"</span> חוזר ל-Home. מה הבעיה המרכזית שהעמוד פותר?</div>
+      <div class="a">מה באמת חשוב: 56 זה הרבה, אנשים לא יודעים מאיפה להתחיל, אז לא מתחילים כלום.</div>
+      <div class="small muted">הוצעו גם: לסגור כמה שיותר · להרגיש מוגן</div>
+    </div>
+    <div class="qa-item qa">
+      <div class="q">2 · צעדי ה-setup הם רשימה נפרדת. איך הם קשורים לעמוד?</div>
+      <div class="a">נפרד: to-dos הם בעיות ש-Guardio מצא. ה-setup נשאר בכרטיס שלו ב-Home.</div>
+      <div class="small muted">הוצעו גם: רשימה אחת · setup קודם, ב-Onboarding</div>
+    </div>
+    <div class="qa-item qa">
+      <div class="q">3 · רוב התיקונים קורים מחוץ ל-Guardio. מתי בעיה נחשבת סגורה?</div>
+      <div class="a">בדיקה אוטומטית איפה שאפשר. כשאי אפשר, המשתמש מאשר.</div>
+      <div class="small muted">הוצעו גם: המשתמש תמיד מסמן · גם <span class="ltr">"not relevant to me"</span></div>
+    </div>
+    <div class="qa-item qa">
+      <div class="q">4 · כמה גדולה גרסה 1?</div>
+      <div class="a">רשימה ותיקון של בעיה אחת: רשימה מתועדפת עם פילטרים, ומה קורה כשפותחים בעיה.</div>
+      <div class="small muted">הוצעו גם: רשימה בלבד · הכול</div>
+    </div>
+  </div>
+  <aside class="notes">
+    הניסוח כאן מתורגם מהתיעוד. השאלות נשאלו בעברית, ארבע ביחד. לכל שאלה ה-skill הציע אפשרויות וסימן אחת כמומלצת, ובכל הארבע דניאל בחר במומלצת.
+    שימו לב שכל שאלה נולדה ממשהו שה-skill מצא בקוד: 3 מתוך 56, ה-setup כרשימה נפרדת, תיקונים שקורים מחוץ למוצר.
+    ושימו לב לשאלה 3: האפשרות "not relevant to me" הוצעה ולא נבחרה. נחזור אליה עוד שני שקפים.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 1 · נקודת המבט</div>
+  <h2 class="h2">אנשים מטפלים בבעיות כשהמוצר קובע את הסדר ומסביר כל אחת בשורה אחת.</h2>
+  <div class="cols-3 grow" style="align-content:start; margin-top:2vh">
+    <div class="card white" style="gap:1.6vh; padding:3vh 1.6vw">
+      <span class="pill info">המשתמש העיקרי</span>
+      <div class="h3" style="font-size:3vh"><span class="ltr">Activated (D10+)</span></div>
+      <p style="font-size:2.4vh">ההגנה מוגדרת וסורקת, ולכן שם הבעיות מצטברות.</p>
+      <p class="ltr muted" style="text-align:left; font-size:2.3vh">"Tell me what actually needs me, help me deal with it, and let me get on with my day."</p>
+    </div>
+    <div class="card white" style="gap:1.6vh; padding:3vh 1.6vw">
+      <span class="pill">ההשערה</span>
+      <div class="h3" style="font-size:3vh">רשימה לפי תאריך מובילה לכך שאף בעיה לא מתוקנת</div>
+      <p style="font-size:2.4vh">לכן העמוד מוביל עם מה שחשוב עכשיו: סט קצר ומדורג, תיקון ראשון ברור, והשאר מחכה בלי רגשות אשמה.</p>
+    </div>
+    <div class="card strong" style="gap:1.6vh; padding:3vh 1.6vw">
+      <span class="pill warn">ההנחה המסוכנת ביותר</span>
+      <div class="h3" style="font-size:3vh">שאנשים יסכימו עם הדירוג של המוצר</div>
+      <p style="font-size:2.4vh">היום יש בנתונים רק דגל <code>urgent</code>. דירוג שמרגיש שגוי שובר אמון.</p>
+      <p class="strong" style="font-size:2.4vh">לכן כל קונספט חייב להראות למה פריט מופיע ראשון.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    נקודת המבט, במילים של ה-PM: אנשים פועלים על בעיות אבטחה כשהמוצר מחליט בשבילם על הסדר ומסביר כל אחת בשורה פשוטה אחת. רשימה מלאה לפי תאריך מובילה לכך שאף אחת לא מתוקנת.
+    המשתמש העיקרי הוא Activated, כי שם הבעיות מצטברות. Onboarding ו-At risk מכוסים כמצבים, ו-Nothing installed מקבל מצב ריק כן, אף פעם לא "all clear".
+    ההנחה המסוכנת: שאנשים יקבלו את הדירוג. בנתונים יש היום רק דגל urgent. מכאן הדרישה מכל קונספט להראות למה פריט ראשון, ואנחנו נראה אותה חוזרת בשלושת הקונספטים.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 1 · ה-<span class="ltr">spec</span> · <code>docs/specs/todos-page.md</code> · <span class="ltr">Approved</span></div>
+  <h2 class="h2">ה-spec: עמוד אחד, רשימה מדורגת, ותיקון אחד מקצה לקצה.</h2>
+  <div class="cols-4 grow" style="align-content:start; margin-top:1vh">
+    <div class="card white">
+      <span class="pill good">בפנים · גרסה 1</span>
+      <ul>
+        <li>עמוד ב-<code>#/todos</code>, מהכותרת ומ-Home</li>
+        <li>דירוג לפי עדיפות, עם הסיבה גלויה</li>
+        <li>פילטרים לפי סוג נכס, עם מספר לכל אחד</li>
+        <li>פתיחת בעיה: למה, מה קורה אם לא, צעדים, ופעולה</li>
+        <li>‏Guardio בודק לבד איפה שאפשר. אחרת המשתמש מאשר</li>
+      </ul>
+    </div>
+    <div class="card white">
+      <span class="pill">בחוץ</span>
+      <ul>
+        <li>ציון אבטחה</li>
+        <li>היסטוריה מלאה של תיקונים</li>
+        <li>התראות ומיילים</li>
+        <li>to-dos של בני משפחה</li>
+        <li><span class="ltr">"Fix all"</span> ותיקון אוטומטי</li>
+      </ul>
+    </div>
+    <div class="card white">
+      <span class="pill info">ארבעה מצבי משתמש</span>
+      <ul>
+        <li><b>Activated:</b> העמוד המלא</li>
+        <li><b>Onboarding:</b> מה שנמצא עד עכשיו, ושעוד בדיקות ירוצו כשה-setup יסתיים</li>
+        <li><b>At risk:</b> באנר מעל הרשימה: ההגנה מושהית, לעדכן תשלום</li>
+        <li><b>Nothing installed:</b> מצב ריק שמסביר למה. אף פעם לא <span class="ltr">"all clear"</span></li>
+      </ul>
+    </div>
+    <div class="card white">
+      <span class="pill warn">מדדי הצלחה, כהשערות</span>
+      <ul>
+        <li>משתמש Activated יודע מה לתקן ראשון, ומתחיל, תוך 10 שניות</li>
+        <li>יותר ביקורים נגמרים בבעיה אחת לפחות שנסגרה</li>
+        <li>מספר הבעיות הפתוחות יורד לאורך זמן</li>
+      </ul>
+      <p class="muted">אין analytics ב-repo, אז לכל השערה כתוב איך תימדד בפרודקשן.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    ה-PRD, ה-brief, כיוון המחקר וה-handoff למעצב יושבים באותו קובץ. מדדי ההצלחה כתובים כהשערות, ולכל אחת כתוב איך תימדד, כי אין analytics ב-repo.
+    ה-PM גם הוסיף שדות נתונים שהעמוד צריך ושאין ב-Todo של היום: priority, category, status, verify, why, steps, detectedAt. השדה detectedAt מפריד בין "מתי Guardio מצא" לבין תאריך הדליפה שמבלבל בשורות של היום.
+    שתי החלטות נשארו פתוחות בכוונה: איך לקבץ את הרשימה (שאלה למחקר), ואיפה קורה התיקון (ציר טוב לשלושה קונספטים).
+    הוא גם קרא לתופעות מסדר שני בשם: סדר הכרטיס ב-Home, תגי ה-open issues ב-Accounts, המספר במובייל (2 מול 56), והפריט Home שתמיד מסומן בכותרת. העמוד הופך ארבעה מבואות סתומים לקישורים, ולכן כולם צריכים להסכים על המספרים ועל הסדר.
+    הקובץ היום כבר כולל את העדכונים שבאו מהמחקר. כאן מוצג מה שה-PM הגדיר.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 1 · סקירה אחת, ואז Notion</div>
+  <h2 class="h2">ה-PM חרג מהתשובות של דניאל במקום אחד, ו-Claude אמר את זה בסקירה.</h2>
+  <div class="cols-2 grow" style="grid-template-columns: 1.2fr 1fr; align-items:start; margin-top:1vh">
+    <div class="card strong">
+      <span class="pill warn">החריגה</span>
+      <div class="h3"><span class="ltr">"Not relevant to me"</span> נשאר בגרסה 1</div>
+      <p>בשאלה 3 זו הייתה אפשרות נפרדת, ודניאל לא בחר בה. ה-PM השאיר אותה למקרה אחד: חשבון שהמשתמש סגר. בלעדיה, הבעיות של חשבון כזה לא יכולות לצאת מהרשימה.</p>
+      <p>בסקירה Claude הצביע על זה והציע להוריד. דניאל אישר את ה-spec כמו שהוא: <span class="ltr strong">"Approve"</span>.</p>
+    </div>
+    <div class="card white">
+      <div class="h3">כרטיס ב-Notion, רק אחרי האישור</div>
+      <p class="small muted">‏<span class="ltr">"To-dos page"</span> בלוח <span class="ltr">Guardio · Product Specs</span></p>
+      <table>
+        <tr><td class="muted">Stage</td><td class="ltr">Shaping</td></tr>
+        <tr><td class="muted">Area</td><td class="ltr">To-dos</td></tr>
+        <tr><td class="muted">Platform</td><td class="ltr">Desktop, Mobile</td></tr>
+        <tr><td class="muted">User states</td><td class="ltr">Onboarding, Activated, At risk</td></tr>
+        <tr><td class="muted">Priority</td><td class="ltr">High</td></tr>
+      </table>
+      <a class="small" href="https://app.notion.com/p/423f0d817dc48181b019f68679a70b80" target="_blank" rel="noopener">פתח ב-Notion ↗</a>
+    </div>
+  </div>
+  <aside class="notes">
+    סבב סקירה אחד, כמו שה-skill מגדיר: ה-brief, ההחלטות המרכזיות ושדות הכרטיס הוצגו בצ'אט. Claude הצביע בעצמו על המקום היחיד שבו ה-PM הלך מעבר לתשובות של דניאל, והציע להוריד אותו. דניאל אישר כמו שזה.
+    זה מה שאנחנו רוצים מ-skill של PM: שייקח עמדה, וגם יגיד בגלוי איפה העמדה שלו חורגת ממה שביקשו ממנו.
+    כרטיס ה-Notion נוצר רק אחרי האישור. אחרי המחקר נוסף לו סעיף "Research verdict", וה-Stage עבר מ-Shaping ל-Design.
+  </aside>
+</section>
+
+<!-- ═══════════════ Chapter 2 · Research ═══════════════ -->
+
+<section class="slide chapter" data-chapter="2" style="justify-content:center">
+  <div class="bignum">02</div>
+  <div class="eyebrow">פרק 2 · <span class="ltr">guardio-design-research + competitive-analyst</span></div>
+  <h1 class="h1">מחקר: איך אחרים עושים את זה</h1>
+  <p class="lead">רפרנסים אמיתיים מ-Mobbin, agent נפרד שמנתח אותם מול ההשערה של ה-PM, ופסיקה עם שלושה כיוונים.</p>
+  <div class="row" style="gap:.6vw; flex-wrap:wrap; margin-top:1vh">
+    <span class="pill">החיפושים</span><span class="pill">ה-agent</span><span class="pill">דפוסים</span><span class="pill">מה לא לעשות</span><span class="pill">הפסיקה</span><span class="pill">שלושה כיוונים</span>
+  </div>
+  <aside class="notes">
+    פרק שני: המחקר. הקלט הוא כיוון המחקר שה-PM כתב ב-spec: השערה לבדוק וארבע שאלות, לא רשימת מילות מפתח.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 2 · ה-scope והחיפושים ב-Mobbin</div>
+  <h2 class="h2">שמונה חיפושים, כ-48 תוצאות. 15 רפרנסים נשארו.</h2>
+  <div class="row" style="align-items:center; gap:1.2vw">
+    <div class="prompt" style="direction:rtl; text-align:right; font-family:var(--font); padding:1.2vh 1.4vw"><span class="who">דניאל כתב:</span>תפעיל את שלב 5 בבקשה</div>
+    <p class="muted">‏Claude הריץ <code>/guardio-design-research</code> על כיוון המחקר שב-spec.</p>
+  </div>
+  <div class="cols-4" style="gap:1vh 1vw">
+    <div class="card white" style="padding:1.2vh 1vw; gap:.5vh"><span class="small muted">1 · web</span><span class="ltr small">password manager security dashboard with breached and weak passwords</span><span class="small strong">NordVPN, Proton, Surfshark, Vanta</span></div>
+    <div class="card white" style="padding:1.2vh 1vw; gap:.5vh"><span class="small muted">2 · web</span><span class="ltr small">account security checkup with recommended actions</span><span class="small strong">Uber, Coinbase, Google Ads</span></div>
+    <div class="card white" style="padding:1.2vh 1vw; gap:.5vh"><span class="small muted">3 · web</span><span class="ltr small">identity theft protection app dashboard with data breach alerts</span><span class="small muted">אין חדש: חופף ל-1</span></div>
+    <div class="card white" style="padding:1.2vh 1vw; gap:.5vh"><span class="small muted">4 · web · flows</span><span class="ltr small">security checkup flow with step by step recommendations</span><span class="small strong">Base44, Uber</span></div>
+    <div class="card white" style="padding:1.2vh 1vw; gap:.5vh"><span class="small muted">5 · web</span><span class="ltr small">empty state when all tasks are done</span><span class="small strong">Docusign, Gusto</span></div>
+    <div class="card white" style="padding:1.2vh 1vw; gap:.5vh"><span class="small muted">6 · web</span><span class="ltr small">task list grouped by priority with high priority items first</span><span class="small strong">Unify</span></div>
+    <div class="card white" style="padding:1.2vh 1vw; gap:.5vh"><span class="small muted">7 · iOS</span><span class="ltr small">password manager security recommendations list</span><span class="small strong">Coinbase, Chime, Amazon</span></div>
+    <div class="card white" style="padding:1.2vh 1vw; gap:.5vh"><span class="small muted">8 · iOS</span><span class="ltr small">data breach alert detail with steps to secure account</span><span class="small strong">NordVPN</span></div>
+  </div>
+  <div class="cols-3 small" style="gap:1vw">
+    <p><b>ישירים</b> · אבטחה ופרטיות לצרכן: Surfshark · NordVPN · Proton Pass</p>
+    <p><b>עקיפים</b> · אבטחת חשבון במוצרים אחרים: Vanta · Google Ads · Uber · Coinbase · Base44 · Chime · Amazon</p>
+    <p><b>שאיפה</b> · כלי משימות: Docusign · Gusto · Unify</p>
+  </div>
+  <p class="strong">מה אין ב-Mobbin: חבילות אבטחה לצרכן (אנטי-וירוס, Aura, Norton). הסט הישיר הוא מותגי VPN ופרטיות.</p>
+  <aside class="notes">
+    דניאל כתב רק "תפעיל את שלב 5 בבקשה". ה-skill אמור קודם לאשר את ה-scope מול המשתמש; דניאל כבר אמר להריץ, אז Claude הציג את ה-scope והמשיך.
+    שמונה חיפושים ב-Mobbin, עם intent אחד לכל הריצה. נשמר רק מה שעונה על אחת מארבע השאלות: 15 מתוך כ-48 תוצאות, 11 ל-web (שניים מהם flows) ו-4 ל-iOS, 18 תמונות בסך הכול. רשימות אנטרפרייז (Snowflake, Jira, 15Five) ודפי הגדרות בלי משימה (Dropbox, Telegram, Intercom) נזרקו.
+    ל-Mobbin אין חבילות אבטחה לצרכן. שתי זוויות סגרו את הפער: אבטחת חשבון בתוך מוצרים אחרים, וכלי משימות.
+    כל תוצאה הגיעה עם הודעה מ-Mobbin על שימוש גבוה ב-AI החודש (הקרדיטים עלו מ-725 ל-750 במהלך הריצה), וההודעה הוצגה לדניאל מילה במילה, כמו שה-skill דורש.
+    כל 15 הרפרנסים נשמרו גם לאוסף פרטי ב-Mobbin, עם הערה על כל אחד: למה הוא שם ואיזה כיוון הוא מזין.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 2 · ‏<span class="ltr">competitive-analyst</span>, agent נפרד</div>
+  <h2 class="h2">ה-agent קיבל שאלות ותמונות, ואת ההשערה אחרונה. הוא חזר נגד אחת ההנחות של <span style="white-space:nowrap">ה-PM.</span></h2>
+  <div class="cols-4 small" style="gap:1vw">
+    <div class="card"><span class="muted">שאלה 1</span><p>איך עוזרים לבחור את הבעיה הראשונה?</p></div>
+    <div class="card"><span class="muted">שאלה 2</span><p>איך מדריכים תיקון שקורה מחוץ למוצר, ואיך יודעים שנגמר?</p></div>
+    <div class="card"><span class="muted">שאלה 3</span><p>איך מקבצים: לפי חומרה, לפי נכס, או לפי סוג תיקון?</p></div>
+    <div class="card"><span class="muted">שאלה 4</span><p>איך מראים התקדמות ו"אין יותר", בלי להבהיל ובלי הרגעת שווא?</p></div>
+  </div>
+  <div class="flow grow" style="align-items:stretch">
+    <div class="step card white"><span class="pill">1 · Claude אוסף</span><p>15 רפרנסים, 18 תמונות, שמורות ב-<code>refs/</code></p></div>
+    <div class="arrow">←</div>
+    <div class="step card white"><span class="pill info">2 · ה-agent מקבל</span><p>השאלות, התמונות ומפת ה-repo. ההשערה של ה-PM אחרונה. בלי הרשמים של Claude, בלי השיחה.</p></div>
+    <div class="arrow">←</div>
+    <div class="step card strong"><span class="pill warn">3 · ה-agent מחזיר</span><p>מטריצה, 11 דפוסים, פסיקה ושלושה כיוונים. ונגד הנחה 2: מוצרי אבטחה מקבצים לפי סוג תיקון, לא לפי עדיפות.</p></div>
+    <div class="arrow">←</div>
+    <div class="step card white"><span class="pill good">4 · Claude בודק</span><p>מול התמונות. שני תיקונים קטנים: <span class="ltr">112 accounts</span> (לא <span class="ltr">monitored</span>), והנקודות של NordVPN ירוקות ואדומות.</p></div>
+  </div>
+  <aside class="notes">
+    זה הכלל של ה-skill: ה-agent מנתח, הוא לא מחפש. הוא קיבל את ארבע השאלות ואת התמונות, את ההשערה של ה-PM בסוף, ואף אחד מהרשמים של Claude. הוא לא ראה את השיחה.
+    הסימן לכך שזה עבד: הוא חזר נגד אחת ההנחות של ה-PM, שקיבוץ לפי עדיפות עדיף. agent שמקבל את ההשערה מראש נוטה לאשר אותה.
+    לפני שהשתמשו בניתוח, Claude בדק אותו מול התמונות: Home מציג 112 accounts, לא 112 monitored accounts (יש 5 monitored items), והנקודות על הלשוניות ב-NordVPN iOS ירוקות ואדומות, לא רק אדומות. כל השאר תאם. ה-agent פתח את כל 18 התמונות, והניתוח המלא נשמר ליד דק המחקר.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 2 · דפוס · רשימה מסודרת, הפריט הראשון פתוח</div>
+  <h2 class="h2">מי שעושה את התיקון הראשון ברור, קובע את הסדר בעצמו ופותח את הפריט הראשון.</h2>
+  <div class="cols-2" style="justify-items:center">
+    <div class="shot" style="width:fit-content">
+      <img src="../research/todos-page/refs/uber-account-checkup-2.jpg" alt="Uber Account checkup: רשימה שהפריט הראשון בה פתוח" style="height:50vh; width:auto">
+      <div class="cap"><span>Uber · Account checkup</span><a href="https://mobbin.com/flows/fa5db98b-73b0-42ed-9596-477448452daa" target="_blank" rel="noopener">Mobbin ↗</a></div>
+    </div>
+    <div class="shot" style="width:fit-content">
+      <img src="../research/todos-page/refs/google-ads-security-tasks.jpg" alt="Google Ads Security tasks: שלושה כרטיסי משימה, המשימה שהושלמה למטה עם וי" style="height:50vh; width:auto">
+      <div class="cap"><span>Google Ads · Security tasks</span><a href="https://mobbin.com/screens/849f39bc-0968-4f24-82e8-493e9a74905a" target="_blank" rel="noopener">Mobbin ↗</a></div>
+    </div>
+  </div>
+  <div class="cols-4">
+    <div class="card white" style="padding:1.4vh 1vw"><p>‏Uber פותח את <span class="ltr" style="white-space:nowrap">"Phone number"</span> עם <span class="ltr">"Add"</span>. השאר מחכים סגורים.</p></div>
+    <div class="card white" style="padding:1.4vh 1vw"><p>‏Google Ads משאיר את המשימה שהושלמה, עם וי, למטה.</p></div>
+    <div class="card white" style="padding:1.4vh 1vw"><p>בכל הדוגמאות יש 2–5 פריטים. אף אחת לא מראה את זה ב-56.</p></div>
+    <div class="card strong" style="padding:1.4vh 1vw"><p>אף אחד לא אומר למה פריט ראשון.</p></div>
+  </div>
+  <aside class="notes">
+    זה הדפוס שהכי תומך בהשערה של ה-PM: בכל רפרנס שבו ברור מאיפה מתחילים, המוצר בחר את הסדר. Uber פותח את הפריט הראשון, Coinbase iOS שם את הפריט הפתוח למעלה, Chime ו-Amazon ממספרים את הצעדים.
+    אבל שתי מגבלות: כל הרשימות האלה קצרות, 2 עד 5 פריטים, ואף אחד לא מסביר למה פריט ראשון. בדיוק שני הדברים שהעמוד שלנו צריך.
+    ההתאמה ל-Guardio לפי ה-agent: CollapsibleCard עם defaultOpen בגרסה קומפקטית, ושורה עם מצב done.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 2 · דפוס · מקובץ לפי סוג תיקון</div>
+  <h2 class="h2">מוצרי אבטחה עם הרבה בעיות מקבצים לפי מה שצריך לעשות, לא לפי עדיפות.</h2>
+  <div class="cols-2" style="justify-items:center">
+    <div class="shot" style="width:fit-content">
+      <img src="../research/todos-page/refs/nordvpn-password-health.jpg" alt="NordVPN Password Health: שלושה כרטיסי קטגוריה עם מספרים" style="height:50vh; width:auto">
+      <div class="cap"><span>NordVPN · Password Health</span><a href="https://mobbin.com/screens/8483f135-df5a-4481-ad2d-30892858953b" target="_blank" rel="noopener">Mobbin ↗</a></div>
+    </div>
+    <div class="shot" style="width:fit-content">
+      <img src="../research/todos-page/refs/proton-pass-monitor.jpg" alt="Proton Pass Monitor: אריחי בריאות סיסמאות עם מספרים ו-Excluded items" style="height:50vh; width:auto">
+      <div class="cap"><span>Proton Pass · Pass Monitor</span><a href="https://mobbin.com/screens/e844790b-c837-493d-b9e3-1789e52316b6" target="_blank" rel="noopener">Mobbin ↗</a></div>
+    </div>
+  </div>
+  <div class="cols-4">
+    <div class="card white" style="padding:1.4vh 1vw"><p><b>NordVPN</b><br><span class="ltr">Exposed / Weak / Reused</span></p></div>
+    <div class="card white" style="padding:1.4vh 1vw"><p><b>Proton</b><br><span class="ltr">Weak / Reused / Inactive 2FA / Excluded</span></p></div>
+    <div class="card white" style="padding:1.4vh 1vw"><p>סט הוראות אחד משרת הרבה פריטים, ולכן זה גדל בקלות.</p></div>
+    <div class="card strong" style="padding:1.4vh 1vw"><p>אבל זה לא בוחר פריט ראשון, וקבוצות ריקות עדיין תופסות מקום.</p></div>
+  </div>
+  <aside class="notes">
+    זה הממצא שהלך נגד ההנחה של ה-PM. קיבוץ לפי עדיפות הופיע רק כהגדרה שהמשתמש בוחר בכלי משימות כללי (Unify). מוצרי האבטחה, NordVPN, Proton ו-Vanta, מקבצים לפי סוג תיקון, וב-Vanta הנכסים בתוך הקבוצה.
+    התשובה לשאלה 3: לסדר לפי עדיפות, לקבץ לפי סוג תיקון, והנכס הוא השורה. קיבוץ לפי נכס כבר קיים ב-Home (Protected assets ותגי ה-open issues).
+    שימו לב גם ל-Proton: "Excluded items" עם "These items remain at risk". זה המקור ל-Later שאומר את הסיכון.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 2 · מה לא לעשות · חומרה על רשימה לא ממוינת, ואזעקה אדומה</div>
+  <h2 class="h2">הרשימה הארוכה היחידה בסט היא גם הכי דומה ל-Home של היום, והיא לא נותנת מאיפה להתחיל.</h2>
+  <div class="grow" style="display:grid; grid-template-columns: 0.9fr auto 1.7fr; gap:1.4vw; align-items:start">
+    <div class="card white">
+      <div class="h3">מה לשים לב</div>
+      <ul class="small">
+        <li>‏Surfshark: <span class="ltr">High, Low, High, High…</span> הסדר מערבב חומרות, והבעיה היא רק <span class="ltr">"Breach"</span>.</li>
+        <li>העצה: לפנות לארגון מקומי נגד גניבת זהות. בלי קישור.</li>
+        <li>‏NordVPN iOS: <span class="ltr">"You are at risk"</span> על דליפה אחת. הכפתור היחיד טוב, האזעקה לא.</li>
+        <li>ב-Guardio אדום שייך ל-At risk. to-dos אדומים יטשטשו בין השניים.</li>
+      </ul>
+    </div>
+    <div class="shot">
+      <img src="../research/todos-page/refs/ios-nordvpn-dark-web-monitor.jpg" alt="NordVPN iOS Dark Web Monitor: הירו אדום על דליפה אחת" style="height:44vh; width:auto">
+      <div class="cap"><span>NordVPN iOS</span><a href="https://mobbin.com/screens/5a98517f-cbb6-4c8f-bdd4-9d6105dc3cd3" target="_blank" rel="noopener">Mobbin ↗</a></div>
+    </div>
+    <div class="shot">
+      <img src="../research/todos-page/refs/surfshark-scan-results.jpg" alt="Surfshark Scan results: רשימת דליפות עם תוויות חומרה לא ממוינות">
+      <div class="cap"><span>Surfshark · Scan results</span><a href="https://mobbin.com/screens/5ec81876-a4f9-4e1b-aa96-12cd466fb1e9" target="_blank" rel="noopener">Mobbin ↗</a></div>
+    </div>
+  </div>
+  <aside class="notes">
+    Surfshark קיבל את הציונים הנמוכים ביותר בניתוח: אין סדר, תוויות חומרה שמערבבות High ו-Low, הבעיה מתוארת במילה אחת, והעצה היא לפנות לארגון מקומי נגד גניבת זהות, בלי קישור ובלי דרך לסמן שזה טופל.
+    הוא חשוב כי הוא הכי קרוב ל-Home של היום: רשימה ארוכה, שורות באותו משקל, נקודה אדומה.
+    NordVPN iOS מראה את הצד השני: כפתור יחיד "Review and resolve" זה טוב, אבל "You are at risk" באדום על דליפה אחת זה אזעקה. ב-Guardio ההירו האדום שייך למצב At risk, כשתשלום נכשל.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 2 · הפסיקה על ההשערה של ה-PM</div>
+  <div class="verdict">ההשערה מחזיקה, עם שינויים.</div>
+  <p class="quote ltr" style="text-align:left">"People act on security issues when the product decides the order for them and explains each one in one plain line."</p>
+  <div class="cols-2 grow" style="grid-template-columns: 1fr 1.25fr; align-items:start">
+    <div class="card white">
+      <div class="h3">הראיות</div>
+      <ul style="gap:1.4vh">
+        <li><b>בעד:</b> בכל רפרנס שבו התיקון הראשון ברור, המוצר בחר את הסדר (Uber, Coinbase iOS, Chime, Amazon).</li>
+        <li><b>נגד הנחה 2:</b> מוצרי אבטחה מקבצים לפי סוג תיקון (NordVPN, Proton, Vanta), לא לפי עדיפות.</li>
+        <li><b>לא הוכח:</b> אף אחד לא חותך סט קצר מתוך 56, ואף אחד לא מסביר את הסדר.</li>
+      </ul>
+    </div>
+    <div class="card strong">
+      <div class="h3">חמשת השינויים</div>
+      <ol style="gap:1.4vh">
+        <li>היחידה היא סוג תיקון: <span class="ltr">"Change 6 exposed passwords"</span>, עם הנכסים בפנים.</li>
+        <li>כל פריט אומר איך יודעים שהוא נגמר: Guardio בודק שוב, או שהמשתמש מאשר.</li>
+        <li>‏"השאר מחכה" הוא מקום גלוי עם שם (Later), שעדיין אומר את הסיכון.</li>
+        <li>בלי אדום ל-to-dos. אדום שייך ל-At risk, ושם התשלום קודם לכל.</li>
+        <li>המצב הריק תלוי במצב המשתמש.</li>
+      </ol>
+    </div>
+  </div>
+  <aside class="notes">
+    בעד: בכל רפרנס שבו התיקון הראשון ברור, המוצר בחר את הסדר. Surfshark, הרשימה הארוכה הלא ממוינת היחידה, לא נותן נקודת התחלה.
+    נגד הנחה 2: קיבוץ לפי סוג תיקון, לא לפי עדיפות.
+    לא הוכח: כל רפרנס מדורג הוא 2–5 פריטים, ורק Vanta נותן סיבה לסדר (תאריך יעד). אלה נשארים הדברים העיקריים לבדוק, וה-agent ממליץ לבדוק קודם את שורת "למה ראשון".
+    דניאל בחר בשני הצעדים שהוצעו: "Yes, update spec and go to design." ה-spec עודכן עם הפסיקה וחמשת השינויים, שאלת הקיבוץ נסגרה, ונוספו שדות נתונים (kind, link, ומצבי checking ו-later). כרטיס ה-Notion עבר מ-Shaping ל-Design.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 2 · שלושה כיוונים</div>
+  <h2 class="h2">שלושת הכיוונים נבדלים במה שהמשתמש עושה: פריט אחד, סט קצר, או קבוצה.</h2>
+  <div class="cols-3 grow" style="align-content:start">
+    <div class="card white">
+      <span class="pill info">A · Next up</span>
+      <div class="h3">תיקון אחד בכל פעם</div>
+      <p>כרטיס אחד ש-Guardio בחר, עם למה הוא ראשון. מתקנים, והבא מגיע.</p>
+      <p><b>מתאים ל:</b> מי שלא תיקן אף פעם, Onboarding, At risk</p>
+      <p><b>סיכון:</b> מסתיר את ההיקף. <span class="ltr">"See all"</span> הופך לעמוד האמיתי.</p>
+      <p class="muted">השראה: Uber, NordVPN iOS, Coinbase, Amazon</p>
+    </div>
+    <div class="card white">
+      <span class="pill info">B · Top three, the rest can wait</span>
+      <div class="h3">שלוש עכשיו, השאר מחכה</div>
+      <p>שלושה כרטיסים מדורגים עם סיבות, הראשון פתוח. השאר למטה, מקובץ לפי סוג, ומקום Later.</p>
+      <p><b>מתאים ל:</b> משתמשי Activated שחוזרים כל שבוע</p>
+      <p><b>סיכון:</b> החיתוך בשלוש צריך כלל שאנשים סומכים עליו.</p>
+      <p class="muted">השראה: Google Ads, Uber, Coinbase iOS, Proton, Vanta</p>
+    </div>
+    <div class="card white">
+      <span class="pill info">C · Fix by kind</span>
+      <div class="h3">סוג אחד בכל פעם</div>
+      <p>היחידה היא קבוצה: <span class="ltr" style="white-space:nowrap">"Change 6 exposed passwords"</span>. הוראות פעם אחת, רשימת אתרים, <span class="ltr" style="white-space:nowrap">"2 of 6"</span>.</p>
+      <p><b>מתאים ל:</b> backlog גדול מסוג אחד</p>
+      <p><b>סיכון:</b> בעיה קריטית אחת נקברת בתוך קבוצה.</p>
+      <p class="muted">השראה: Vanta, Proton, NordVPN</p>
+    </div>
+  </div>
+  <p class="small muted">נדחה: עמוד לפי נכס. הוא הכי חלש בראיות (רק Surfshark), ו-Home כבר מכסה אותו.</p>
+  <aside class="notes">
+    מה שמשתנה בין הכיוונים הוא חלוקת העבודה בין המוצר למשתמש. בפריט אחד המוצר מחליט הכול. בסט קצר המוצר בוחר את הראשונים והמשתמש מדפדף בשאר. בקבוצה המוצר מסדר את הקבוצות והמשתמש עובר על אחת.
+    כל כיוון בא עם הסיכון שלו, ובפרק הבא נראה איך כל קונספט עונה על הסיכון שלו.
+    הכיוון שנדחה: עמוד לפי נכס ("פתח את Dropbox, ראה את הבעיות שלו"). הוא הכי חלש בראיות, ו-Home כבר מכסה אותו עם כרטיסי Protected assets ותגי ה-open issues.
+  </aside>
+</section>
+
+<!-- ═══════════════ Chapter 3 · Design ═══════════════ -->
+
+<section class="slide chapter" data-chapter="3" style="justify-content:center">
+  <div class="bignum">03</div>
+  <div class="eyebrow">פרק 3 · <span class="ltr">senior-product-designer</span></div>
+  <h1 class="h1">עיצוב: שלושה קונספטים שעובדים</h1>
+  <p class="lead">קודם הקשר המוצר, אחר כך החלטה על כל אלמנט, ורק אז קוד. שלושה קונספטים באפליקציה, ואז במובייל כ-HTML.</p>
+  <div class="row" style="gap:.6vw; flex-wrap:wrap; margin-top:1vh">
+    <span class="pill">השיטה</span><span class="pill">B</span><span class="pill">A</span><span class="pill">C</span><span class="pill">מצבים</span><span class="pill">מובייל</span><span class="pill">השפעה על מערכת העיצוב</span>
+  </div>
+  <aside class="notes">
+    פרק שלישי: העיצוב. כאן לא בנינו skill חדש; השתמשנו ב-senior-product-designer הקיים של דניאל. ה-handoff שה-PM כתב מיועד להדבקה ישירה אליו, יחד עם הפסיקה ושלושת הכיוונים.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 3 · השיטה · שלוש שכבות</div>
+  <h2 class="h2">לפני שורת קוד: הקשר המוצר, והחלטה על כל אלמנט.</h2>
+  <div class="cols-2 grow" style="grid-template-columns: 1fr 1.35fr; align-items:start">
+    <div class="card white" style="gap:1.4vh">
+      <span class="pill">שכבה 1 · הקשר</span>
+      <div class="h3"><code>apps/web/DESIGN_CONTEXT.md</code></div>
+      <p>לא היה קובץ כזה, אז ה-skill סרק את הקוד וכתב אחד. מפה של המוצר: רק מצביעים, בלי ערכים מועתקים.</p>
+      <p class="ltr small muted" style="text-align:left; background:var(--color-surface); border-radius:10px; padding:1vh .8vw">Guardio web · DS=PARTIAL · web desktop 1440 · English LTR · WCAG AA · gaps: no empty/loading/error patterns, no motion tokens</p>
+      <p>ובו do-not-ship tripwires, למשל: אדום ל-to-dos. אדום שייך ל-At risk.</p>
+    </div>
+    <div class="card white" style="gap:1.4vh">
+      <span class="pill">שכבה 2 · השער, בקונספט B</span>
+      <table style="margin-top:.6vh">
+        <tr><td style="font-size:2.1vh; padding:1.3vh .6vw"><span class="pill good">REUSE</span></td><td class="ltr" style="text-align:left; font-size:2.1vh; padding:1.3vh .6vw">Card, CardHeader + CountBadge, IconTile, SectionTitle, Tabs, Button</td></tr>
+        <tr><td style="font-size:2.1vh; padding:1.3vh .6vw"><span class="pill">COMPOSE</span></td><td style="font-size:2.1vh; padding:1.3vh .6vw">שורה מדורגת, שורת קבוצה, הודעות, מצבי ריק / טעינה / שגיאה</td></tr>
+        <tr><td style="font-size:2.1vh; padding:1.3vh .6vw"><span class="pill info">EXTEND</span></td><td class="ltr" style="text-align:left; font-size:2.1vh; padding:1.3vh .6vw">StatusBadge + fixed / checking / later · TextLink + href / onClick / size · Header + active</td></tr>
+        <tr><td style="font-size:2.1vh; padding:1.3vh .6vw"><span class="pill warn">INVENT</span></td><td style="font-size:2.1vh; padding:1.3vh .6vw"><b class="ltr">StepList</b>: צעדים ממוספרים. סומן ב-spec המאושר, ומוצע חזרה למערכת.</td></tr>
+        <tr><td style="font-size:2.1vh; padding:1.3vh .6vw"><span class="pill">PLACEHOLDER</span></td><td style="font-size:2.1vh; padding:1.3vh .6vw">אין. כל אייקון הוא asset קיים.</td></tr>
+      </table>
+      <p class="muted">שכבה 3 · ביצוע: מצבים, זרימה, נגישות וטקסטים, מול ה-checklists של ה-skill.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    שכבה 1: הקשר המוצר. לא היה DESIGN_CONTEXT.md, אז ה-skill סרק את הקוד וכתב אחד. יש בו מצביעים לקבצים, לא ערכים מועתקים, כך שהוא לא מתיישן כשטוקן משתנה.
+    שכבה 2: השער. כל אלמנט מתויג לפני שנכתב קוד: REUSE, COMPOSE, EXTEND, INVENT או PLACEHOLDER. אין המצאה שקטה.
+    שכבה 3: ביצוע. מצבים, זרימה, נגישות וטקסטים נבדקו מול ה-checklists של ה-skill. ה-skills המשניים (ui-ux-pro-max, frontend-design, interaction-*) היו זמינים ולא נקראו, כדי שהריצה תישאר קלה.
+    לפני הבנייה, שתי שאלות: איזה כיוון הוא קונספט 1? דניאל בחר ב-B, ההמלצה. ואיך שלושת הקונספטים יחיו? עמוד אחד עם מתג A/B/C, כל אחד בכתובת משלו: #/todos/a, #/todos/b, #/todos/c.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 3 · קונספט B · <span class="ltr">Top three, the rest can wait</span> · <code>#/todos/b</code></div>
+  <h2 class="h2">‏B: שלוש בעיות, כל אחת עם "למה ראשונה". השאר מחכה, מקובץ לפי סוג.</h2>
+  <div class="cols-2">
+    <div class="shot">
+      <img src="img/06-concept-b-activated.jpg" alt="קונספט B: Start with these 3, הפריט הראשון פתוח עם צעדים ממוספרים">
+      <div class="cap"><span>‏<span class="ltr">"Start with these 3"</span>: הראשונה פתוחה, עם צעדים ממוספרים ואיך יודעים שזה נגמר</span></div>
+    </div>
+    <div class="shot">
+      <img src="img/06-concept-b-after-first-fix.jpg" alt="קונספט B אחרי תיקון ראשון: Gmail מסומן Fixed ו-Dropbox נפתח">
+      <div class="cap"><span>אחרי תיקון: Gmail נשאר במקום עם וי, Dropbox נפתח לבד, ו-<span class="ltr">"1 fixed today"</span></span></div>
+    </div>
+  </div>
+  <p class="small muted">‏<span class="ltr">Everything else (53)</span>: מקובץ לפי סוג תיקון, 31 סיסמאות חשופות, 19 אימות דו-שלבי ועוד שלוש. טאבים: <span class="ltr">To do / Later / Fixed</span>.</p>
+  <aside class="notes">
+    הפריט הראשון פתוח: פרטים, צעדים ממוספרים, הפעולה הראשית, "I changed it", "Later" ו-"Not relevant to me". כל פריט אומר איך יודעים שהוא נגמר: "You tell us when it's done" או "Guardio confirms this one by itself".
+    אחרי תיקון: הפריט נשאר במקום עם וי ו-Fixed, הבא נפתח לבד, פריט חדש עולה לשלושה, המספרים מתעדכנים ו-"1 fixed today" מופיע. תיקונים ש-Guardio יכול לאמת מקבלים Checking. זה רגע ההנאה של העמוד: מומנטום אחרי תיקון, לא קישוט.
+    כל קבוצה ב-Everything else נפתחת ל-"How to fix" פעם אחת, אחר כך האתרים, ואז "And 27 more like these".
+    שתי החלטות שבאו מהבנייה הראשונה: המספרים 1–3 מתחילים מחדש על הפריטים הפתוחים (בבנייה הראשונה המספור היה לפי מיקום, 1 עד 5 אחרי שני תיקונים, וזה שבר את "Start with these 3"). והכפתור הראשי אומר רק את הפעולה, עם "Happens on dropbox.com" מתחתיו (בבנייה הראשונה שם האתר היה בכפתור והוא נשבר לשתי שורות).
+    דניאל אישר את B כמו שנבנה. ה-To do בכותרת וה-View To-dos ב-Home מובילים עכשיו לכאן.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 3 · קונספט A · <span class="ltr">Next up</span> · <code>#/todos/a</code></div>
+  <h2 class="h2">‏A: כרטיס אחד ש-Guardio בחר, ורגע של <span class="ltr">"Done"</span> לפני הבא בתור.</h2>
+  <div style="display:grid; grid-template-columns:auto auto; justify-content:space-between; gap:1.6vh 1.4vw">
+    <div class="shot" style="grid-row: span 2; width:fit-content">
+      <img src="img/07-concept-a-activated.jpg" alt="קונספט A: כרטיס Next up עם Change your Gmail password, ובצד Your progress ו-Up next" style="height:64vh; width:auto">
+      <div class="cap"><span>הכרטיס: למה הוא ראשון ואיך לתקן. בצד: התקדמות במספרים, ו-<span class="ltr" style="white-space:nowrap">"See all 56"</span> כדי לא להסתיר את ההיקף</span></div>
+    </div>
+    <div class="shot" style="width:fit-content">
+      <img src="img/07-concept-a-done-moment.jpg" alt="קונספט A אחרי תיקון: Done. One less way in." style="height:29vh; width:auto">
+      <div class="cap"><span>‏<span class="ltr">"Done. One less way in."</span> ואז הבא, או <span class="ltr" style="white-space:nowrap">"That's enough for today"</span></span></div>
+    </div>
+    <div class="shot" style="width:fit-content">
+      <img src="img/07-concept-a-at-risk.jpg" alt="קונספט A במצב At risk: Update your payment הוא הכרטיס" style="height:29vh; width:auto">
+      <div class="cap"><span>‏At risk: תיקון התשלום הוא הכרטיס</span></div>
+    </div>
+  </div>
+  <aside class="notes">
+    דניאל כתב "Start step 7". הפעם ה-skill טען את ה-DESIGN_CONTEXT משלב 6 ולא סרק מחדש. לפי כלל הסשן של ה-skill, כל מה שאושר בשלב 6 נחשב עכשיו REUSE.
+    רגע ה-Done מחכה ללחיצה ולא מתחלף לבד: ב-A יש כרטיס אחד בכל פעם, אז הרגע שבו תיקנת משהו הוא הפרס. "That's enough for today" נותן מקום כן לעצור. כש-Guardio מאשר לבד, הרגע אומר "Nice. Guardio is checking it."
+    בצד: Your progress כמספרים (fixed today, this month, still open, בלי אחוזים, לפי המחקר), Up next עם שני הבאים, ו-See all 56 שפותח את הרשימה המלאה מקובצת לפי סוג.
+    At risk: המחקר אמר שבמצב הזה התשלום קודם לכל to-do. ב-A הכרטיס הוא העדיפות, אז תיקון התשלום הוא הכרטיס: "Until it's fixed, nothing below is being checked".
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 3 · קונספט C · <span class="ltr">Fix by kind</span> · <code>#/todos/c</code></div>
+  <h2 class="h2">‏C: סוג אחד בכל פעם. הוראות פעם אחת, ואז רשימת אתרים.</h2>
+  <div class="cols-2">
+    <div class="shot">
+      <img src="img/07-concept-c-activated.jpg" alt="קונספט C: רשימת סוגי התיקון משמאל, Change each password 33 left מימין">
+      <div class="cap"><span>הסוגים בסדר של Guardio, כל אחד עם סיבה: <span class="ltr">"Most urgent…"</span>, <span class="ltr">"Quickest…"</span></span></div>
+    </div>
+    <div class="shot">
+      <img src="img/07-concept-c-batch-progress.jpg" alt="קונספט C אחרי תיקון: 1 of 33 done ו-Start here על Dropbox">
+      <div class="cap"><span>אחרי תיקון: <span class="ltr">"1 of 33 done"</span>, ו-<span class="ltr">"Start here"</span> עבר ל-Dropbox</span></div>
+    </div>
+  </div>
+  <p class="small muted">‏<span class="ltr">"Start here"</span> והסיבה שלו על הפריט הפתוח הראשון עונים על הסיכון של C: בעיה קריטית שנקברת בתוך קבוצה.</p>
+  <aside class="notes">
+    עמודה אחת: סוגי התיקון בסדר של Guardio, כל אחד עם הסיבה שלו ("Most urgent: includes your Gmail password, found 3 days ago", "Quickest: two phones, about a minute each"). ברגע שמתחילים, הסיבה מתחלפת בהתקדמות: "1 of 33 done".
+    עמודה שנייה: הסוג שנבחר. כותרת עם כמה נשאר, "How to fix, for each one" פעם אחת, ורשימת אתרים לסמן. לכל פריט עיגול done, קישור משלו ו-Later.
+    המחקר לא מצא אף מוצר שמסביר את הסדר שלו. C מסביר את סדר הקבוצות, כמו ש-B ו-A מסבירים את סדר הפריטים.
+    הסיבה נעלמת אחרי התיקון הראשון כי היא הזכירה את Gmail, והמשיכה להזכיר אותו גם אחרי שתוקן. צילום המסך הראשון צולם לפני ששורת "למה ראשון" עברה לתוך השורה.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 3 · מצבים · מסגרת אחת לשלושת הקונספטים</div>
+  <h2 class="h2">אדום מופיע רק ב-At risk. ‏Nothing installed לא אומר אף פעם <span class="ltr">"all clear"</span>.</h2>
+  <div class="cols-2">
+    <div class="shot">
+      <img src="img/06-concept-b-at-risk.jpg" alt="קונספט B במצב At risk: הודעה אדומה Your protection is paused מעל הכול">
+      <div class="cap"><span>‏At risk: הודעה אדומה אחת מעל הכול, ו-<span class="ltr">"may be out of date"</span></span></div>
+    </div>
+    <div class="shot">
+      <img src="img/06-concept-b-nothing-installed.jpg" alt="מצב Nothing installed: Install Guardio to start finding issues">
+      <div class="cap"><span>‏Nothing installed: כל העמוד הופך למצב ריק כן</span></div>
+    </div>
+  </div>
+  <div class="cols-4">
+    <div class="card white" style="padding:1.2vh 1vw; gap:.4vh"><span class="strong">Onboarding</span><p class="small">הודעה שה-setup עוד לא הסתיים</p></div>
+    <div class="card white" style="padding:1.2vh 1vw; gap:.4vh"><span class="strong">טעינה</span><p class="small">שורות skeleton, בלי מספרים</p></div>
+    <div class="card white" style="padding:1.2vh 1vw; gap:.4vh"><span class="strong">שגיאה</span><p class="small ltr">"Your protection is still on. Only this page didn't load."</p></div>
+    <div class="card white" style="padding:1.2vh 1vw; gap:.4vh"><span class="strong">הכול תוקן</span><p class="small"><span class="ltr">"Nothing needs you right now…"</span>, ועדיין קישור לפריטים ב-Later</p></div>
+  </div>
+  <aside class="notes">
+    שלושת הקונספטים חולקים מסגרת אחת: כותרת ועדכניות, הודעות, טאבים, מצבי משתמש, מצבי עמוד, Later ו-Fixed. ההבדל ביניהם הוא רק בטאב To do, כך שההשוואה מראה רק את מה שבאמת שונה.
+    Nothing installed מחליף את כל העמוד במצב ריק, כי "Nothing to fix" היה שקר כששום דבר לא נבדק.
+    בשגיאה ובטעינה אין מספרים: הבנייה הראשונה הראתה "56 open" בעמוד השגיאה, מספר שהעמוד לא ידע.
+    "הכול תוקן" עדיין מקשר לפריטים ב-Later, שעדיין בסיכון. מהמחקר: "all caught up" רגוע לא יכול להפוך להרגעת שווא.
+    ההודעה של At risk בעמוד הזה היא לא הבאנר של Home: להביא את הבאנר ל-Home בדסקטופ זה תרגיל 2 בסדנה, אז הוא נשאר למשתתפים.
+    נבדק: 21 צירופים (3 קונספטים כפול 4 מצבי משתמש ו-3 מצבי עמוד) מרונדרים עם הטקסט הצפוי. לכל צירוף יש כתובת משלו, כדי שאפשר יהיה להטמיע אותו במצגת.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 3 · מובייל · 390 · <code>docs/todos-mobile/</code></div>
+  <h2 class="h2">במובייל: הבעיה נפתחת ב-sheet, הכרטיס של A הוא המסך, ו-C הופך ל-push.</h2>
+  <div class="grow" style="display:grid; grid-template-columns: auto auto auto 1fr; gap:1.4vw; align-items:start">
+    <div class="shot">
+      <img src="img/08-mobile-b-sheet.jpg" alt="קונספט B במובייל: הבעיה פתוחה ב-sheet עם הפעולות למטה" style="height:52vh; width:auto">
+      <div class="cap"><span>B · ה-sheet</span></div>
+    </div>
+    <div class="shot">
+      <img src="img/08-mobile-a-next-up.jpg" alt="קונספט A במובייל: כרטיס Next up עם הפעולות מעל הצעדים" style="height:52vh; width:auto">
+      <div class="cap"><span>A · Next up</span></div>
+    </div>
+    <div class="shot">
+      <img src="img/08-mobile-c-kinds.jpg" alt="קונספט C במובייל: רשימת סוגי התיקון בסדר של Guardio" style="height:52vh; width:auto">
+      <div class="cap"><span>C · סוגי התיקון</span></div>
+    </div>
+    <div class="card white">
+      <p><b>שתי שאלות:</b> איפה זה יחיה? ← קבצי HTML ב-<code>docs/</code>. כמה אינטראקטיבי? ← הזרימה הראשית לחיצה.</p>
+      <ul style="gap:1.2vh">
+        <li>‏B ו-C: הבעיה נפתחת ב-sheet, הפעולות מוצמדות למטה.</li>
+        <li>‏A: הפעולות עלו מעל הצעדים, כדי שיהיו במסך הראשון.</li>
+        <li>‏C: שתי העמודות הופכות ל-push (<span class="ltr">"‹ All kinds"</span>).</li>
+        <li>בלשונית <span class="ltr">To do's</span>: מספר במקום נקודה אדומה.</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes">
+    דניאל כתב "Start step 8", וענה על שתי שאלות: קבצי HTML ב-docs/ (ההמלצה: אפשר להטמיע אותם במצגת בלי להריץ את האפליקציה), והזרימה הראשית לחיצה (ההמלצה).
+    שכבה 1 שוב: ה-DESIGN_CONTEXT של ה-web מכסה רק את apps/web, אז ה-skill סרק את apps/mobile וכתב apps/mobile/DESIGN_CONTEXT.md.
+    החלטות: המחקר הציע segmented control, אבל ה-Tabs של המערכת נעשו בהם שימוש חוזר, כדי לא להוסיף דפוס חדש שלישי. ב-A הפעולות היו מתחת לקו הגלילה בבנייה הראשונה, מאחורי ה-tab bar. ב-B הסיבות קוצרו לשתי שורות, כי שורות של שלוש שורות דחפו את Everything else מהמסך. בלי מדי התקדמות, רק מספרים ("1 of 33 done"). ב-390 אין מקום ל-master–detail, ו-push הוא המוסכמה של iOS.
+    הנתונים והטוקנים נוצרים על ידי export.mts מתוך packages/, לא מועתקים ביד. הלוגואים הוקטנו רק בעותק: instagram.png שוקל 2 MB ומוצג ב-24 פיקסל; התיקייה ירדה מ-2.3 MB ל-220 KB.
+    ניגודיות נמדדה: textSecondary על canvas 4.55:1, על לבן 4.83:1, קישורים 5.17:1. הכול עובר AA.
+    צילום ה-sheet נלקח באמצע האנימציה שלו, ולכן הפעולות נראות חתוכות. מדידה הראתה שה-sheet נכנס.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">פרק 3 · Design System Impact · שלושה שלבים</div>
+  <h2 class="h2">המצאה אחת בכל פלטפורמה. ‏A ו-C נבנו כולם בתוך המערכת.</h2>
+  <div class="cols-3 grow" style="align-content:start; font-size:2.3vh; line-height:1.5">
+    <div class="card white" style="gap:1.4vh">
+      <span class="pill">שלב 6 · קונספט B · web</span>
+      <div><span class="pill info">EXTEND</span></div>
+      <div class="ltr" style="text-align:left">StatusBadge + fixed / checking / later<br>TextLink + href / onClick / size<br>Header + active</div>
+      <div><span class="pill warn">INVENT</span></div>
+      <div><b class="ltr">StepList</b>: צעדים ממוספרים לתיקונים שקורים מחוץ ל-Guardio. לא היה רכיב כזה. מוצע לאימוץ.</div>
+    </div>
+    <div class="card strong" style="gap:1.4vh">
+      <span class="pill">שלב 7 · קונספטים A ו-C · web</span>
+      <div><span class="pill good">REUSE</span></div>
+      <div>הכול, כולל מה שנוסף בשלב 6.</div>
+      <div><span class="pill">EXTEND · INVENT</span></div>
+      <div class="strong">אין. בתוך מערכת העיצוב הקיימת לגמרי.</div>
+      <div class="muted">נשקל ונדחה: progress bar, שהיה INVENT. מספרים אומרים את זה במקומו.</div>
+    </div>
+    <div class="card white" style="gap:1.4vh">
+      <span class="pill">שלב 8 · מובייל · HTML</span>
+      <div><span class="pill info">EXTEND</span></div>
+      <div>ה-tab bar: מספר על <span class="ltr">To do's</span> במקום הנקודה האדומה הקבועה.</div>
+      <div><span class="pill warn">INVENT</span></div>
+      <div><b>ה-sheet</b>: grabber, כפתור סגירה, תוכן שגולל, פעולות מוצמדות למטה. מוצע לאימוץ ב-<code>apps/mobile</code>.</div>
+    </div>
+  </div>
+  <p class="small muted">בשום שלב לא נוספו טוקנים חדשים, ואין placeholders. כל המצאה סומנה והוצעה חזרה למערכת.</p>
+  <aside class="notes">
+    השער רץ על כל אלמנט בכל אחד משלושת השלבים, וכל שלב נגמר בבלוק Design System Impact.
+    שלב 6: שלוש הרחבות בשפה של המערכת, והמצאה אחת, StepList. היא סומנה כבר ב-spec שדניאל אישר; הרעיון בא מה-playbook של Vanta במחקר: צעדים ממוספרים, קישור, נתיב התפריט המדויק. היא משתמשת רק בטוקנים קיימים (border, text-secondary, label-sm).
+    שלב 7: כל מה שאושר בשלב 6 נחשב REUSE, ושני הקונספטים נבנו בלי להרחיב או להמציא דבר. progress bar נשקל ונדחה, כי הוא היה המצאה, והמחקר אמר ממילא: מילה או מספר, לא אחוזים.
+    שלב 8: ה-sheet הומצא למובייל, ודניאל בחר באפשרות שקראה לו בשמו ("open an issue: full screen or sheet"). המספר בלשונית בא מהמחקר: מספר, ואדום רק כשדחוף. segmented control, שהמחקר הציע, לא נבנה: ה-Tabs הקיימים נעשו בהם שימוש חוזר.
+    ה-sheet והמספר בלשונית קיימים כרגע רק בקונספטים של HTML, לא ב-apps/mobile.
+  </aside>
+</section>
+
+<!-- ═══════════════ Closing ═══════════════ -->
+
+<section class="slide">
+  <div class="eyebrow">סיכום · מה לא עבד, מתוך הלוגים</div>
+  <h2 class="h2">לא הכול עבד בפעם הראשונה, והתיעוד אומר את זה.</h2>
+  <table class="grow">
+    <tr><th style="width:12%">איפה</th><th>מה קרה</th><th style="width:34%">מה נעשה</th></tr>
+    <tr><td><span class="pill">PM</span></td><td>ה-spec נשמר ב-repo לפני הסקירה, בניגוד לסדר שה-skill מגדיר, כדי שדניאל יוכל לקרוא את כולו.</td><td>רק כרטיס ה-Notion חיכה לאישור. ייתכן שצריך לשנות את הסדר ב-skill: טיוטה, סקירה, אישור.</td></tr>
+    <tr><td><span class="pill">מחקר</span></td><td>ל-Mobbin אין חבילות אבטחה לצרכן. והחלקים המסוכנים בהשערה (דירוג backlog ארוך, "למה ראשון", הרגע אחרי תיקון חיצוני) לא מופיעים באף רפרנס.</td><td>נרשמו כפערים בדק, עם החיפושים שאולי יענו עליהם.</td></tr>
+    <tr><td><span class="pill">עיצוב</span></td><td>ניסוח שנתפס רק בדפדפן: <span class="ltr">"All done: biometrics is off"</span> נקרא כאילו הביומטריה כבויה, והסיבה ב-C המשיכה להזכיר את Gmail אחרי שתוקן.</td><td>תוקן ל-<span class="ltr">"Nothing left to do here"</span>, והסיבה נעלמת אחרי התיקון הראשון.</td></tr>
+    <tr><td><span class="pill">בדיקה</span></td><td>צילומי מסך הטעו: חצים שנראו שבורים בצילום מוקטן, sheet שנראה חתוך כי צולם באמצע אנימציה.</td><td>מדידה בדף הראתה שהכול תקין.</td></tr>
+    <tr><td><span class="pill warn">לא נעשה</span></td><td>‏Storybook לא נפתח. ה-sheet והמספר בלשונית קיימים רק ב-HTML. כרטיס ה-To-dos ב-Home עדיין לפי תאריך.</td><td>הסטוריז עוברים type-check בלבד. השאר נשאר כעבודה נפרדת.</td></tr>
+  </table>
+  <aside class="notes">
+    כל שלב בתיעוד נגמר בסעיף "מה לא עבד", ושום דבר לא סודר בדיעבד. בחרתי חמישה.
+    PM: לפי ה-skill, שומרים את קובץ ה-spec רק אחרי הסקירה. כאן הטיוטה נכתבה קודם כדי שדניאל יוכל לקרוא את ה-PRD המלא. גם: הכרטיס נשאר ב-Shaping אחרי שלב 4, כי ה-skill של המחקר לא נוגע ב-Notion; הוא זז ל-Design רק כשה-spec עודכן אחרי המחקר.
+    מחקר: הכיסוי של Mobbin מוגבל, והדק אומר את זה בשקף "Who we looked at". החלקים הכי מסוכנים בהשערה הם בדיוק אלה שאף רפרנס לא מראה.
+    עיצוב: שלוש בעיות ניסוח ופריסה נתפסו בדפדפן ותוקנו, כולל תגית Next up שנמתחה לרוחב כל הכרטיס ב-A.
+    בדיקה: בצילומים ברוחב 800 החצים נראו שבורים; מדידה בדף הראתה 20×20 תקין, וההקטנה הייתה הסיבה. וגם: הדפדפן המשיך להגיש CSS ישן מהשרת המקומי עד שהקבצים נטענו מחדש בכוח.
+    לא נעשה: הסטוריז של שלושת הקונספטים עוברים type-check, אבל אף אחד לא הסתכל עליהם ב-Storybook. ה-sheet והמספר בלשונית קיימים רק בקונספטים של HTML. הכרטיס ב-Home עדיין מציג את 3 השורות לפי תאריך, לא לפי עדיפות.
+  </aside>
+</section>
+
+<section class="slide">
+  <div class="eyebrow">לראות את זה חי</div>
+  <h2 class="h2">‏<span class="ltr">"To do"</span> כבר לא מוביל חזרה ל-Home.</h2>
+  <div class="cols-4 grow" style="align-content:center">
+    <a class="card white" href="desktop.html" target="_blank" rel="noopener" style="color:inherit">
+      <span class="pill info">דסקטופ</span>
+      <div class="h3">השוואת שלושת הקונספטים</div>
+      <p class="small muted"><span class="ltr">A · B · C</span> באפליקציה</p>
+      <span class="small" style="color:var(--color-text-link)"><code>desktop.html</code> ↗</span>
+    </a>
+    <a class="card white" href="mobile.html" target="_blank" rel="noopener" style="color:inherit">
+      <span class="pill info">מובייל</span>
+      <div class="h3">השוואת שלושת הקונספטים</div>
+      <p class="small muted">דפי ה-HTML ב-390</p>
+      <span class="small" style="color:var(--color-text-link)"><code>mobile.html</code> ↗</span>
+    </a>
+    <a class="card white" href="../research/todos-page/index.html" target="_blank" rel="noopener" style="color:inherit">
+      <span class="pill">מחקר</span>
+      <div class="h3">דק המחקר</div>
+      <p class="small muted">16 שקפים, 15 רפרנסים, קישור ל-Mobbin לכל אחד</p>
+      <span class="small" style="color:var(--color-text-link)"><code>research/todos-page</code> ↗</span>
+    </a>
+    <a class="card white" href="../app/#/todos/b" target="_blank" rel="noopener" style="color:inherit">
+      <span class="pill good">אפליקציה</span>
+      <div class="h3">העמוד עצמו</div>
+      <p class="small muted">עם סרגל preview לכל קונספט ומצב</p>
+      <span class="small" style="color:var(--color-text-link)"><code>app/#/todos/b</code> ↗</span>
+    </a>
+  </div>
+  <p class="small muted">ה-spec: <code>docs/specs/todos-page.md</code> · התהליך המלא, שלב אחר שלב: <code>process/</code></p>
+  <aside class="notes">
+    מה שבנינו: spec מאושר, מחקר עם 15 רפרנסים ופסיקה, שלושה קונספטים שעובדים באפליקציה, ושלושה דפי מובייל. ה-To do בכותרת וה-View To-dos ב-Home מובילים עכשיו לעמוד.
+    כל קונספט וכל מצב נמצאים בכתובת משלהם, אז אפשר לפתוח כל אחד מהם ישירות. בהשוואות רואים את שלושת הקונספטים חיים.
+  </aside>
+</section>
+
+</main>
+<script src="deck.js"></script>
+</body>
+</html>

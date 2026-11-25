@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guardio · מצגות</title>
+<link rel="stylesheet" href="deck.css">
+<link rel="stylesheet" href="compare.css">
+</head>
+<body class="hub">
+  <header class="bar">
+    <!-- the four parts -->
+    <nav class="nav">
+      <div class="brand"><span class="dot"></span><b>Guardio</b><span class="txt">· מצגות</span></div>
+      <div class="tabs" role="tablist" aria-label="מצגות">
+        <button class="tab" role="tab" data-key="skills"><span class="n">01</span><span>בניית הסקילים</span></button>
+        <button class="tab" role="tab" data-key="workflow"><span class="n">02</span><span>עמוד ה-To-dos <span class="em">· תהליך העבודה</span></span></button>
+        <button class="tab" role="tab" data-key="desktop"><span class="n">03</span><span>השוואה <span class="em">· דסקטופ</span></span></button>
+        <button class="tab" role="tab" data-key="mobile"><span class="n">04</span><span>השוואה <span class="em">· מובייל</span></span></button>
+      </div>
+      <div class="right">
+        <span class="hint" id="hint">לחצו על הדק, ואז <b>← →</b></span>
+        <a class="open-btn" id="openBtn" href="skills.html" target="_blank" rel="noopener">
+          <span class="lbl">פתיחה במסך מלא</span>
+          <svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </nav>
+
+    <!-- contextual sub-nav for the comparisons: open one concept live, or go back -->
+    <div class="subnav" id="subnav" role="tablist" aria-label="קונספט">
+      <span class="crumb"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><b id="crumbCtx">השוואה · דסקטופ</b></span>
+      <div class="subtabs" id="subtabs"></div>
+      <span class="sublabel" id="sublabel">פתחו קונספט, או הישארו בהשוואה</span>
+    </div>
+  </header>
+
+  <div class="stage">
+    <div class="loader show" id="loader"><span class="spin"></span> טוען…</div>
+    <iframe id="frame" title="מצגת" src="skills.html"></iframe>
+  </div>
+
+<script>
+  ;(() => {
+    const SECTIONS = {
+      skills: { label: 'בניית הסקילים', page: 'skills.html', hint: 'לחצו על הדק, ואז <b>← →</b>' },
+      workflow: { label: 'עמוד ה-To-dos · תהליך העבודה', page: 'workflow.html', hint: 'לחצו על הדק, ואז <b>← →</b> · <b>1 2 3</b> לפרקים' },
+      desktop: {
+        label: 'השוואה · דסקטופ', page: 'desktop.html', hint: 'גללו להשוואה · <b>פתחו קונספט</b> למטה',
+        subs: [
+          { key: 'all', label: 'השוואה', page: 'desktop.html' },
+          { key: 'b', label: 'B · Top three', page: '../app/#/todos/b?state=activated', dot: 'var(--c-b)' },
+          { key: 'a', label: 'A · Next up', page: '../app/#/todos/a?state=activated', dot: 'var(--c-a)' },
+          { key: 'c', label: 'C · Fix by kind', page: '../app/#/todos/c?state=activated', dot: 'var(--c-c)' },
+        ],
+      },
+      mobile: {
+        label: 'השוואה · מובייל', page: 'mobile.html', hint: 'גללו להשוואה · <b>לחצו בתוך הטלפונים</b>',
+        subs: [
+          { key: 'all', label: 'השוואה', page: 'mobile.html' },
+          { key: 'b', label: 'B · Top three', page: '../todos-mobile/b.html', dot: 'var(--c-b)' },
+          { key: 'a', label: 'A · Next up', page: '../todos-mobile/a.html', dot: 'var(--c-a)' },
+          { key: 'c', label: 'C · Fix by kind', page: '../todos-mobile/c.html', dot: 'var(--c-c)' },
+        ],
+      },
+    }
+    const tabs = [...document.querySelectorAll('.tab')]
+    const $ = (id) => document.getElementById(id)
+    const frame = $('frame'), loader = $('loader'), openBtn = $('openBtn'), hint = $('hint')
+    const subnav = $('subnav'), subtabs = $('subtabs'), crumbCtx = $('crumbCtx'), sublabel = $('sublabel')
+    let curKey = null, curSub = 'all'
+
+    const load = (page) => {
+      if (frame.getAttribute('src') !== page) { loader.classList.add('show'); frame.setAttribute('src', page) }
+      openBtn.setAttribute('href', page)
+    }
+    const renderSubs = (sec) => {
+      subtabs.innerHTML = ''
+      for (const s of sec.subs) {
+        const b = document.createElement('button')
+        b.className = 'subtab'
+        b.setAttribute('role', 'tab')
+        b.dataset.sub = s.key
+        b.innerHTML = s.key === 'all'
+          ? '<svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>השוואה</span>'
+          : `<span class="sw" style="background:${s.dot}"></span><span class="ltr">${s.label}</span>`
+        b.addEventListener('click', () => go(curKey, s.key))
+        subtabs.appendChild(b)
+      }
+    }
+    function go(key, sub) {
+      const sec = SECTIONS[key] || SECTIONS.skills
+      key = SECTIONS[key] ? key : 'skills'
+      const switched = key !== curKey
+      curKey = key
+      curSub = sec.subs ? (sub || 'all') : 'all'
+      tabs.forEach((t) => { const on = t.dataset.key === key; t.classList.toggle('on', on); t.setAttribute('aria-selected', on); if (on) t.scrollIntoView({ block: 'nearest', inline: 'nearest' }) })
+      hint.innerHTML = sec.hint
+      if (sec.subs) {
+        if (switched) renderSubs(sec)
+        crumbCtx.textContent = sec.label
+        subnav.classList.add('show')
+        const active = sec.subs.find((s) => s.key === curSub) || sec.subs[0]
+        ;[...subtabs.children].forEach((b) => { const on = b.dataset.sub === curSub; b.classList.toggle('on', on); b.setAttribute('aria-selected', on) })
+        sublabel.textContent = curSub === 'all' ? 'פתחו קונספט, או הישארו בהשוואה' : 'קונספט אחד, חי · "השוואה" כדי לחזור'
+        load(active.page)
+        document.title = `Guardio · ${sec.label}${curSub === 'all' ? '' : ` · ${active.label}`}`
+      } else {
+        subnav.classList.remove('show')
+        load(sec.page)
+        document.title = `Guardio · ${sec.label}`
+      }
+      const hash = curSub !== 'all' ? `${key}-${curSub}` : key
+      if (location.hash.slice(1) !== hash) history.replaceState(null, '', `#${hash}`)
+    }
+    tabs.forEach((t) => t.addEventListener('click', () => go(t.dataset.key, 'all')))
+    frame.addEventListener('load', () => loader.classList.remove('show'))
+    const parse = () => { const [k, s] = location.hash.slice(1).split('-'); return { k, s: s || 'all' } }
+    const init = parse()
+    go(SECTIONS[init.k] ? init.k : 'skills', init.s)
+    window.addEventListener('hashchange', () => { const h = parse(); if (SECTIONS[h.k]) go(h.k, h.s) })
+  })()
+</script>
+</body>
+</html>

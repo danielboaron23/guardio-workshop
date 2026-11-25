@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>בניית הסקילים · Guardio</title>
+<link rel="stylesheet" href="deck.css">
+</head>
+<body>
+<main class="deck">
+
+<!-- 1 — Title -->
+<section class="slide chapter" style="justify-content:center; gap:3vh">
+  <p class="eyebrow"><span class="ltr">Guardio</span> · עמוד ה-To-dos · חלק 1</p>
+  <h1 class="h1" style="font-size:9vh">בניית הסקילים</h1>
+  <p class="lead">לפני שנגענו בעמוד, בנינו את הכלים: סקיל של PM, סקיל של מחקר עיצובי, ו-agent שמנתח מתחרים. כאן רואים את הפרומפט המקורי, את השאלות שנשאלו בדרך, ואת מה שיצא מכל אחד.</p>
+  <div class="row" style="gap:.8vw; flex-wrap:wrap; margin-top:1vh">
+    <span class="pill ltr">guardio-pm</span>
+    <span class="pill ltr">guardio-design-research</span>
+    <span class="pill ltr">competitive-analyst</span>
+    <span class="pill ltr">senior-product-designer</span>
+  </div>
+  <aside class="notes">
+    זה החלק הראשון של המצגת: איך נבנו הסקילים שהריצו את כל התהליך על עמוד ה-To-dos. אחריו מגיעים ה-workflow, שבו הרצנו אותם על הפיצ'ר, ושני עמודי ההשוואה — דסקטופ ומובייל.
+    כל מה שמופיע כאן מתועד בתיקיית process/ ב-repo: הפרומפטים כפי שנכתבו, השאלות עם האפשרויות שהוצעו, מה נבחר, ולמה. שני סקילים נבנו בפרויקט (PM ומחקר עיצובי, עם agent משלו), ובשלב העיצוב השתמשנו בסקיל קיים, senior-product-designer.
+  </aside>
+</section>
+
+<!-- 2 — From where -->
+<section class="slide">
+  <p class="eyebrow">נקודת המוצא</p>
+  <h2 class="h2">קודם בונים את הסקילים, ואז מריצים אותם על עמוד אמיתי אחד</h2>
+  <p class="quote">"בוא נלך על עמוד ה-To-dos עם שלושה קונספטים אבל לדעתי אני אבנה את התהליך שלב אחר שלב בניית סקילים ואז התהליך עצמו נעשה אותו ביחד ואז אתה תעד כל שלב במהלך הזה וניצור את המצגת שתעטוף את הכל" — דניאל</p>
+  <table>
+    <thead><tr><th style="width:14%">החלטה</th><th style="width:30%">מה בחרנו</th><th>למה</th></tr></thead>
+    <tbody>
+      <tr><td class="strong">הפיצ'ר</td><td>עמוד ה-To-dos, בדסקטופ</td><td><span class="ltr">"To do"</span> יושב בתפריט ומוביל ל-Home — מבוי סתום. ב-repo כבר יש 56 משימות, וזה לב המוצר: המקום שבו מתקנים בעיות אבטחה.</td></tr>
+      <tr><td class="strong">קונספטים</td><td>שלושה</td><td>כדי שאפשר יהיה להשוות ביניהם, בדסקטופ ובמובייל. ההשוואה היא חלק גדול מהאפקט.</td></tr>
+      <tr><td class="strong">מובייל</td><td>התאמה ב-HTML, בנפרד מ-<code>apps/mobile</code></td><td>אפשר להטמיע אותה חיה במצגת, צד לצד. את אפליקציית ה-React Native אי אפשר.</td></tr>
+      <tr><td class="strong">איך עובדים</td><td>שלב אחר שלב, ביחד</td><td>דניאל בונה את התהליך: קודם הסקילים, אחר כך ההרצה.</td></tr>
+      <tr><td class="strong">תיעוד</td><td>קובץ לכל שלב ב-<code>process/</code></td><td>המצגת נבנית מהם בסוף. שום דבר לא מסודר בדיעבד.</td></tr>
+    </tbody>
+  </table>
+  <aside class="notes">
+    התוכנית: לבנות סקילים לפרויקט, להריץ אותם על פיצ'ר אמיתי אחד, להוציא שלושה קונספטים בדסקטופ ולהתאים אותם למובייל, ובסוף לעטוף הכול במצגת — hub עם בניית הסקילים, ה-workflow, והשוואות דסקטופ ומובייל.
+    נקודת הפתיחה ב-repo: אפליקציית הדסקטופ ב-apps/web עם Home ו-Settings. "To do" ב-Header מקשר ל-Home. ב-packages/data כבר יש נתוני משימות: todosCount של 56, ושלוש שורות שמוצגות ב-Home. אין עיצוב Figma לעמוד To-dos.
+    הכלל בתיעוד: אם שלב השתבש קודם, הלוג אומר את זה.
+  </aside>
+</section>
+
+<!-- 3 — The method -->
+<section class="slide">
+  <p class="eyebrow">השיטה · <span class="ltr">/skill-creator</span></p>
+  <h2 class="h2">כל סקיל נבנה באותם שישה צעדים</h2>
+  <div class="cols-3" style="row-gap:2.2vh; margin-top:1vh">
+    <div class="card"><span class="num">1</span><h3 class="h3">שאלות הבהרה</h3><p>שאלות ממוקדות, עם אפשרויות לבחירה — לפני שנכתב קובץ אחד.</p></div>
+    <div class="card"><span class="num">2</span><h3 class="h3">לימוד המקור</h3><p>clone ל-repo שבפרומפט, כדי לזקק ממנו דפוסים. לא להעתיק.</p></div>
+    <div class="card"><span class="num">3</span><h3 class="h3">שלד</h3><p><code>init_skill.py</code> יוצר <code>SKILL.md</code>, תיקיית <code>references/</code> ותיקיית <code>assets/</code>.</p></div>
+    <div class="card"><span class="num">4</span><h3 class="h3">כתיבה</h3><p><code>SKILL.md</code>: מתי להפעיל, איך לעבוד, אילו כללים. התבניות וה-frameworks — בקבצים לצדו.</p></div>
+    <div class="card"><span class="num">5</span><h3 class="h3">בדיקה ואריזה</h3><p><code>quick_validate.py</code> ואז <code>package_skill.py</code>. התשובה: <span class="ltr" style="white-space:nowrap">"Skill is valid!"</span></p></div>
+    <div class="card"><span class="num">6</span><h3 class="h3">התקנה בפרויקט</h3><p>ב-<code>.claude/skills/</code> של ה-repo, כך שהסקיל נטען בפרויקט עצמו.</p></div>
+  </div>
+  <aside class="notes">
+    זו השיטה של /skill-creator: הבהרה, לימוד המקור, שלד, כתיבה, בדיקה ואריזה, התקנה ב-.claude/skills/.
+    שני הסקילים של Guardio עברו את כל הצעדים: השלד נוצר עם init_skill.py, ו-quick_validate.py החזיר "Skill is valid!" לשניהם. package_skill.py בנה קובץ .skill — אבל הוא נכתב לתיקייה זמנית של הסשן ולא ל-repo, כי הסקיל כבר יושב ב-.claude/skills/.
+    הצעד השני הוא החשוב: בשני המקרים Claude עשה clone ל-repo שהופיע בפרומפט עוד לפני ששאל שאלה אחת.
+  </aside>
+</section>
+
+<!-- 4 — PM: the prompt -->
+<section class="slide" data-chapter="1">
+  <p class="eyebrow">סקיל 1 · <span class="ltr">guardio-pm</span> · הפרומפט</p>
+  <h2 class="h2">ה-PM התחיל מפסקה אחת וקישור ל-repo</h2>
+  <div class="prompt" style="white-space:pre-wrap; font-size:2.4vh"><span class="who">דניאל כתב:</span><span class="cmd">/skill-creator</span> i want to be a product manager that will help me create specs or PRDs and help me think about new features and new screens I want to build in this project. It will be connected to the code structure, the design system, and every context we have in this  repo. The main reason: help me characterize and make better decisions about the pages I want to create.  the method will be taken from this repo https://github.com/RefoundAI/lenny-skills.git Ask me questions to clarify my idea. This skill will live on this project.</div>
+  <div class="cols-2">
+    <div class="card"><h3 class="h3">המקור: lenny-skills</h3><p>גרסה 2.0: ‏76 סקילים, ולכל אחד תבניות וציטוטים מאורחים. רישיון MIT. Claude עשה לו clone לפני השאלה הראשונה.</p></div>
+    <div class="card"><h3 class="h3">למה הוא מתחבר</h3><p>האפליקציה ב-<code>apps/web</code>, הקומפוננטות, הטוקנים, והנתונים ב-<code>packages/data</code> — כולל ארבעת מצבי המשתמש.</p></div>
+  </div>
+  <aside class="notes">
+    הפרומפט מוצג כמו שדניאל הקליד אותו, כולל הטעויות. שימו לב כמה הוא פשוט: מה הסקיל עושה, למה הוא מחובר, למה הוא קיים ("help me characterize and make better decisions"), מאיפה לקחת את השיטה, ובקשה לשאול שאלות.
+    המקור, lenny-skills של Refound AI: גרסה 2.0, ‏76 סקילים, כל אחד SKILL.md עם קובץ תבניות ו-frameworks וקובץ ציטוטים מאורחים. רישיון MIT.
+    ה-PM צריך להתחבר ל-repo: apps/web (Home ו-Settings), ה-Header שבו "To do", "My Assets" ו-"Activity" מקשרים כולם ל-Home, הקומפוננטות, הטוקנים ב-packages/tokens, והנתונים ב-packages/data — כולל ארבעת מצבי המשתמש.
+  </aside>
+</section>
+
+<!-- 5 — PM: the clarifying questions -->
+<section class="slide">
+  <p class="eyebrow">סקיל 1 · <span class="ltr">guardio-pm</span> · שאלות הבהרה</p>
+  <h2 class="h2">ארבע שאלות קבעו את ה-PM, ותשובה אחת פתחה חמישית</h2>
+  <div class="qa cols-2" style="gap:2.6vh 2.4vw; margin-top:.5vh">
+    <div class="qa-item">
+      <p class="q">מה ה-PM צריך להפיק?</p>
+      <p class="a">את כל הארבעה: PRD מלא, brief של עמוד אחד, research direction למחקר, handoff לדיזיינר</p>
+      <p class="muted">ודניאל הוסיף: "וגם הכל יעבור למסמך תיעוד board בnotion"</p>
+    </div>
+    <div class="qa-item">
+      <p class="q">איך כל אפיון מתייחס לשתי הפלטפורמות?</p>
+      <p class="a">דסקטופ קודם, מובייל כהתאמה</p>
+    </div>
+    <div class="qa-item">
+      <p class="q">הסקיל יושב ב-repo, אז גם המשתתפים יקבלו אותו. בשביל מי הוא נכתב?</p>
+      <p class="a">בשביל דניאל ובשביל המשתתפים</p>
+    </div>
+    <div class="qa-item">
+      <p class="q">אילו עדשות לזקק מ-lenny-skills?</p>
+      <p class="a">את כל הארבע: כתיבת PRD, תיחום ותעדוף, התנהגות משתמשים, תיקוף רעיונות</p>
+    </div>
+  </div>
+  <div class="card strong" style="margin-top:1vh">
+    <div class="qa">
+      <div class="qa-item" style="border-color:var(--color-text-strong)">
+        <p class="q">שאלת המשך: חיפשנו ב-Notion ומצאנו רק שני עמודים של Guardio, בלי board. לפתוח אחד חדש?</p>
+        <p class="a">board פרטי חדש: <span class="ltr">Guardio · Product Specs</span> — כרטיס לכל עמוד או פיצ'ר</p>
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    ארבע השאלות נשאלו יחד, בעברית, ולכל אחת היו אפשרויות לבחור מהן.
+    שאלה 1 (בחירה מרובה): דניאל בחר את כל ארבעת התוצרים, והוסיף במילים שלו את ה-board ב-Notion. ה-research direction הוא מה שהסקיל הבא, המחקר העיצובי, קורא ומתחיל ממנו.
+    שאלה 2: האפשרויות היו דסקטופ קודם (מומלץ), שתיהן באותה מידה, או דסקטופ בלבד.
+    שאלה 3: "דניאל והמשתתפים" (מומלץ) מול "רק דניאל, לדמו". הבחירה הזו קבעה את הטון של כל הסקיל: מילים פשוטות, כי המשתתפים הם דיזיינרים ולא מהנדסים.
+    שאלה 4: ארבע עדשות מ-lenny-skills — PRD core, scoping and prioritization, consumer behavior, idea validation.
+    שאלת ההמשך נולדה מהתשובה לשאלה 1: Claude חיפש "Guardio" ב-Notion ומצא רק את מדריך המנחה ואת עמוד התרגילים. ה-board נפתח כמסד נתונים פרטי עם השדות Name, ID ‏(GRD-n), Stage ‏(Idea → Shaping → Research → Design → Done), Area, Platform, User states, Priority, Success, Spec file ו-Created.
+  </aside>
+</section>
+
+<!-- 6 — PM: what it became -->
+<section class="slide">
+  <p class="eyebrow">סקיל 1 · <span class="ltr">guardio-pm</span> · מה יצא</p>
+  <h2 class="h2">PM שמכיר את ה-repo, לוקח עמדה וחושב על כל מצב משתמש</h2>
+  <div class="cols-2" style="grid-template-columns: 1fr 1.25fr; align-items:start; margin-top:.5vh">
+<div class="tree">guardio-pm/
+├─ SKILL.md
+├─ references/
+│  ├─ repo-map.md
+│  ├─ frameworks.md
+│  └─ notion-board.md
+└─ assets/
+   ├─ prd-template.md
+   ├─ brief-1pager.md
+   ├─ research-direction.md
+   └─ designer-handoff.md</div>
+    <ul>
+      <li><span class="strong">כל עמוד, כל מצב משתמש.</span> Onboarding, Activated, Nothing installed, At risk — אחרת אפיון מכסה רק את ה-happy path.</li>
+      <li><span class="strong">דסקטופ קודם.</span> בכל PRD יש סעיף של התאמה למובייל.</li>
+      <li><span class="strong">לוקח עמדה.</span> היפותזה והמלצה, לא brief רזה. כלל מהיום הראשון.</li>
+      <li><span class="strong">Notion הוא העותק המשותף.</span> המקור הוא הקובץ ב-repo. אין גישה ל-board? מדלגים בשורה אחת, ולא פותחים board חדש.</li>
+      <li><span class="strong">מדבר עם דיזיינרים.</span> מילים פשוטות, שאלות עם אפשרויות, בשפה של המשתמש. הקבצים באנגלית.</li>
+    </ul>
+  </div>
+  <aside class="notes">
+    SKILL.md מגדיר מתי הסקיל מופעל, עם מי הוא מדבר, שבעה כללים ו-workflow בשמונה צעדים: frame, clarify, ground, decide, produce, review, save, next step. הוא אף פעם לא פותח עם PRD.
+    references: repo-map אומר מה לקרוא ב-repo (קומפוננטות, טוקנים, נתונים, ארבעת מצבי המשתמש, routes, מובייל, Figma, מבויים סתומים). frameworks הוא lenny-skills מזוקק לארבע עדשות, עם קרדיט. notion-board מתאר את ה-board ומה לעשות בלי גישה.
+    assets: ארבע תבניות, אחת לכל תוצר. ה-research direction וה-handoff נשמרים כסעיפים באותו קובץ spec, כדי שה-PRD ומה שנמסר הלאה לא יתרחקו זה מזה.
+    עוד החלטות: הצלחה מנוסחת כהיפותזה, כי אין ב-repo אנליטיקס ואסור להעמיד פנים שיש מספרים. כתיבה ל-Notion רק אחרי שהמשתמש מאשר את המסמך, באותו אישור.
+    לא היה סבב פידבק: דניאל אישר את הסקיל כמו שהוא — "Approve, go to step 2".
+  </aside>
+</section>
+
+<!-- 7 — Design research: the prompt -->
+<section class="slide" data-chapter="2">
+  <p class="eyebrow">סקיל 2 · <span class="ltr">guardio-design-research</span> · הפרומפט</p>
+  <h2 class="h2">מחקר עיצובי: רפרנסים אמיתיים, ו"מוח" של אנליסט</h2>
+  <div class="prompt" style="white-space:pre-wrap; font-size:2.4vh"><span class="who">דניאל כתב:</span><span class="cmd">/skill-creator</span> create design research  skill that sees how our competitors design the features we want to build. It will connect to the Mobbin MCP and get real references. Its "brain" comes from a competitive-analyst agent. It will deliver HTML slides + attach the Mobbin references, so we can paste them into the presentation and into Figma. Ask me questions to make it better.
+his method will be from this repo
+https://github.com/Owl-Listener/designer-skills.git</div>
+  <div class="cols-2">
+    <div class="card"><h3 class="h3">המקור: designer-skills</h3><p>‏111 סקילים בתשעה plugins, רישיון MIT. גם לו Claude עשה clone לפני השאלות.</p></div>
+    <div class="card"><h3 class="h3">מה יש ב-Mobbin MCP</h3><p>חיפוש מסכים ו-flows, collections, הערות על פריטים שמורים, ותמונה ברזולוציה גבוהה שהקישור אליה פג אחרי 30 יום.</p></div>
+  </div>
+  <aside class="notes">
+    שוב פרומפט קצר: מה הסקיל עושה (רואה איך מתחרים מעצבים את מה שאנחנו עומדים לבנות), למה הוא מחובר (Mobbin MCP), מאיפה ה"מוח" (agent של אנליסט מתחרים), מה הוא מגיש (שקפי HTML ורפרנסים מ-Mobbin), ומאיפה השיטה.
+    מתוך designer-skills הרלוונטיים היו: competitive-analysis ו-opportunity-framework, הפקודה ‎/benchmark, ‏jakobs-law, ‏parallel-concepts ו-presentation-deck.
+    הכלים של Mobbin השפיעו ישירות על השאלות: בזכות ה-collections אפשר היה להציע collection משותף, ובגלל שקישורי התמונות פגים אחרי 30 יום — התמונות נשמרות ב-repo.
+    הסקיל צריך להתחבר ל-research direction שה-PM כותב ב-docs/specs/, ל-Mobbin, לטוקנים של Guardio בשביל המראה של המצגת, ולשלב העיצוב שאחריו.
+  </aside>
+</section>
+
+<!-- 8 — Design research: the clarifying questions -->
+<section class="slide">
+  <p class="eyebrow">סקיל 2 · <span class="ltr">guardio-design-research</span> · שאלות הבהרה</p>
+  <h2 class="h2">ארבע שאלות, ושתי החלטות שמעצבות את המחקר</h2>
+  <div class="qa cols-2" style="gap:2.6vh 2.4vw; margin-top:.5vh">
+    <div class="qa-item">
+      <p class="q">באילו פלטפורמות לחפש ב-Mobbin?</p>
+      <p class="a">קודם web, ו-iOS בשביל ההתאמה למובייל</p>
+    </div>
+    <div class="qa-item">
+      <p class="q">לאן לצרף את הרפרנסים?</p>
+      <p class="a">מצגת HTML בסגנון Guardio, ו-collection ב-Mobbin</p>
+      <p class="muted small">לא נבחרו: חבילת רפרנסים ב-repo, עדכון הכרטיס ב-Notion</p>
+    </div>
+    <div class="qa-item">
+      <p class="q">במה המחקר נגמר? <span class="pill info">החלטה מרכזית</span></p>
+      <p class="a">פסק דין ושלושה כיוונים שונים</p>
+    </div>
+    <div class="qa-item">
+      <p class="q">ה"מוח" הוא אנליסט מתחרים. איך בונים אותו? <span class="pill info">החלטה מרכזית</span></p>
+      <p class="a">agent נפרד בפרויקט</p>
+    </div>
+  </div>
+  <div class="card white" style="margin-top:1vh">
+    <p>ל"מוח" יש agent משלו, שמנתח בלי לראות את השיחה שלנו. והמחקר לא נגמר בניתוח, אלא <span class="strong">בשלושה כיוונים שהופכים לשלושת הקונספטים</span>.</p>
+  </div>
+  <aside class="notes">
+    ארבע שאלות, יחד, בעברית.
+    1 — האפשרויות: קודם web ו-iOS למובייל (מומלץ), רק web, או שתיהן באותה מידה.
+    2 — בחירה מרובה מתוך ארבע: שקפי HTML בסגנון Guardio, חבילת רפרנסים ב-repo, collection ב-Mobbin, עדכון הכרטיס ב-Notion. דניאל בחר שתיים.
+    3 — פסק דין ושלושה כיוונים (מומלץ), פסק דין ומפת הזדמנויות, או ניתוח בלבד.
+    4 — agent נפרד בפרויקט (מומלץ) או framework בתוך הסקיל.
+    שתי התשובות האחרונות מעצבות את המחקר: המוח הוא agent נפרד, שלא רואה את השיחה ולכן לא נצמד למה שאנחנו כבר חושבים, והמחקר מסתיים בשלושה כיוונים שמזינים ישירות את שלושת הקונספטים.
+  </aside>
+</section>
+
+<!-- 9 — Design research: what it became -->
+<section class="slide">
+  <p class="eyebrow">סקיל 2 · <span class="ltr">guardio-design-research</span> · מה יצא</p>
+  <h2 class="h2">שני חלקים: סקיל שמחפש, ו-agent שמנתח</h2>
+  <div class="cols-2" style="grid-template-columns: 1fr 1.2fr; align-items:start; margin-top:.5vh">
+<div class="tree">.claude/
+├─ skills/guardio-design-research/
+│  ├─ SKILL.md
+│  ├─ references/
+│  │  ├─ mobbin.md
+│  │  └─ deck.md
+│  └─ assets/
+│     └─ slide-template.html
+└─ agents/
+   └─ competitive-analyst.md</div>
+    <div style="display:grid; gap:1.8vh">
+      <div class="card">
+        <h3 class="h3">הסקיל — מחפש ומגיש</h3>
+        <ul>
+          <li>שאילתה צרה ב-Mobbin לכל שאלה: ‏8–15 רפרנסים ב-web, ועוד 3–5 ב-iOS</li>
+          <li>שומר את התמונות ב-<code>docs/research/&lt;feature&gt;/refs/</code></li>
+          <li>מגיש מצגת HTML בטוקנים של Guardio, ו-collection ב-Mobbin עם הערה על כל רפרנס</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="h3">ה-agent — רק מנתח</h3>
+        <ul>
+          <li>כלים לקריאה בלבד: <span class="ltr">Read, Glob, Grep</span></li>
+          <li>לא רואה את השיחה שלנו, ולכן לא נצמד למה שאנחנו כבר חושבים</li>
+        </ul>
+      </div>
+      <p class="small muted">והכלל שמעל הכול: אף רפרנס לא מומצא. כל טענה מצביעה על תמונה ועל ה-<code>mobbin_url</code> שלה.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    SKILL.md: workflow בתשעה צעדים — scope, איסוף ב-web, איסוף ב-iOS, שמירת התמונות, ניתוח, בדיקת הניתוח, בניית המצגת, ה-collection ב-Mobbin, ומסירה הלאה.
+    references/mobbin.md: הכלים, איך כותבים שאילתות, איפה לחפש בשביל Guardio, שמירת תמונות, ה-collection, ומה עושים בלי Mobbin. references/deck.md: סדר השקפים. assets/slide-template.html: מצגת של 11 שקפים בטוקנים של Guardio (zinc, ‏Inter).
+    החלטות: התמונות נשמרות ליד המצגת למרות שדניאל לא בחר "חבילת רפרנסים" — המצגת צריכה תמונות, והקישורים של Mobbin פגים אחרי 30 יום. אין קובץ רשימה נפרד: ה-collection הוא הרשימה. הערה על כל פריט, כי ה-collection משותף עם צוות Mobbin. הסקיל הזה לא נוגע ב-Notion — ה-PM הוא הבעלים של הכרטיס.
+    ה-framework יושב בקובץ של ה-agent: מוח אחד, מקום אחד. אם ה-agent לא זמין, הסקיל קורא את אותו קובץ ועושה את הניתוח בעצמו, ואומר את זה.
+    בלי Mobbin (סביר שלמשתתפים אין חשבון): אומרים את זה, ובונים על מצגות קודמות ב-docs/research/. לא משתמשים במקור צילומי מסך אחר בלי לשאול.
+    מה לא עבד: בבדיקה בדפדפן, כמה לחיצות חץ ברצף אחד נכשלו, כי המצגת מעדכנת את ה-URL בכל שקף. לחיצה אחת בכל פעם עובדת. דניאל אישר את הסקיל ואת ה-agent כמו שהם — "Approve".
+  </aside>
+</section>
+
+<!-- 10 — The agent: hypothesis last -->
+<section class="slide">
+  <p class="eyebrow">סקיל 2 · <span class="ltr">competitive-analyst</span></p>
+  <h2 class="h2">ה-agent מקבל את ההיפותזה אחרונה, כדי שיוכל להפריך אותה</h2>
+  <div class="flow" style="margin-top:.5vh">
+    <div class="card step"><span class="pill">1</span><h3 class="h3">שאלות המחקר</h3><p>ועדשת הקריאה לכל רפרנס.</p></div>
+    <span class="arrow">←</span>
+    <div class="card step"><span class="pill">2</span><h3 class="h3">הרפרנסים</h3><p>התמונות השמורות וה-<code>mobbin_url</code> של כל אחת. קודם מסתכלים על כל תמונה.</p></div>
+    <span class="arrow">←</span>
+    <div class="card strong step"><span class="pill warn">3 · בסוף</span><h3 class="h3">ההיפותזה של ה-PM</h3><p>קודם עונים על השאלות, ואז מחפשים ראיות נגדה לפני ראיות בעדה.</p></div>
+  </div>
+  <div class="cols-2" style="grid-template-columns: 1fr 1.4fr; align-items:start">
+    <div class="card white">
+      <h3 class="h3">פסק דין</h3>
+      <p>אחד משלושה, עם שתיים-שלוש ראיות שמכריעות:</p>
+      <div class="row" style="gap:.6vw; flex-wrap:wrap"><span class="pill good">ההיפותזה מחזיקה</span><span class="pill info">מחזיקה עם שינויים</span><span class="pill warn">צריכה להשתנות</span></div>
+    </div>
+    <div class="card white">
+      <h3 class="h3">שלושה כיוונים ששונים במה שהמשתמש עושה</h3>
+      <p>לא במראה. פורשים את שלושתם על הציר שההחלטה תלויה בו: מה עושים קודם, פריט אחד או קבוצה, מה המשתמש מחליט ומה המוצר, איפה זה מתחיל, וכמה רחוק הולכים לפני שפועלים.</p>
+      <p class="muted">שני כיוונים עם אותם צעדים בסגנון אחר — הם כיוון אחד.</p>
+    </div>
+  </div>
+  <aside class="notes">
+    זה הלב של הסקיל. ה-agent רץ בהקשר נקי — הוא לא ראה את השיחה שלנו. הסקיל שולח לו את שאלות המחקר, את רשימת הרפרנסים עם התמונות והקישורים, ורק בסוף את ההיפותזה של ה-PM. ובכוונה לא מוסיף לבריף את המסקנות שלו.
+    למה: ה-PM חייב לקחת עמדה, והמחקר חייב להיות חופשי להגיד "ההיפותזה שגויה".
+    שלושת הכיוונים באים מ-parallel-concepts. הצירים במקור: sequence, unit of interaction, division of labour, entry point, commitment point. אין איש קש — כל כיוון צריך להיות כזה שהיינו מגנים עליו ומשיקים. זה מה שהופך את ההשוואה בין שלושת הקונספטים לשווה הצגה.
+    מה ה-agent מחזיר, בסדר הזה: סיכום, את מי בדקנו (ישירים, עקיפים, שאפתניים), מטריצת השוואה, דפוסים והתאמה ל-design system, מוסכמות, table stakes מול מבדלים, מפת הזדמנויות, פסק דין, שלושה כיוונים, הערות מובייל ופערים.
+    אחרי שה-agent מחזיר, הסקיל בודק: כל טענה מצביעה על רפרנס ששמרנו, ואם שני כיוונים רק נראים שונה — הניתוח חוזר אליו.
+  </aside>
+</section>
+
+<!-- 11 — Step 3: the designer -->
+<section class="slide" data-chapter="3">
+  <p class="eyebrow">שלב 3 · הדיזיינר</p>
+  <h2 class="h2">את הסקיל השלישי לא בנינו: יש כבר senior-product-designer</h2>
+  <div class="cols-2" style="align-items:start; margin-top:.5vh">
+    <div class="card">
+      <p class="strong">לדניאל כבר יש senior-product-designer, אבל הוא מותקן רק אצלו, לא ב-repo — אז למשתתפים לא יהיה אותו. מה עושים?</p>
+      <ul style="list-style:none; padding:0">
+        <li class="muted">לבנות סקיל חדש עם <span class="ltr">/skill-creator</span>, בשיטה של הסקיל הקיים <span class="pill">מומלץ</span></li>
+        <li class="muted">לתת ל-senior-product-designer לבנות אותו, במסלול ה-graduation שלו</li>
+        <li class="strong" style="color:var(--color-success-subtle-foreground)">← להשתמש בסקיל הקיים, בלי לבנות</li>
+      </ul>
+    </div>
+    <div class="card white">
+      <h3 class="h3">מה הוא כבר עושה</h3>
+      <ul>
+        <li><span class="strong">הקשר מוצר.</span> קורא את <code>DESIGN_CONTEXT.md</code>, או סורק את הקוד ואת Figma וכותב אחד.</li>
+        <li><span class="strong">שער.</span> כל אלמנט מסומן <span class="ltr">REUSE, COMPOSE, EXTEND, INVENT</span> או <span class="ltr">PLACEHOLDER</span>. שום המצאה בשקט.</li>
+        <li><span class="strong">ביצוע.</span> כל המצבים, נגישות, רספונסיב, RTL, קופי אמיתי, ורגע אחד של הנאה.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card" style="flex-direction:row; align-items:center; gap:1vw">
+    <span class="pill warn">פתוח</span>
+    <p>clone של משתתף לא יכלול את שלב העיצוב. אם זה חשוב לסדנה, מסלול ה-graduation יכול ליצור <code style="white-space:nowrap">.claude/skills/guardio-product-designer/</code> בהמשך.</p>
+  </div>
+  <aside class="notes">
+    התוכנית המקורית הייתה לבנות סקיל שלישי, של דיזיינר. לפני שכתבנו פרומפט עצרנו: לדניאל כבר יש senior-product-designer, שיושב בתיקיית המשתמש שלו (‎~/.claude/skills/‎) ולא ב-repo.
+    הוא כבר עושה את מה שהשלב צריך: שלוש שכבות (הקשר מוצר, שער, ביצוע ברמת סניור), והתוצר הוא קוד עובד ב-repo או mockup ב-HTML בטוקנים של המוצר — תמיד עם בלוק "Design System Impact", ותמיד מרנדרים ומסתכלים על התוצאה. ויש לו מסלול מובנה ל"גרדואציה" — ליצור סקיל דיזיינר ייעודי למוצר.
+    שימו לב: Claude המליץ לבנות סקיל חדש. דניאל בחר אחרת — להשתמש בקיים, בלי לבנות. התוצאה: שני סקילים של הפרויקט, ודיזיינר אחד קיים.
+    שני הסקילים של הפרויקט כבר מצביעים עליו: ה-handoff של ה-PM נכתב כדי להדביק אותו ב-senior-product-designer, והמחקר מוסר את שלושת הכיוונים ל"שלב העיצוב". בהרצה הראשונה ב-repo הוא כותב את DESIGN_CONTEXT.md, שעוד לא היה קיים.
+    הנקודה הפתוחה: כדי לעבוד בלי הסקיל הגנרי, סקיל של Guardio יצטרך לשאת את השער ואת הצ'קליסטים שלו בעצמו.
+  </aside>
+</section>
+
+<!-- 12 — How they connect -->
+<section class="slide">
+  <p class="eyebrow">ביחד</p>
+  <h2 class="h2">שרשרת אחת: כל שלב מוסר לבא אחריו</h2>
+  <div class="flow" style="margin-top:1vh">
+    <div class="card step">
+      <span class="pill">מגדיר</span>
+      <p class="strong"><span class="ltr">guardio-pm</span></p>
+      <p>בעיה, עמדה והיפותזה.</p>
+      <p class="small muted">מוסר: research direction, <span style="white-space:nowrap">ו-handoff</span> לדיזיינר</p>
+    </div>
+    <span class="arrow">←</span>
+    <div class="card step">
+      <span class="pill">אוסף</span>
+      <p class="strong"><span class="ltr">guardio-design-research</span></p>
+      <p>Mobbin: קודם web, אחר כך iOS. שומר את התמונות.</p>
+      <p class="small muted">מוסר: תמונות וקישורים</p>
+    </div>
+    <span class="arrow">←</span>
+    <div class="card step">
+      <span class="pill">מנתח</span>
+      <p class="strong"><span class="ltr">competitive-analyst</span></p>
+      <p>בהקשר נקי, וההיפותזה אחרונה.</p>
+      <p class="small muted">מחזיר: פסק דין ושלושה כיוונים — שהופכים למצגת ול-collection</p>
+    </div>
+    <span class="arrow">←</span>
+    <div class="card strong step">
+      <span class="pill">בונה</span>
+      <p class="strong"><span class="ltr">senior-product-designer</span></p>
+      <p>שלושה קונספטים, מהכיוונים ומה-handoff של ה-PM.</p>
+      <p class="small muted">קיים כבר, לא נבנה בפרויקט</p>
+    </div>
+  </div>
+  <div class="cols-2">
+    <div class="card white"><p><span class="strong">יש גם דרך חזרה.</span> אם פסק הדין שינה את ההיפותזה, ה-PM מעדכן את <span style="white-space:nowrap">ה-spec</span>.</p></div>
+    <div class="card white"><p><span class="strong">הכול נשמר ב-repo.</span> ה-spec <span style="white-space:nowrap">ב-<code>docs/specs/</code></span>, המחקר <span style="white-space:nowrap">ב-<code>docs/research/</code></span>.</p></div>
+  </div>
+  <aside class="notes">
+    הסקילים לא נבנו כל אחד לבד. ה-PM כותב research direction — ההיפותזה, השאלות, איפה לחפש ואיך לקרוא כל רפרנס — והמחקר מתחיל ממנה. אין spec? המחקר שואל מה הפיצ'ר ומה השאלה, ומציע להריץ קודם את ה-PM.
+    המחקר אוסף ב-Mobbin, שומר את התמונות ב-docs/research/&lt;feature&gt;/refs/, ושולח ל-agent. ה-agent מחזיר פסק דין ושלושה כיוונים, והסקיל בונה מהם את המצגת ב-docs/research/&lt;feature&gt;/index.html ואת ה-collection ב-Mobbin.
+    בסוף המחקר הוא מציע: לעדכן את ה-spec של ה-PM אם פסק הדין שינה את ההיפותזה, לדחוף את התמונות ל-Figma אם רוצים אותן על קנבס, ולקחת את הכיוונים לשלב העיצוב.
+    שלב העיצוב מקבל שני דברים: את שלושת הכיוונים מהמחקר, ואת ה-handoff שה-PM כתב.
+  </aside>
+</section>
+
+<!-- 13 — Takeaways -->
+<section class="slide">
+  <p class="eyebrow">לסדנה</p>
+  <h2 class="h2">מה לקחת מזה לסקיל הבא שלכם</h2>
+  <div class="cols-2" style="row-gap:2vh; margin-top:.5vh">
+    <div class="card"><span class="num">1</span><h3 class="h3">פרומפט פשוט, ומקור ללמוד ממנו</h3><p>שני הסקילים התחילו מפסקה אחת וקישור ל-repo. לא מ-spec מושלם.</p></div>
+    <div class="card"><span class="num">2</span><h3 class="h3">קודם שאלות</h3><p>ארבע שאלות עם אפשרויות קבעו כל סקיל. תשובה אחת (Notion) פתחה שאלה חמישית.</p></div>
+    <div class="card"><span class="num">3</span><h3 class="h3">לזקק, לא להעתיק</h3><p>‏8 מתוך 76 הסקילים של lenny-skills, ו-5 מתוך 111 של designer-skills. עם קרדיט.</p></div>
+    <div class="card"><span class="num">4</span><h3 class="h3">לקחת עמדה מהיום הראשון</h3><p>כבר בגרסה הראשונה ה-PM לוקח עמדה וכותב research direction, והמחקר מקבל את ההיפותזה אחרונה — כדי שיוכל להפריך אותה.</p></div>
+  </div>
+  <div class="card white" style="flex-direction:row; align-items:center; gap:1vw">
+    <span class="pill">ובפרויקט</span>
+    <p>הסקילים יושבים ב-<code>.claude/skills/</code> של ה-repo, אז מי שעושה clone מקבל אותם. את הדיזיינר לא בנינו — ולכן אצל המשתתפים הוא עדיין חסר.</p>
+  </div>
+  <aside class="notes">
+    1 — שני הפרומפטים קצרים ולא מלוטשים, עם טעויות הקלדה. מה שעשה את העבודה: מה הסקיל עושה, למה הוא מחובר, ומקור ללמוד ממנו.
+    2 — ‏/skill-creator שאל לפני שבנה. כל שאלה באה עם אפשרויות והמלצה, ודניאל לא תמיד הלך עם ההמלצה (בשלב 3, למשל).
+    3 — מ-lenny-skills נכנסו 8 מתוך 76 סקילים, בערך 160 שורות. ציטוטי האורחים ורוב התבניות הארוכות נשארו בחוץ — הסקיל צריך את המהלכים, לא את הציטוטים. מ-designer-skills נכנסו 5 מתוך 111: competitive-analysis, opportunity-framework, jakobs-law, parallel-concepts, presentation-deck. המקור המלא נשאר במרחק קישור אחד.
+    4 — "לקחת עמדה" הוא כלל של ה-PM מהגרסה הראשונה, וה-research direction הוא אחד מארבעת התוצרים שלו מההתחלה. המחקר משלים את זה: ההיפותזה מגיעה ל-agent אחרונה, כדי שיוכל להפריך אותה. עמדה ברורה, ומחקר שחופשי להפיל אותה.
+    ובפרויקט: הסקילים וה-agent יושבים ב-repo. ה-board ב-Notion הוא של דניאל, ולכן ה-PM מדלג עליו בשורה אחת כשאין גישה. Mobbin — כנראה גם הוא לא יהיה למשתתפים, והמחקר אומר את זה ולא ממציא.
+  </aside>
+</section>
+
+</main>
+<script src="deck.js"></script>
+</body>
+</html>
